@@ -22,6 +22,8 @@ function Login() {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem("username", username)
                 navigate('/dashboard');
+
+                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
             })
             .catch(err => console.error(err));
 

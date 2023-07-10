@@ -2,6 +2,7 @@ const router = require("express").Router()
 let User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const jwtMiddleware = require("../jwtMiddleware")
 
 // ***
 // * Register Route
@@ -34,6 +35,8 @@ router.route("/register").post((req, res) => {
                             if (err) {
                                 throw err
                             }
+
+                            res.cookie('token', token, { httpOnly: true });
 
                             res.json({
                                 token,
