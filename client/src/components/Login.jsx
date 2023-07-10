@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -13,12 +16,14 @@ function Login() {
             password
         }
 
-        axios.post("http://localhost:5000/users/login", user)
+        axios.post('http://localhost:5000/users/login', user)
             .then(res => {
                 console.log(res.data);
-                localStorage.setItem("token", res.data.token)
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem("username", username)
+                navigate('/dashboard');
             })
-            .catch(err => console.error(err))
+            .catch(err => console.error(err));
 
         setUsername('');
         setPassword('');
