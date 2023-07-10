@@ -24,7 +24,7 @@ router.route("/register").post((req, res) => {
                 password
             })
 
-            newUser,save()
+            newUser.save()
                 .then(user => {
                     jwt.sign(
                         { id: user.id },
