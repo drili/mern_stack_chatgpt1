@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
 import Profile from './pages/Profile';
+import Layout from './components/Layout';
 
 function AppRoutes() {
     return (
@@ -14,8 +15,17 @@ function AppRoutes() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                <Route 
+                    path="/*" 
+                    element={
+                        <Layout>
+                            <Routes>
+                                <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                                <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                            </Routes>
+                        </Layout>
+                    } 
+                />
             </Routes>
         </BrowserRouter>
     );
