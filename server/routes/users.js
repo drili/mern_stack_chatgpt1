@@ -8,7 +8,15 @@ const jwtMiddleware = require("../jwtMiddleware")
 // * Register Route
 // ***
 router.route("/register").post((req, res) => {
-    const { username, password } = req.body
+    const { 
+        username, 
+        password,
+        email,
+        is_activated,
+        profile_image,
+        user_role,
+        user_title
+    } = req.body
 
     if (!username || !password) {
         return res.status(400).json({ msg: "::: Please enter all fields" })
@@ -21,8 +29,12 @@ router.route("/register").post((req, res) => {
             }
 
             const newUser = new User({
-                username,
-                password
+                username, 
+                password,
+                email,
+                isActivated: is_activated,
+                profileImage: profile_image,
+                userRole:user_role
             })
 
             newUser.save()
@@ -42,7 +54,12 @@ router.route("/register").post((req, res) => {
                                 token,
                                 user: {
                                     id: user.id,
-                                    username: user.username
+                                    username: user.username,
+                                    email: user.email,
+                                    is_activated: user.isActivated,
+                                    profile_image: user.profileImage,
+                                    user_role: user.userRole,
+                                    user_title: user.userTitle
                                 }
                             })
                         }
@@ -81,6 +98,11 @@ router.route("/login").post((req, res) => {
                                 user: {
                                     id: user.id,
                                     username: user.username,
+                                    email: user.email,
+                                    is_activated: user.isActivated,
+                                    profile_image: user.profileImage,
+                                    user_role: user.userRole,
+                                    user_title: user.userTitle
                                 }
                             });
                         }

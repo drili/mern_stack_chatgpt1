@@ -19,8 +19,13 @@ function Login() {
         axios.post('http://localhost:5000/users/login', user)
             .then(res => {
                 console.log(res.data);
-                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('token', res.data.token)
                 localStorage.setItem("username", username)
+                localStorage.setItem("email", res.data.user.email)
+                localStorage.setItem("is_activated", res.data.user.is_activated)
+                localStorage.setItem("profile_image", res.data.user.profile_image)
+                localStorage.setItem("user_role", res.data.user.user_role)
+                localStorage.setItem("user_title", res.data.user.user_title)
                 navigate('/dashboard');
 
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;

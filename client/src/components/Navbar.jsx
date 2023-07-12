@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
     const navigate = useNavigate()
 
     useEffect(() => {
         const username = localStorage.getItem("username")
-        setUsername(username)
+        const email = localStorage.getItem("email")
 
+        setUsername(username)
+        setEmail(email)
     }, [])
 
     const handleLogout = () => {
@@ -33,7 +36,10 @@ const Navbar = () => {
                 </section>
 
                 <div className="flex items-center">
-                    <span className="mr-4 text-gray-800 font-bold">{username}</span>
+                    <span className="mr-4 text-gray-800 flex gap-2">
+                        <p>@{username}</p>
+                        <p className='font-bold'>{email}</p>
+                    </span>
                     <button onClick={handleLogout} className="px-4 py-2 rounded text-white bg-purple-400">
                         Logout
                     </button>

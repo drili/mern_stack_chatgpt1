@@ -4,13 +4,18 @@ import axios from "axios"
 function Register() {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
+    const [email, setEmail] = useState()
 
     const onSubmit = (e) => {
         e.preventDefault();
 
         const newUser = {
-            username,
-            password
+            username, 
+            password,
+            email,
+            isActivated:0,
+            profileImage: "",
+            userRole:0
         }
 
         axios.post("http://localhost:5000/users/register", newUser)
@@ -19,6 +24,7 @@ function Register() {
 
         setUsername("")
         setPassword("")
+        setEmail("")
     }
 
     return (
@@ -33,6 +39,16 @@ function Register() {
                         onChange={e => setUsername(e.target.value)}
                     />
                 </div>
+
+                <div>
+                    <label>Email: </label>
+                    <input type="email"
+                        required
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                </div>
+
                 <div>
                     <label>Password: </label>
                     <input type="password"
