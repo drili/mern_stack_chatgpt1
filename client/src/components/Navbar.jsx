@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 const Navbar = () => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const navigate = useNavigate()
+    const { user } = useContext(UserContext)
+
+    console.log({user});
 
     useEffect(() => {
         const username = localStorage.getItem("username")
@@ -24,6 +28,9 @@ const Navbar = () => {
 
     return (
         <nav className='navbar'>
+            <div className='container'>
+                <p>UserContext: {user && user.username}</p>
+            </div>
             <div className='container mx-auto py-2 flex justify-between items-center'>
                 <section className='flex gap-4'>
                     <Link to="/dashboard" className='font-semibold text-lg text-gray-800'>
