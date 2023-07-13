@@ -28,9 +28,6 @@ const Navbar = () => {
 
     return (
         <nav className='navbar'>
-            <div className='container'>
-                <p>UserContext: {user && user.username}</p>
-            </div>
             <div className='container mx-auto py-2 flex justify-between items-center'>
                 <section className='flex gap-4'>
                     <Link to="/dashboard" className='font-semibold text-lg text-gray-800'>
@@ -44,8 +41,8 @@ const Navbar = () => {
 
                 <div className="flex items-center">
                     <span className="mr-4 text-gray-800 flex gap-2">
-                        <p>@{username}</p>
-                        <p className='font-bold'>{email}</p>
+                        <p>@{user && user.username}</p>
+                        <p className='font-bold'>{user && user.email}</p>
                     </span>
                     <button onClick={handleLogout} className="px-4 py-2 rounded text-white bg-purple-400">
                         Logout
