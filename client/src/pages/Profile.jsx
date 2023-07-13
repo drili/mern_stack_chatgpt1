@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link, useNavigate } from "react-router-dom";
+import PageHeading from '../components/PageHeading';
 
 const Profile = () => {
-    const username = localStorage.getItem("username")
-
     return (
-        <div>
-            <h1>Profile Page</h1>
-            <p>Hello, {username}</p>
+        <div id='profilePage'>
+            <PageHeading 
+                heading="Profile Page"
+                subHeading={`Welcome to the profile page`}
+                suffix="A quick overview of your data"
+            />
         </div>
     )
 }

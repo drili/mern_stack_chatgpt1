@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
+import PageHeading from '../components/PageHeading';
 
 const Dashboard = () => {
-    const username = localStorage.getItem("username")
-
     return (
-        <div>
-            <h1>Dashboard</h1>
-            <p>Welcome, {username}</p>
+        <div id='dashboardPage'>
+            <PageHeading 
+                heading="Dashboard"
+                subHeading={`Welcome to your user dashboard`}
+                suffix="A quick overview of your data"
+            />
         </div>
     )
 }

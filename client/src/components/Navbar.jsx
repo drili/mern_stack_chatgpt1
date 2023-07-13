@@ -8,8 +8,6 @@ const Navbar = () => {
     const navigate = useNavigate()
     const { user } = useContext(UserContext)
 
-    console.log({user});
-
     useEffect(() => {
         const username = localStorage.getItem("username")
         const email = localStorage.getItem("email")
