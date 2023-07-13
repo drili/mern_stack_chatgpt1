@@ -9,12 +9,11 @@ const Navbar = () => {
     const { user } = useContext(UserContext)
 
     useEffect(() => {
-        const username = localStorage.getItem("username")
-        const email = localStorage.getItem("email")
-
-        setUsername(username)
-        setEmail(email)
-    }, [])
+        if (user) {
+            setUsername(user.username)
+            setEmail(user.email)
+        }
+    }, [user])
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -33,7 +32,7 @@ const Navbar = () => {
                     </a>
                     <div className="flex md:order-2">
                         <span className='flex flex-col justify-center py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
-                        <p>{user && user.email}</p>
+                        <p>{username}</p>
                         </span>
                         <button 
                             onClick={handleLogout} 

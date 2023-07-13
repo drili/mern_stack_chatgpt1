@@ -4,16 +4,22 @@ const UserContext = React.createContext()
 
 const UserProvider = ({ children}) => {
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem("user"))
 
         setUser(storedUser)
+        setLoading(false)
     }, [])
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
-            {children}
+            { loading ? (
+                <div>Loading...</div>
+            ) : (
+                children
+            )}
         </UserContext.Provider>
     )
 }

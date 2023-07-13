@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import backgroundImage from "../assets/pexels-feyza-yıldırım-15795337.jpg"
+import { UserContext } from '../context/UserContext';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { setUser } = useContext(UserContext)
 
     const navigate = useNavigate();
 
@@ -28,9 +30,11 @@ function Login() {
                 localStorage.setItem("user_role", res.data.user.user_role)
                 localStorage.setItem("user_title", res.data.user.user_title)
                 localStorage.setItem("user", JSON.stringify(res.data.user))
-                navigate('/dashboard');
-
+                
+                setUser(res.data.user)
+                
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+                navigate('/dashboard');
             })
             .catch(err => console.error(err));
 
