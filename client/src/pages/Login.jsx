@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import backgroundImage from "../assets/pexels-feyza-yıldırım-15795337.jpg"
 
 function Login() {
@@ -74,13 +74,19 @@ function Login() {
                             value="Login" />
                     </div>
                 </form>
+
+                <div className='flex gap-2 mt-10 text-center m-auto align-center justify-center'>
+                    <h5>Don't have an account?</h5>
+                    <Link to="/register">Register account</Link>
+                </div>
             </section>
 
             <section className="login-image-field h-[100vh] overflow-hidden">
                 <img 
                     className=''
                     src={backgroundImage} 
-                    alt="" />
+                    alt=""
+                    loading="lazy" />
             </section>
         </div>
     );

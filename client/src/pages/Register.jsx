@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import axios from "axios"
 import backgroundImage from "../assets/pexels-artūras-kokorevas-15986451.jpg"
+import { Link } from "react-router-dom"
 
 function Register() {
     const [username, setUsername] = useState()
@@ -79,13 +80,19 @@ function Register() {
                             value="Register" />
                     </div>
                 </form>
+
+                <div className='flex gap-2 mt-10 text-center m-auto align-center justify-center'>
+                    <h5>Already got an account?</h5>
+                    <Link to="/login">Login now</Link>
+                </div>
             </section>
 
             <section className="login-image-field h-[100vh] overflow-hidden">
                 <img 
                     className=''
                     src={backgroundImage} 
-                    alt="" />
+                    alt=""
+                    loading="lazy" />
             </section>
 
         </div>
