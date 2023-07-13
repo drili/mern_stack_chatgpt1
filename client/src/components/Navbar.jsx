@@ -16,7 +16,7 @@ const Navbar = () => {
 
         setUsername(username)
         setEmail(email)
-    }, [])
+    }, user)
 
     const handleLogout = () => {
         localStorage.removeItem('token');
