@@ -6,8 +6,10 @@ const Layout = ({ children }) => {
         <div className='layout'>
             <Navbar />
 
-            <section className='container py-6'>
-                {children}
+            <section id="mainSection" className='max-w-screen-xl flex mx-auto p-4"'>
+                <div className='w-full'>
+                    {children}
+                </div>
             </section>
         </div>
     )
