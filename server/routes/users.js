@@ -3,6 +3,7 @@ let User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const jwtMiddleware = require("../jwtMiddleware")
+const multer = require("multer")
 
 // ***
 // * Register Route
@@ -177,6 +178,56 @@ router.put("/profile/update-password", async (req, res) => {
         res.status(500).json({ error: "Failed to update password" })
     }
     
+})
+
+// ***
+// * Update User Profile Image
+// ***
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const fileExtension = file.originalname.split('.').pop();
+        cb(null, `${file.fieldname}-${uniqueSuffix}.${fileExtension}`);
+    },
+})
+
+const upload = multer({ storage });
+
+router.put("/profile/upload-image", upload.single("profileImage"), async (req, res) => {
+    const userId = req.body.userId
+
+    if (!req.file) {
+        return res.status(400).json({ msg: 'No file uploaded' })
+    }
+
+    const filename = req.file.filename
+    const filePath = req.file.path
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { profileImage: req.file.filename },
+            { new: true }
+        )
+
+        res.json({ 
+            user: {
+                id: updatedUser.id,
+                username: updatedUser.username,
+                email: updatedUser.email,
+                is_activated: updatedUser.isActivated,
+                profile_image: updatedUser.profileImage,
+                user_role: updatedUser.userRole,
+                user_title: updatedUser.userTitle
+            }
+         })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update profile image' });
+    }
 })
 
 module.exports = router

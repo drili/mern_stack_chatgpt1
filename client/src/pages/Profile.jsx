@@ -5,6 +5,7 @@ import GenericForm from '../components/GenericForm';
 import { UserContext } from '../context/UserContext';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import UploadImageForm from '../components/UploadImageForm';
 
 const Profile = () => {
     const { user, setUser } = useContext(UserContext)
@@ -149,9 +150,10 @@ const Profile = () => {
 
                 <span>
                     <div className='shadow-md p-10 rounded-lg bg-slate-50 mb-10'>
-                        <span>
-                            <h3 className='font-bold mb-5'><b>{user.username} - </b>{user.email}</h3>
-                            <span className='bg-indigo-100 text-indigo-800 rounded-md py-1 px-2 text-xs font-bold'>{user.user_title}</span>
+                        <span className='flex flex-col m-auto text-center'>
+                            <span>
+                                <UploadImageForm></UploadImageForm>
+                            </span>
                         </span>
 
                         <div>
