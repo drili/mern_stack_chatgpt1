@@ -8,6 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const Profile = () => {
     const { user, setUser } = useContext(UserContext)
+    console.log(user);
 
     const handleEditProfileForm = (data) => {
         // console.log(data);
@@ -105,55 +106,71 @@ const Profile = () => {
             />
 
             <section className='grid grid-cols-2 gap-10 mb-10'>
-                <div className='shadow-md p-10 rounded-lg'>
-                    <span>
-                        <h2 className='font-bold mb-5'>Update your user info</h2>
-                        <hr className='mb-5'/>
-                    </span>
+                <span>
+                    <div className='shadow-md p-10 rounded-lg mb-10'>
+                        <span>
+                            <h2 className='font-bold mb-5'>Update your user info</h2>
+                            <hr className='mb-5'/>
+                        </span>
 
 
-                    <GenericForm
-                        fieldCount={3}
-                        inputTypes={['text', 'email', 'text']}
-                        fieldNames={[`Username`, `Email`, 'User Title']}
-                        fieldValues={[`${user.username}`,`${user.email}`,  `${user.user_title}`, '', '']}
-                        required={[true, true, true, true]}
-                        formClass="my-form"
-                        inputClass="my-input"
-                        buttonClass="my-button"
-                        onSubmit={(data) => handleEditProfileForm(data)}
-                    />
-                </div>
+                        <GenericForm
+                            fieldCount={3}
+                            inputTypes={['text', 'email', 'text']}
+                            fieldNames={[`Username`, `Email`, 'User Title']}
+                            fieldValues={[`${user.username}`,`${user.email}`,  `${user.user_title}`, '', '']}
+                            required={[true, true, true, true]}
+                            formClass="my-form"
+                            inputClass="my-input"
+                            buttonClass="my-button"
+                            onSubmit={(data) => handleEditProfileForm(data)}
+                        />
+                    </div>
 
-                <div className='shadow-md p-10 rounded-lg bg-indigo-50'>
-                    <span>
-                        <h2 className='font-bold mb-5'>Your user info and data</h2>
-                        <hr className='mb-5'/>
-                    </span>
-                </div>
+                    <div className='shadow-md p-10 rounded-lg'>
+                        <span>
+                            <h2 className='font-bold mb-5'>Update your user password</h2>
+                            <hr className='mb-5'/>
+                        </span>
+
+                        <GenericForm
+                            fieldCount={2}
+                            inputTypes={['password', 'password']}
+                            fieldNames={[`New Password`, `Confirm Password`]}
+                            fieldValues={['', '']}
+                            required={[true, true]}
+                            formClass="my-form"
+                            inputClass="my-input"
+                            buttonClass="my-button"
+                            onSubmit={(data) => handleEditPassword(data)}
+                        />
+                    </div>
+                </span>
+
+                <span>
+                    <div className='shadow-md p-10 rounded-lg bg-slate-50 mb-10'>
+                        <span>
+                            <h3 className='font-bold mb-5'><b>{user.username} - </b>{user.email}</h3>
+                            <span className='bg-indigo-100 text-indigo-800 rounded-md py-1 px-2 text-xs font-bold'>{user.user_title}</span>
+                        </span>
+
+                        <div>
+                            
+                        </div>
+                    </div>
+
+                    <div className='shadow-md p-10 rounded-lg bg-slate-50'>
+                        <span>
+                            <h2 className='font-bold mb-5'>Your user info and data</h2>
+                            <hr className='mb-5'/>
+                        </span>
+
+                        <div>
+                            
+                        </div>
+                    </div>
+                </span>
             </section>
-
-            <section className='grid grid-cols-2 gap-10'>
-                <div className='shadow-md p-10 rounded-lg'>
-                    <span>
-                        <h2 className='font-bold mb-5'>Update your user password</h2>
-                        <hr className='mb-5'/>
-                    </span>
-
-                    <GenericForm
-                        fieldCount={2}
-                        inputTypes={['password', 'password']}
-                        fieldNames={[`New Password`, `Confirm Password`]}
-                        fieldValues={['', '']}
-                        required={[true, true]}
-                        formClass="my-form"
-                        inputClass="my-input"
-                        buttonClass="my-button"
-                        onSubmit={(data) => handleEditPassword(data)}
-                    />
-                </div>
-            </section>
-
 
             <Toaster />
         </div>
