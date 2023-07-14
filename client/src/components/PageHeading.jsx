@@ -7,8 +7,7 @@ const PageHeading = ({ heading, subHeading, suffix }) => {
     return (
         <div id='pageHeading' className='mb-10'>
             <h1 className='font-bold mb-5'>{ heading }</h1>
-            <h5>{ subHeading }, <b>{ user && user.username }</b>. 
-            { suffix }</h5>
+            <h5>{ subHeading }, <b>{ user && user.username }</b>. { suffix }</h5>
         </div>
     )
 }

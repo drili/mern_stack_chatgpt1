@@ -111,4 +111,41 @@ router.route("/login").post((req, res) => {
         })
 })
 
+// ***
+// * Update User Route
+// ***
+router.route("/profile/update").put((req, res) => {
+    const { username, email, userTitle, userId } = req.body;
+
+    console.log(req.body)
+    User.findByIdAndUpdate(
+        userId,
+        {
+            $set: {
+                username,
+                email,
+                userTitle
+            }
+        },
+        { new: true }
+    )
+    .then((updatedUser) => {
+        res.json({
+                user: {
+                    id: updatedUser.id,
+                    username: updatedUser.username,
+                    email: updatedUser.email,
+                    is_activated: updatedUser.isActivated,
+                    profile_image: updatedUser.profileImage,
+                    user_role: updatedUser.userRole,
+                    user_title: updatedUser.userTitle
+                }
+            })
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to update user information' });
+    });
+})
+
 module.exports = router
