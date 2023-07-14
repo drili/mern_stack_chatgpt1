@@ -4,6 +4,7 @@ import PageHeading from '../components/PageHeading';
 import GenericForm from '../components/GenericForm';
 import { UserContext } from '../context/UserContext';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Profile = () => {
     const { user, setUser } = useContext(UserContext)
@@ -22,6 +23,7 @@ const Profile = () => {
         axios.put("http://localhost:5000/users/profile/update", updatedUser)
             .then((res) => {
                 console.log('User information updated successfully:', res.data)
+                localStorage.setItem("user", JSON.stringify(res.data.user))
                 setUser(res.data.user)
             })
             .catch((err) => {

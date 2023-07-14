@@ -7,9 +7,11 @@ const UserProvider = ({ children}) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem("user"))
+        if (!user) {
+            const storedUser = JSON.parse(localStorage.getItem("user"))
+            setUser(storedUser)
+        }
 
-        setUser(storedUser)
         setLoading(false)
     }, [])
 
