@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
+import userImage from "../assets/profile-pics/default-image.jpg"
 
 const Navbar = () => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
+    const [profileImage, setProfileImage] = useState(null)
+    const [imageSrc, setImageSrc] = useState(null)
     const navigate = useNavigate()
     const { user } = useContext(UserContext)
 
@@ -12,6 +15,15 @@ const Navbar = () => {
         if (user) {
             setUsername(user.username)
             setEmail(user.email)
+        }
+
+        if (!user.profile_image) {
+            setProfileImage(userImage)
+            setImageSrc("")
+
+        } else {
+            setProfileImage(user.profile_image)
+            setImageSrc("http://localhost:5000/uploads/")
         }
     }, [user])
 
@@ -31,8 +43,12 @@ const Navbar = () => {
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Unify</span>
                     </a>
                     <div className="flex md:order-2">
-                        <span className='flex flex-col justify-center py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
-                        <p>@{username}</p>
+                        <span className='flex flex-row align-center justify-center py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
+                            <p className='font-bold'>@{username}</p>
+                            <img 
+                                className='w-[40px] h-[40px] rounded-full object-cover ml-2'
+                                src={`${imageSrc}${profileImage}`} /
+                                >
                         </span>
                         <button 
                             onClick={handleLogout} 
