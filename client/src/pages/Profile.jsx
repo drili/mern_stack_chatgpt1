@@ -10,8 +10,7 @@ const Profile = () => {
     const { user, setUser } = useContext(UserContext)
 
     const handleEditProfileForm = (data) => {
-        console.log(data);
-        console.log(data[0]);
+        // console.log(data);
 
         const updatedUser = {
             username: data[0],
@@ -25,8 +24,26 @@ const Profile = () => {
                 console.log('User information updated successfully:', res.data)
                 localStorage.setItem("user", JSON.stringify(res.data.user))
                 setUser(res.data.user)
+
+                toast('User has been updated successfully', {
+                    duration: 4000,
+                    position: 'top-center',
+                    style: {
+                        background: '#22c55e',
+                        color: "#fff"
+                    }
+                })
             })
             .catch((err) => {
+                toast('There was an error updating your user', {
+                    duration: 4000,
+                    position: 'top-center',
+                    style: {
+                        background: '#ef4444',
+                        color: "#fff"
+                    }
+                })
+
                 console.error('Failed to update user information:', err)
             });
     }
@@ -57,6 +74,8 @@ const Profile = () => {
                     />
                 </div>
             </section>
+
+            <Toaster />
         </div>
     )
 }
