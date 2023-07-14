@@ -131,21 +131,52 @@ router.route("/profile/update").put((req, res) => {
     )
     .then((updatedUser) => {
         res.json({
-                user: {
-                    id: updatedUser.id,
-                    username: updatedUser.username,
-                    email: updatedUser.email,
-                    is_activated: updatedUser.isActivated,
-                    profile_image: updatedUser.profileImage,
-                    user_role: updatedUser.userRole,
-                    user_title: updatedUser.userTitle
-                }
-            })
-    })
+            user: {
+                id: updatedUser.id,
+                username: updatedUser.username,
+                email: updatedUser.email,
+                is_activated: updatedUser.isActivated,
+                profile_image: updatedUser.profileImage,
+                user_role: updatedUser.userRole,
+                user_title: updatedUser.userTitle
+            }
+        })
+})
     .catch((err) => {
         console.error(err);
         res.status(500).json({ error: 'Failed to update user information' });
     });
+})
+
+// ***
+// * Update User Password Route
+// ***
+router.put("/profile/update-password", async (req, res) => {
+    const { newPassword, userId } = req.body;
+
+    try {
+        const user = await User.findById(userId)
+        if(!user) {
+            return res.status(400).json({ msg: "::: User not found" })
+        }
+
+        // const isMatch = await bcrypt.compare(newPassword, user.password)
+        // if (!isMatch) {
+        //     return res.status(400).json({ msg: "::: Current password is incorrect" });
+        // }
+
+        // const salt = await bcrypt.genSalt(10)
+        // const hashedPassword = await bcrypt.hash(newPassword, salt)
+
+        user.password = newPassword
+        await user.save()
+
+        res.json({ msg: "Password updated successfully" });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: "Failed to update password" })
+    }
+    
 })
 
 module.exports = router

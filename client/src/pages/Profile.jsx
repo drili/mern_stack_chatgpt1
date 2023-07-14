@@ -11,7 +11,6 @@ const Profile = () => {
 
     const handleEditProfileForm = (data) => {
         // console.log(data);
-
         const updatedUser = {
             username: data[0],
             email: data[1],
@@ -48,6 +47,55 @@ const Profile = () => {
             });
     }
 
+    const handleEditPassword = (data) => {
+        console.log(data);
+
+        if (data[0] !== data[1]) {
+            toast('Passwords do not match', {
+                duration: 4000,
+                position: 'top-center',
+                style: {
+                    background: '#ef4444',
+                    color: "#fff"
+                }
+            })
+
+            return
+        }
+
+        const updatedPassword = {
+            newPassword: data[0],
+            userId: user.id
+        }
+
+        axios.put("http://localhost:5000/users/profile/update-password", updatedPassword)
+            .then((res) => {
+                console.log('User password updated successfully:', res.data)
+
+                toast('Password has been updated successfully', {
+                    duration: 4000,
+                    position: 'top-center',
+                    style: {
+                        background: '#22c55e',
+                        color: "#fff"
+                    }
+                })
+            })
+            .catch((err) => {
+                toast('There was an error updating your password', {
+                    duration: 4000,
+                    position: 'top-center',
+                    style: {
+                        background: '#ef4444',
+                        color: "#fff"
+                    }
+                })
+
+                console.error('Failed to update user information:', err)
+            });
+            
+    }
+
     return (
         <div id='profilePage'>
             <PageHeading 
@@ -56,11 +104,14 @@ const Profile = () => {
                 suffix="A quick overview of your data"
             />
 
-            <section className='grid grid-cols-2'>
+            <section className='grid grid-cols-2 gap-10 mb-10'>
                 <div className='shadow-md p-10 rounded-lg'>
                     <span>
                         <h2 className='font-bold mb-5'>Update your user info</h2>
+                        <hr className='mb-5'/>
                     </span>
+
+
                     <GenericForm
                         fieldCount={3}
                         inputTypes={['text', 'email', 'text']}
@@ -73,7 +124,36 @@ const Profile = () => {
                         onSubmit={(data) => handleEditProfileForm(data)}
                     />
                 </div>
+
+                <div className='shadow-md p-10 rounded-lg bg-indigo-50'>
+                    <span>
+                        <h2 className='font-bold mb-5'>Your user info and data</h2>
+                        <hr className='mb-5'/>
+                    </span>
+                </div>
             </section>
+
+            <section className='grid grid-cols-2 gap-10'>
+                <div className='shadow-md p-10 rounded-lg'>
+                    <span>
+                        <h2 className='font-bold mb-5'>Update your user password</h2>
+                        <hr className='mb-5'/>
+                    </span>
+
+                    <GenericForm
+                        fieldCount={2}
+                        inputTypes={['password', 'password']}
+                        fieldNames={[`New Password`, `Confirm Password`]}
+                        fieldValues={['', '']}
+                        required={[true, true]}
+                        formClass="my-form"
+                        inputClass="my-input"
+                        buttonClass="my-button"
+                        onSubmit={(data) => handleEditPassword(data)}
+                    />
+                </div>
+            </section>
+
 
             <Toaster />
         </div>
