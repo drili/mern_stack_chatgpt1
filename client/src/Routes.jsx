@@ -7,6 +7,8 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
 import Profile from './pages/Profile';
 import Layout from './components/Layout';
+import CreateTask from './pages/CreateTask';
+import CreateCustomer from './pages/CreateCustomer';
 
 function AppRoutes() {
     return (
@@ -22,6 +24,8 @@ function AppRoutes() {
                             <Routes>
                                 <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                                 <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                                <Route path="create-task" element={<ProtectedRoute><CreateTask /></ProtectedRoute>} />
+                                <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} />
                             </Routes>
                         </Layout>
                     } 

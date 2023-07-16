@@ -86,3 +86,8 @@ button,
 input.button {
 	cursor: pointer;
 }
+
+input[type=color] {
+    height: 42px;
+    padding: 5px 10px;
+}

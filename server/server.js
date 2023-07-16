@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 
 // Routes
 const userRouter = require("./routes/users")
+const customerRouter = require("./routes/customers")
 
 const app = express()
 
@@ -11,6 +12,7 @@ app.use('/uploads', express.static('uploads'));
 app.use(cors())
 app.use(express.json())
 app.use("/users", userRouter)
+app.use("/customers", customerRouter)
 
 const uri = 'mongodb+srv://dbkynetic:Kynetic123123@cluster0.f80a2n8.mongodb.net/'
 mongoose.connect(uri, { 

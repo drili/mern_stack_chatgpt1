@@ -43,7 +43,7 @@ const Navbar = () => {
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Unify</span>
                     </a>
                     <div className="flex md:order-2">
-                        <span className='flex flex-row align-center justify-center py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
+                        <span className='flex flex-row align-center items-center justify-center py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
                             <p className='font-bold'>@{username}</p>
                             <img 
                                 className='w-[40px] h-[40px] rounded-full object-cover ml-2'
@@ -53,7 +53,7 @@ const Navbar = () => {
                         <button 
                             onClick={handleLogout} 
                             type="button" 
-                            className="text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 font-medium rounded-md text-sm px-4 py-2 text-center mr-3 md:mr-0">Logout</button>
+                            className="text-black font-medium rounded-md text-sm px-4 py-2 text-center mr-3 md:mr-0">Logout</button>
                         
                         <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                             <span className="sr-only">Open main menu</span>
@@ -73,6 +73,16 @@ const Navbar = () => {
                             <li>
                                 <Link to="/profile" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                     Profile
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/create-task" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Create Task
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/create-customer" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Create Customer
                                 </Link>
                             </li>
                         </ul>
