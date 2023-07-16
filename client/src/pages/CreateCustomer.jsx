@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const CreateCustomer = () => {
     const [customers, setCustomers] = useState([])
+    const [searchQuery, setSearchQuery] = useState("")
 
     const fetchCustomers = async () => {
         try {
@@ -20,6 +21,12 @@ const CreateCustomer = () => {
     useEffect(() => {
         fetchCustomers()
     }, [])
+
+    const filteredCustomers = customers.filter((customer) => {
+        const customerName = customer.customerName.toLowerCase()
+        const query = searchQuery.toLowerCase()
+        return customerName.includes(query)
+    })
 
     const handleCreateCustomer = async (data) => {
         if (!data) {
@@ -55,6 +62,16 @@ const CreateCustomer = () => {
                     color: "#fff"
                 }
             })
+        }
+    }
+
+    const handleDeleteCustomer = async (customerId) => {
+        try {
+            await axios.delete(`http://localhost:5000/customers/delete/${customerId}`)
+            fetchCustomers()
+            console.log("Customer deleted successfully");
+        } catch (error) {
+            console.error("Failed to delete customer", error);
         }
     }
 
@@ -95,17 +112,29 @@ const CreateCustomer = () => {
                             <hr className='mb-5'/>
                         </span>
 
+                        <span className='search-container'>
+                            <input
+                                type='text'
+                                placeholder='Search customers'
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className='mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500'
+                            >
+                            </input>
+                        </span>
+
                         <div>
                             <ul>
-                                {customers.map((customer) => (
+                                {filteredCustomers.map((customer) => (
                                     <li key={customer._id}>
-                                        <div className='flex gap-2'>
+                                        <div className='flex gap-2 text-sm mb-2'>
                                             <span 
-                                                className={`block rounded-lg py-1 px-5 mb-2`}
+                                                className={`block rounded-lg py-1 px-5 bg`}
                                                 style={{ backgroundColor : `${customer.customerColor}` }}
                                             >
                                                 {customer.customerName}
                                             </span>
+                                            <button className='p-0' onClick={() => handleDeleteCustomer(customer._id)}>Delete</button>
                                         </div>
                                     </li>
                                 ))}

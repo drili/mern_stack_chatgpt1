@@ -32,4 +32,16 @@ router.route("/fetch").get(async (req, res) => {
     }
 })
 
+router.route("/delete/:customerId").delete(async (req, res) => {
+    const { customerId } = req.params
+
+    try {
+        await Customer.findByIdAndDelete(customerId)
+        res.json({ message: "Customer deleted successfully" })
+    } catch (error) {
+        console.error("Failed to delete customer", error)
+        res.status(500).json({ error: "Failed to delete customer" })
+    }
+})
+
 module.exports = router
