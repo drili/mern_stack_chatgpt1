@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PageHeading from '../components/PageHeading'
 import GenericForm from '../components/GenericForm'
 import axios from "axios"
@@ -6,6 +6,21 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const CreateCustomer = () => {
+    const [customers, setCustomers] = useState([])
+
+    const fetchCustomers = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/customers/fetch")
+            setCustomers(response.data)
+        } catch (error) {
+            console.error('Failed to fetch customers', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchCustomers()
+    }, [])
+
     const handleCreateCustomer = async (data) => {
         if (!data) {
             return
@@ -18,6 +33,7 @@ const CreateCustomer = () => {
 
         try {
             const response = await axios.post("http://localhost:5000/customers/create", customerData)
+            fetchCustomers()
 
             if (response.status === 200) {
                 toast('Customer has successfully created', {
@@ -69,6 +85,32 @@ const CreateCustomer = () => {
                             buttonClass="my-button"
                             onSubmit={(data) => handleCreateCustomer(data)}
                         />
+                    </div>
+                </span>
+
+                <span>
+                    <div className='shadow-md p-10 rounded-lg mb-10 bg-slate-50'>
+                        <span>
+                            <h2 className='font-bold mb-5'>Customer List</h2>
+                            <hr className='mb-5'/>
+                        </span>
+
+                        <div>
+                            <ul>
+                                {customers.map((customer) => (
+                                    <li key={customer._id}>
+                                        <div className='flex gap-2'>
+                                            <span 
+                                                className={`block rounded-lg py-1 px-5 mb-2`}
+                                                style={{ backgroundColor : `${customer.customerColor}` }}
+                                            >
+                                                {customer.customerName}
+                                            </span>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </span>
             </section>
