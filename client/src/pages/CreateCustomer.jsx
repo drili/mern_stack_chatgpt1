@@ -134,7 +134,7 @@ const CreateCustomer = () => {
                                             >
                                                 {customer.customerName}
                                             </span>
-                                            <button className='p-0' onClick={() => handleDeleteCustomer(customer._id)}>Delete</button>
+                                            <button className='p-0 px-2' onClick={() => handleDeleteCustomer(customer._id)}>Delete</button>
                                         </div>
                                     </li>
                                 ))}
