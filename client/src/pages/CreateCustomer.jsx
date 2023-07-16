@@ -91,7 +91,7 @@ const CreateCustomer = () => {
                 <span>
                     <div className='shadow-md p-10 rounded-lg mb-10 bg-slate-50'>
                         <span>
-                            <h2 className='font-bold mb-5'>Customer List</h2>
+                            <h2 className='font-bold mb-5'>Customer List ({customers.length})</h2>
                             <hr className='mb-5'/>
                         </span>
 
