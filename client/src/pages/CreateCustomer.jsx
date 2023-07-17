@@ -139,7 +139,9 @@ const CreateCustomer = () => {
                                                     className={`block rounded-lg py-1 px-5 bg`}
                                                     style={{ backgroundColor : `${customer.customerColor}` }}
                                                 >
-                                                    {customer.customerName}
+                                                    <p 
+                                                        style={{ color : `${customer.customerColor}` }}
+                                                        className='text-sm text-inherit invert font-bold'>{customer.customerName}</p>
                                                 </span>
                                                 <button className='p-0 px-2' onClick={() => handleArchiveCustomer(customer._id)}>Delete</button>
                                             </div>
