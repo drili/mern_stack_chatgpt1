@@ -28,6 +28,8 @@ const CreateCustomer = () => {
         return customerName.includes(query)
     })
 
+    console.log({customers});
+
     const handleCreateCustomer = async (data) => {
         if (!data) {
             return
@@ -65,15 +67,18 @@ const CreateCustomer = () => {
         }
     }
 
-    const handleDeleteCustomer = async (customerId) => {
+    const handleArchiveCustomer = async (customerId) => {
         try {
-            await axios.delete(`http://localhost:5000/customers/delete/${customerId}`)
+            await axios.put(`http://localhost:5000/customers/archive/${customerId}`)
             fetchCustomers()
-            console.log("Customer deleted successfully");
+            console.log("Customer archived successfully");
         } catch (error) {
             console.error("Failed to delete customer", error);
         }
     }
+
+    const archivedCustomersCount = customers.filter(customer => !customer.isArchived).length
+    const customerCount = customers.length
 
     return (
         <div id="createCustomerPage">
@@ -108,7 +113,7 @@ const CreateCustomer = () => {
                 <span>
                     <div className='shadow-md p-10 rounded-lg mb-10 bg-slate-50'>
                         <span>
-                            <h2 className='font-bold mb-5'>Customer List ({customers.length})</h2>
+                            <h2 className='font-bold mb-5'>Customer List ({archivedCustomersCount}/{customerCount})</h2>
                             <hr className='mb-5'/>
                         </span>
 
@@ -125,19 +130,21 @@ const CreateCustomer = () => {
 
                         <div>
                             <ul>
-                                {filteredCustomers.map((customer) => (
-                                    <li key={customer._id}>
-                                        <div className='flex gap-2 text-sm mb-2'>
-                                            <span 
-                                                className={`block rounded-lg py-1 px-5 bg`}
-                                                style={{ backgroundColor : `${customer.customerColor}` }}
-                                            >
-                                                {customer.customerName}
-                                            </span>
-                                            <button className='p-0 px-2' onClick={() => handleDeleteCustomer(customer._id)}>Delete</button>
-                                        </div>
-                                    </li>
-                                ))}
+                                {filteredCustomers
+                                    .filter((customer) => !customer.isArchived)
+                                    .map((customer) => (
+                                        <li key={customer._id}>
+                                            <div className='flex gap-2 text-sm mb-2'>
+                                                <span 
+                                                    className={`block rounded-lg py-1 px-5 bg`}
+                                                    style={{ backgroundColor : `${customer.customerColor}` }}
+                                                >
+                                                    {customer.customerName}
+                                                </span>
+                                                <button className='p-0 px-2' onClick={() => handleArchiveCustomer(customer._id)}>Delete</button>
+                                            </div>
+                                        </li>
+                                    ))}
                             </ul>
                         </div>
                     </div>
