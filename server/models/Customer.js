@@ -9,6 +9,10 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    isArchived: {
+        type: Boolean,
+        default: false,
+    }
     // * Optionally, use the default MongoDB _id field instead of customerID
     // customerID: {
     //     type: mongoose.Schema.Types.ObjectId,
