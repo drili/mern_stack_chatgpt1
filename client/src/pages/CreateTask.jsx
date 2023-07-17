@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PageHeading from '../components/PageHeading'
 import axios from "axios"
 import Select from "react-select"
 import toast, { Toaster } from 'react-hot-toast'
+import { UserContext } from '../context/UserContext'
 
 const CreateTask = () => {
     const [taskData, setTaskData] = useState({
@@ -15,10 +16,12 @@ const CreateTask = () => {
         taskVertical: '',
         taskPersons: [],
         taskSprints: [],
+        createdBy: ''
     });
     const [customers, setCustomers] = useState([])
     const [sprints, setSprints] = useState([])
     const [activeUsers, setActiveUsers] = useState([])
+    const { user } = useContext(UserContext)
 
     const fetchCustomers = async () => {
         try {
@@ -48,6 +51,10 @@ const CreateTask = () => {
     }
 
     useEffect(() => {
+        setTaskData((taskData) => ({
+            ...taskData,
+            createdBy: user.id
+        }))
         fetchCustomers()
         fetchSprints()
         fetchUsers()

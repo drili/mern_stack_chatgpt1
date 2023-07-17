@@ -13,6 +13,7 @@ router.route("/create").post(async (req, res) => {
         taskVertical,
         taskPersons,
         taskSprints,
+        createdBy
     } = req.body
 
     try {
@@ -26,6 +27,7 @@ router.route("/create").post(async (req, res) => {
             taskVertical,
             taskPersons,
             taskSprints,
+            createdBy
         })
 
         const savedTask = await task.save()

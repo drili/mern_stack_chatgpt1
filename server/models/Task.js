@@ -37,8 +37,16 @@ const taskSchema = new mongoose.Schema({
     taskSprints: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Sprint',
-    }]
-})
+    }],
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+    }
+},
+{
+    timestamps: true,
+}
+)
 
 const Task = mongoose.model("Task", taskSchema)
 
