@@ -230,4 +230,17 @@ router.put("/profile/upload-image", upload.single("profileImage"), async (req, r
     }
 })
 
+router.route("/fetch-active-users").get(async (req, res) => {
+    try {
+        const users = await User.find(
+            { isActivated: true },
+            '_id username email profileImage userRole userTitle createdAt'
+            ).sort({ _id: -1 })
+        res.json(users)
+    } catch (error) {
+        console.error('Failed to fetch users', error)
+        res.status(500).json({ error: "Failed to fetch users" })
+    }
+})
+
 module.exports = router
