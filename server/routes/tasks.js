@@ -43,7 +43,11 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
     const { userId } = req.params
 
     try {
-        const tasks = await Task.find({ createdBy: userId }).sort({ _id: -1 })
+        const tasks = await Task.find({ createdBy: userId })
+            .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
+            .populate("taskPersons", ["username", "email", "profileImage", "userRole", "userTitle"])
+            .sort({ _id: -1 })
+            
         res.json(tasks)
     } catch (error) {
         console.error("Failed to fetch tasks by user", error)

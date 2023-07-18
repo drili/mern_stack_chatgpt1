@@ -27,6 +27,7 @@ const CreateTask = () => {
 
     const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+    const imageSrc = "http://localhost:5000/uploads/"
 
     const fetchTasks = async () => {
         try {
@@ -237,6 +238,17 @@ const CreateTask = () => {
                                     <hr className='mb-2' />
                                     <p className='font-normal text-gray-700 dark:text-gray-400 leading-5'>{task.taskDescription}</p>
                                     <p className='flex align-center items-center gap-2 mt-4 font-bold text-sm'><BiSolidTimeFive></BiSolidTimeFive>{task.taskTimeLow} - {task.taskTimeHigh}</p>
+                                    <p className='flex align-center items-center text-sm'>
+                                        {task.taskPersons && task.taskPersons.map((person) => (
+                                            <span key={person._id}>
+                                                {person.profileImage ? (
+                                                    <img className='w-[30px] h-[30px] object-cover object-center rounded-full mr-2 mt-5' src={`${imageSrc}${person.profileImage}`} />
+                                                    ) : (
+                                                    <div className='w-[30px] h-[30px] rounded-full bg-gray-300 mr-2 mt-5'></div>
+                                                )}                                                
+                                            </span>
+                                        ))}
+                                    </p>
                                 </div>
                             ))}
                         </span>
