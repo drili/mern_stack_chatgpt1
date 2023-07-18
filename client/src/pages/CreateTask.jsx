@@ -5,6 +5,7 @@ import Select from "react-select"
 import toast, { Toaster } from 'react-hot-toast'
 import { UserContext } from '../context/UserContext'
 import { BiSolidTimeFive } from "react-icons/bi"
+import TaskModal from '../components/TaskModal'
 
 const CreateTask = () => {
     const [taskData, setTaskData] = useState({
@@ -129,6 +130,14 @@ const CreateTask = () => {
         }
     }
 
+    const [selectedTaskId, setSelectedTaskId] = useState(null)
+    const [showModal, setShowModal] = useState(false)
+
+    const handleTaskModal = (taskId) => {
+        setShowModal(true)
+        setSelectedTaskId(taskId)
+    }
+
     return (
         <div id='createTaskPage'>
             <PageHeading 
@@ -233,12 +242,15 @@ const CreateTask = () => {
                         
                         <span id='tasksList'>
                             {tasks.map((task) => (
-                                <div key={task._id} className='block p-6 mb-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer'>
+                                <div 
+                                    key={task._id}
+                                    onClick={() => handleTaskModal(task._id)}
+                                    className='block p-6 mb-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer'>
                                     <h2 className='mb-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{task.taskName}</h2>
                                     <hr className='mb-2' />
                                     <p className='font-normal text-gray-700 dark:text-gray-400 leading-5'>{task.taskDescription}</p>
                                     <p className='flex align-center items-center gap-2 mt-4 font-bold text-sm'><BiSolidTimeFive></BiSolidTimeFive>{task.taskTimeLow} - {task.taskTimeHigh}</p>
-                                    <p className='flex align-center items-center text-sm'>
+                                    <div className='flex align-center items-center text-sm'>
                                         {task.taskPersons && task.taskPersons.map((person) => (
                                             <span key={person._id}>
                                                 {person.profileImage ? (
@@ -248,7 +260,7 @@ const CreateTask = () => {
                                                 )}                                                
                                             </span>
                                         ))}
-                                    </p>
+                                    </div>
                                 </div>
                             ))}
                         </span>
@@ -257,6 +269,15 @@ const CreateTask = () => {
             </section>
 
             <Toaster />
+
+            {selectedTaskId && (
+                <TaskModal
+                    taskID={selectedTaskId}
+                    showModalState={showModal}
+                    onCloseModal={() => setShowModal(false)}
+                />
+            )}
+            
         </div>
     )
 }
