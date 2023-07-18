@@ -39,4 +39,16 @@ router.route("/create").post(async (req, res) => {
     }
 })
 
+router.route("/fetch-by-user/:userId").get(async (req, res) => {
+    const { userId } = req.params
+
+    try {
+        const tasks = await Task.find({ createdBy: userId }).sort({ _id: -1 })
+        res.json(tasks)
+    } catch (error) {
+        console.error("Failed to fetch tasks by user", error)
+    res.status(500).json({ error: "Failed to fetch tasks by user" })
+    }
+})
+
 module.exports = router

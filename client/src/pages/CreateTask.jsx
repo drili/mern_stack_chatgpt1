@@ -4,6 +4,7 @@ import axios from "axios"
 import Select from "react-select"
 import toast, { Toaster } from 'react-hot-toast'
 import { UserContext } from '../context/UserContext'
+import { BiSolidTimeFive } from "react-icons/bi"
 
 const CreateTask = () => {
     const [taskData, setTaskData] = useState({
@@ -22,6 +23,19 @@ const CreateTask = () => {
     const [sprints, setSprints] = useState([])
     const [activeUsers, setActiveUsers] = useState([])
     const { user } = useContext(UserContext)
+    const [tasks, setTasks] = useState([])
+
+    const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
+    const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+
+    const fetchTasks = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
+            setTasks(response.data)
+        } catch (error) {
+            console.error('Failed to fetch tasks', error);
+        }
+    }
 
     const fetchCustomers = async () => {
         try {
@@ -55,9 +69,10 @@ const CreateTask = () => {
             ...taskData,
             createdBy: user.id
         }))
-        fetchCustomers()
         fetchSprints()
         fetchUsers()
+        fetchTasks()
+        fetchCustomers()
     }, [])
 
     const handleFormChange = (e) => {
@@ -97,6 +112,8 @@ const CreateTask = () => {
                         color: "#fff"
                     }
                 })
+
+                fetchTasks()
             }
         } catch (error) {
             console.error('Failed to create task', error)
@@ -119,32 +136,39 @@ const CreateTask = () => {
                 suffix="Complete the form and submit the data"
             />
 
-            <section className='grid grid-cols-2 gap-10 mb-10'>
-                <span>
+            <section className='grid grid-cols-5 gap-10 mb-10'>
+                <span className='shadow-md p-10 rounded-lg mb-10 col-span-3'>
                     <form onSubmit={handleSubmit}>
                         <div>
-                            <label htmlFor="taskName">Task Name</label>
-                            <input type="text" name="taskName" value={taskData.taskName} onChange={handleFormChange} placeholder="Task Name" required />
+                            <label htmlFor="taskName" className={labelClasses}>Task Name</label>
+                            <input type="text" name="taskName" value={taskData.taskName} onChange={handleFormChange} placeholder="Task Name" required 
+                            className={inputClasses} />
+                        </div>
+                        <span className='grid grid-cols-2 gap-4'>
+                            <div>
+                                <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
+                                <input type="number" name="taskTimeLow" value={taskData.taskTimeLow} onChange={handleFormChange} placeholder="Task Time Low" required 
+                                className={inputClasses} />
+                            </div>
+                            <div>
+                                <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
+                                <input type="number" name="taskTimeHigh" value={taskData.taskTimeHigh} onChange={handleFormChange} placeholder="Task Time High" required 
+                                className={inputClasses} />
+                            </div>
+                        </span>
+                        <div>
+                            <label className={labelClasses} htmlFor="taskDescription">Task Description</label>
+                            <textarea name="taskDescription" value={taskData.taskDescription} onChange={handleFormChange} placeholder="Task Description" required 
+                            className={inputClasses} />
                         </div>
                         <div>
-                            <label htmlFor="taskTimeLow">Task Time Low</label>
-                            <input type="number" name="taskTimeLow" value={taskData.taskTimeLow} onChange={handleFormChange} placeholder="Task Time Low" required />
-                        </div>
-                        <div>
-                            <label htmlFor="taskTimeHigh">Task Time High</label>
-                            <input type="number" name="taskTimeHigh" value={taskData.taskTimeHigh} onChange={handleFormChange} placeholder="Task Time High" required />
-                        </div>
-                        <div>
-                            <label htmlFor="taskDescription">Task Description</label>
-                            <textarea name="taskDescription" value={taskData.taskDescription} onChange={handleFormChange} placeholder="Task Description" required />
-                        </div>
-                        <div>
-                            <label htmlFor="taskCustomer">Task Customer</label>
+                            <label className={labelClasses} htmlFor="taskCustomer">Task Customer</label>
                             <select 
                                 name="taskCustomer"
                                 onChange={handleFormChange}
                                 placeholder="Task Customer" 
                                 required
+                                className={inputClasses} 
                                 >
                                 <option>Select Customer</option>
                                 {customers
@@ -155,17 +179,21 @@ const CreateTask = () => {
                                 }
                             </select>
                         </div>
+                        <span className='grid grid-cols-2 gap-4'>
+                            <div>
+                                <label className={labelClasses} htmlFor="taskLabel">Task Label</label>
+                                <input type="text" name="taskLabel" value={taskData.taskLabel} onChange={handleFormChange} placeholder="Task Label" required 
+                                className={inputClasses} />
+                            </div>
+                            <div>
+                                <label className={labelClasses} htmlFor="taskVertical">Task Vertical</label>
+                                <input type="text" name="taskVertical" value={taskData.taskVertical} onChange={handleFormChange} placeholder="Task Vertical" required 
+                                className={inputClasses} />
+                            </div>
+                        </span>
+                        
                         <div>
-                            <label htmlFor="taskLabel">Task Label</label>
-                            <input type="text" name="taskLabel" value={taskData.taskLabel} onChange={handleFormChange} placeholder="Task Label" required />
-                        </div>
-                        <div>
-                            <label htmlFor="taskVertical">Task Vertical</label>
-                            <input type="text" name="taskVertical" value={taskData.taskVertical} onChange={handleFormChange} placeholder="Task Vertical" required />
-                        </div>
-                        <div>
-                            handleFormChangeUsers
-                            <label htmlFor="taskPersons">Task Persons</label>
+                            <label className={labelClasses} htmlFor="taskPersons">Task Persons</label>
                             <Select
                                 name="taskPersons"
                                 onChange={handleFormChangeUsers}
@@ -178,7 +206,7 @@ const CreateTask = () => {
                             ></Select>
                         </div>
                         <div>
-                            <label htmlFor="taskSprints">Task Sprints</label>
+                            <label className={labelClasses} htmlFor="taskSprints">Task Sprints</label>
                             <Select
                                 name="taskSprints"
                                 onChange={handleFormChangeSprints}
@@ -191,8 +219,28 @@ const CreateTask = () => {
                             ></Select>
                         </div>
 
-                        <button type="submit">Create Task</button>
+                        <button type="submit" className='button text-white mt-10 bg-indigo-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Create Task</button>
                     </form>
+                </span>
+
+                <span className='col-span-2'>
+                    <div className='shadow-md p-10 rounded-lg mb-10 bg-slate-50'>
+                        <span>
+                            <h2 className='font-bold mb-5'>Your Recent Created Tasks</h2>
+                            <hr className='mb-5'/>
+                        </span>
+                        
+                        <span id='tasksList'>
+                            {tasks.map((task) => (
+                                <div key={task._id} className='block p-6 mb-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer'>
+                                    <h2 className='mb-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{task.taskName}</h2>
+                                    <hr className='mb-2' />
+                                    <p className='font-normal text-gray-700 dark:text-gray-400 leading-5'>{task.taskDescription}</p>
+                                    <p className='flex align-center items-center gap-2 mt-4 font-bold text-sm'><BiSolidTimeFive></BiSolidTimeFive>{task.taskTimeLow} - {task.taskTimeHigh}</p>
+                                </div>
+                            ))}
+                        </span>
+                    </div>
                 </span>
             </section>
 
