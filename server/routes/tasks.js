@@ -17,25 +17,27 @@ router.route("/create").post(async (req, res) => {
     } = req.body
 
     try {
-        const task = new Task({
-            taskName,
-            taskTimeLow,
-            taskTimeHigh,
-            taskDescription,
-            taskCustomer,
-            taskLabel,
-            taskVertical,
-            taskPersons,
-            taskSprints,
-            createdBy
-        })
+        taskSprints.forEach(async (sprintId) => {
+            const task = new Task({
+                taskName,
+                taskTimeLow,
+                taskTimeHigh,
+                taskDescription,
+                taskCustomer,
+                taskLabel,
+                taskVertical,
+                taskPersons,
+                taskSprints: [sprintId],
+                createdBy
+            })
 
-        const savedTask = await task.save()
+            await task.save()
+        });
 
-        res.json(savedTask)
+        res.json({ message: "Tasks created successfully" });
     } catch (error) {
-        console.error('Failed to create task', error)
-        res.status(500).json({ error: 'Failed to create task' })
+        console.error("Failed to create tasks", error);
+        res.status(500).json({ error: "Failed to create tasks" });
     }
 })
 
@@ -91,6 +93,24 @@ router.route("/update/:taskId").put(async (req, res) => {
     } catch (error) {
         console.error("Failed to update task", error);
         res.status(500).json({ error: "Failed to update task" });
+    }
+})
+
+router.route("/update-sprint/:taskId").put(async (req,res) => {
+    const { taskId } = req.params
+    const { taskSprintId } = req.body
+
+    try {
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            { taskSprints: taskSprintId },
+            { new: true }
+        )
+
+        res.json(updatedTask)
+    } catch (error) {
+        console.error("Failed to update task sprint", error);
+        res.status(500).json({ error: "Failed to update task sprint" });
     }
 })
 

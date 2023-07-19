@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaWindowClose } from "react-icons/fa"
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
+import TaskModalSettings from './TaskModalSettings'
 
 const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
     const [showModal, setShowModal] = useState(false)
@@ -108,27 +109,32 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                     <div className="relative p-10 pt-0 flex-auto">
                                         <hr />
                                         
-                                        <div className='grid grid-cols-2 gap-2'>
+                                        <div className='grid grid-cols-2 gap-10'>
                                             <section className='mt-5'>
                                                 <form className='mt-5' onSubmit={handleUpdateTask}>
                                                     <div>
+                                                        <label htmlFor="taskName" className={labelClasses}>Task Name</label>
                                                         <input type="text" name="taskName" placeholder="Task Name" required value={formData["taskName"]} 
                                                         className={inputClasses} 
                                                         onChange={(e) => handleInputChange(e)}/>
                                                     </div>
                                                     <span className='grid grid-cols-2 gap-4'>
                                                         <div>
+                                                            <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
                                                             <input type="number" name="taskTimeLow" placeholder="Task Time Low" required value={formData["taskTimeLow"]}   
                                                             className={inputClasses} 
                                                             onChange={(e) => handleInputChange(e)}/>
                                                         </div>
                                                         <div>
+                                                            <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
                                                             <input type="number" name="taskTimeHigh" placeholder="Task Time High" required value={formData["taskTimeHigh"]}  
                                                             className={inputClasses} 
                                                             onChange={(e) => handleInputChange(e)}/>
                                                         </div>
                                                     </span>
                                                     <div>
+                                                        <label className={labelClasses} htmlFor="taskDescription">Task Description</label>
+
                                                         <textarea name="taskDescription" placeholder="Task Description" required value={formData["taskDescription"]} 
                                                         className={inputClasses} 
                                                         onChange={(e) => handleInputChange(e)}/>
@@ -136,6 +142,14 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
 
                                                     <button type="submit" className='button text-white mt-5 bg-indigo-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task</button>
                                                 </form>
+                                            </section>
+
+                                            <section id='taskModalSettings' className='mt-5'>
+                                                <TaskModalSettings
+                                                    inputClasses={inputClasses}
+                                                    labelClasses={labelClasses}
+                                                    taskID={taskID}
+                                                />
                                             </section>
                                         </div>
                                     </div>
