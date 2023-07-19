@@ -5,7 +5,7 @@ import Select from "react-select"
 import toast, { Toaster } from 'react-hot-toast'
 import { UserContext } from '../context/UserContext'
 import { BiSolidTimeFive } from "react-icons/bi"
-import TaskModal from '../components/TaskModal'
+import TaskModal from '../components/task/TaskModal'
 
 const CreateTask = () => {
     const [taskData, setTaskData] = useState({
@@ -119,7 +119,7 @@ const CreateTask = () => {
             }
         } catch (error) {
             console.error('Failed to create task', error)
-            toast('There was an error creating customer', {
+            toast('There was an error creating task', {
                 duration: 4000,
                 position: 'top-center',
                 style: {
@@ -138,6 +138,10 @@ const CreateTask = () => {
         setSelectedTaskId(taskId)
     }
 
+    const onCloseModal = () => {
+        setShowModal(false)
+    }
+    
     return (
         <div id='createTaskPage'>
             <PageHeading 
@@ -149,6 +153,11 @@ const CreateTask = () => {
             <section className='grid grid-cols-5 gap-10 mb-10'>
                 <span className='shadow-md p-10 rounded-lg mb-10 col-span-3'>
                     <form onSubmit={handleSubmit}>
+                        <span>
+                            <h2 className='font-bold mb-5'>Create new task</h2>
+                            <hr className='mb-5'/>
+                        </span>
+
                         <div>
                             <label htmlFor="taskName" className={labelClasses}>Task Name</label>
                             <input type="text" name="taskName" value={taskData.taskName} onChange={handleFormChange} placeholder="Task Name" required 
@@ -274,7 +283,9 @@ const CreateTask = () => {
                 <TaskModal
                     taskID={selectedTaskId}
                     showModalState={showModal}
-                    onCloseModal={() => setShowModal(false)}
+                    // onCloseModal={() => setShowModal(false)}
+                    onCloseModal={onCloseModal}
+                    fetchTasks={fetchTasks}
                 />
             )}
             

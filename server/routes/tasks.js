@@ -51,7 +51,46 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
         res.json(tasks)
     } catch (error) {
         console.error("Failed to fetch tasks by user", error)
-    res.status(500).json({ error: "Failed to fetch tasks by user" })
+        res.status(500).json({ error: "Failed to fetch tasks by user" })
+    }
+})
+
+router.route("/fetch-by-id/:taskId").get(async (req, res) => {
+    const { taskId } = req.params
+
+    try {
+        const task = await Task.find({ _id: taskId })
+            .populate("taskPersons", ["_id", "username", "email", "profileImage", "userRole", "userTitle"])
+            .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
+            .populate("taskCustomer", ["_id", "customerName", "customerColor"])
+
+        res.json(task)
+    } catch (error) {
+        console.error("Failed to fetch task by id", error)
+        res.status(500).json({ error: "Failed to fetch task by id" })
+    }
+})
+
+router.route("/update/:taskId").put(async (req, res) => {
+    const { taskId } = req.params
+    const { taskName, taskTimeLow, taskTimeHigh, taskDescription } = req.body;
+
+    try {
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            {
+                taskName,
+                taskTimeLow,
+                taskTimeHigh,
+                taskDescription,
+            },
+            { new: true }
+        )
+
+        res.json(updatedTask)
+    } catch (error) {
+        console.error("Failed to update task", error);
+        res.status(500).json({ error: "Failed to update task" });
     }
 })
 
