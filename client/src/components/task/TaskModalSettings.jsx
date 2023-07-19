@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
-const TaskModalSettings = ({ labelClasses, inputClasses, taskID }) => {
+const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData }) => {
     const [sprints, setSprints] = useState([])
     const [formDataSprint, setFormDataSprint] = useState({
         taskSprintId: ""
@@ -32,6 +32,8 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID }) => {
                         color: "#fff"
                     }
                 })
+
+                fetchTaskData(taskID)
             }
         } catch (error) {
             console.error('Failed to update task', error)

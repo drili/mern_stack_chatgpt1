@@ -7,6 +7,7 @@ import TaskModalSettings from './TaskModalSettings'
 const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
     const [showModal, setShowModal] = useState(false)
     const [task, setTask] = useState([])
+    const [taskSprint, setTaskSprint] = useState([])
     const [formData, setFormData] = useState({
         taskName: "",
         taskTimeLow: "",
@@ -90,6 +91,11 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                 
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     
+                                    <div className='flex items-start justify-between px-10 pt-5 pb-0 rounded-t'>
+                                        <span className="taskLabel bg-indigo-100 text-sm px-2 py-1 rounded text-indigo-800 font-bold">
+                                            {task[0]?.taskSprints?.sprintName}
+                                        </span>
+                                    </div>
                                     <div className="flex items-start justify-between p-10 pb-5 rounded-t">
                                         <span>
                                             <h3 className="text-3xl font-semibold">
@@ -149,6 +155,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                                     inputClasses={inputClasses}
                                                     labelClasses={labelClasses}
                                                     taskID={taskID}
+                                                    fetchTaskData={fetchTaskData}
                                                 />
                                             </section>
                                         </div>
