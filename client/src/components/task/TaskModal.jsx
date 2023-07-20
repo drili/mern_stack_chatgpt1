@@ -156,6 +156,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                                     labelClasses={labelClasses}
                                                     taskID={taskID}
                                                     fetchTaskData={fetchTaskData}
+                                                    fetchTasks={fetchTasks}
                                                     task={task}
                                                 />
                                             </section>

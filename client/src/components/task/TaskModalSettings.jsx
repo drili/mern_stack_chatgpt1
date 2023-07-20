@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
-const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, task }) => {
+const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task }) => {
     const [sprints, setSprints] = useState([])
     const [usersNot, setUsersNot] = useState([])
     const [taskPersons, setTaskPersons] = useState([])
+    const imageSrc = "http://localhost:5000/uploads/"
     const [formDataSprint, setFormDataSprint] = useState({
         taskSprintId: ""
     })
@@ -22,7 +23,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     const fetchUsersNotInTask = async (taskPersons) => {
         try {
             const response = await axios.post("http://localhost:5000/users/users-not-in-task", { taskPersons })
-            console.log(response.data);
+            // console.log(response.data);
             setUsersNot(response.data)
         } catch (error) {
             console.error('Failed to fetch users not in task', error);
@@ -30,7 +31,6 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     }
 
     const handleUpdateSprint = async (event) => {
-        console.log({formDataSprint});
         event.preventDefault()
 
         try {
@@ -67,9 +67,18 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
         }))
     }
 
-    const handleAddTaskUser = async (e) => {
-        console.log(e.target.name);
-        console.log(e.target.value);
+    const handleAddTaskUser = async (assignedUserId) => {
+        if(assignedUserId) {
+            try {
+                const response = await axios.put(`http://localhost:5000/tasks/assign-user/${taskID}`, { assignedUserId })
+                if (response.status === 200) {
+                    fetchTaskData(taskID)
+                    fetchTasks()
+                }
+            } catch (error) {
+                console.error('Failed to assign user to task:', error);
+            }
+        }
     }
 
     useEffect(() => {
@@ -78,10 +87,8 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
             setTaskPersons(taskPersons)
             fetchUsersNotInTask(taskPersons)
             fetchSprints()
-
-            console.log(taskPersons);
         }
-    }, [task])
+    }, [task, fetchTaskData, taskID])
 
     return (
         <div className='mt-5 py-5 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none'>
@@ -126,7 +133,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                     placeholder="Add User" 
                                     required
                                     className={`${inputClasses} min-w-[200px]`}
-                                    onChange={(e) => handleAddTaskUser(e)}
+                                    onChange={(e) => handleAddTaskUser(e.target.value)}
                                     >
                                     <option>Add User</option>
                                     {usersNot
@@ -136,6 +143,17 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                     }
                                 </select>
                             </span>
+                        </span>
+
+                        <span id='assignedUsers' className='flex flex-col gap-1'>
+                            {taskPersons
+                                .map((user) => (
+                                    <span key={user._id} className='flex gap-2 items-center mb-2'>
+                                        <img className='w-[25px] h-[25px] object-cover object-center rounded-full' src={`${imageSrc}${user.profileImage}`} />
+                                        <p className='font-bold text-sm'>{user.username}</p>
+                                    </span>
+                                ))
+                            }
                         </span>
                     </form>
                 </span>

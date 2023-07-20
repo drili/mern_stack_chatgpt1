@@ -114,4 +114,25 @@ router.route("/update-sprint/:taskId").put(async (req,res) => {
     }
 })
 
+router.route("/assign-user/:taskId").put(async (req, res) => {
+    const { taskId } = req.params
+    const { assignedUserId } = req.body
+
+    try {
+        const task = await Task.findById(taskId)
+
+        if (!task) {
+            return res.status(404).json({ error: 'Task not found' });
+        }
+
+        task.taskPersons.push(assignedUserId)
+        const updatedTask = await task.save()
+
+        res.json(updatedTask)
+    } catch (error) {
+        console.error('Failed to assign user to task', error);
+        res.status(500).json({ error: 'Failed to assign user to task' })
+    }
+})
+
 module.exports = router
