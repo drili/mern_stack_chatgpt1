@@ -135,4 +135,22 @@ router.route("/assign-user/:taskId").put(async (req, res) => {
     }
 })
 
+router.route("/remove-user/:taskId/:taskPersonId").put(async (req, res) => {
+    const { taskId, taskPersonId } = req.params
+    console.log(taskId, taskPersonId)
+
+    try {
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            { $pull: { taskPersons: taskPersonId } },
+            { new: true }
+        )
+
+        res.json(updatedTask)
+    } catch (error) {
+        console.error("Failed to remove user from task", error)
+        res.status(500).json({ error: "Failed to remove user from task" })
+    }
+})
+
 module.exports = router

@@ -81,6 +81,27 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
         }
     }
 
+    const handleRemoveUser = async (e) => {
+        e.preventDefault()
+
+        const taskPersonId = e.target.elements.taskPersonId.value
+        console.log({taskPersonId});
+        if (!taskPersonId) {
+            console.log('No taskPersonId')
+        }
+
+        try {
+            const response = await axios.put(`http://localhost:5000/tasks/remove-user/${taskID}/${taskPersonId}`)
+            if (response.status === 200) {
+                console.log(response.data)
+                fetchTaskData(taskID)
+                fetchTasks()
+            }
+        } catch (error) {
+            console.error('Failed to remove user from task:', error)
+        }
+    }
+
     useEffect(() => {
         if (task && task[0] && task[0].taskPersons) {
             const taskPersons = task[0].taskPersons
@@ -144,18 +165,25 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                 </select>
                             </span>
                         </span>
+                    </form>
 
-                        <span id='assignedUsers' className='flex flex-col gap-1'>
-                            {taskPersons
-                                .map((user) => (
-                                    <span key={user._id} className='flex gap-2 items-center mb-2'>
+                    <span id='assignedUsers' className='flex flex-col gap-1'>
+                        {taskPersons
+                            .map((user) => (
+                                <form key={user._id} onSubmit={(e) => handleRemoveUser(e)}>
+                                    <span className='flex gap-2 items-center mb-2'>
                                         <img className='w-[25px] h-[25px] object-cover object-center rounded-full' src={`${imageSrc}${user.profileImage}`} />
                                         <p className='font-bold text-sm'>{user.username}</p>
+
+                                        <input type="hidden" name='taskPersonId' value={user._id}  />
+                                        {taskPersons.length > 1 && (
+                                            <button type="submit" className='border-red-500 px-2 py-0 text-sm'>Remove</button>
+                                        )}
                                     </span>
-                                ))
-                            }
-                        </span>
-                    </form>
+                                </form>
+                            ))
+                        }
+                    </span>
                 </span>
             </span>
 
