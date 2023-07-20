@@ -243,4 +243,22 @@ router.route("/fetch-active-users").get(async (req, res) => {
     }
 })
 
+router.route("/users-not-in-task").post(async (req, res) => {
+    const { taskPersons } = req.body
+
+    try {
+        const users = await User.find({
+            $and: [
+                { _id: { $nin: taskPersons } },
+                { isActivated: true }
+            ]
+        })
+
+        res.json(users)
+    } catch (error) {
+        console.error('Failed to fetch users', error);
+        res.status(500).json({ error: 'Failed to fetch users' });
+    }
+})
+
 module.exports = router
