@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
-const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task }) => {
+const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task, closeModal }) => {
     const [sprints, setSprints] = useState([])
     const [usersNot, setUsersNot] = useState([])
     const [taskPersons, setTaskPersons] = useState([])
@@ -93,9 +93,32 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
         try {
             const response = await axios.put(`http://localhost:5000/tasks/remove-user/${taskID}/${taskPersonId}`)
             if (response.status === 200) {
-                console.log(response.data)
                 fetchTaskData(taskID)
                 fetchTasks()
+            }
+        } catch (error) {
+            console.error('Failed to remove user from task:', error)
+        }
+    }
+
+    const handleArchiveTask = async (e) => {
+        e.preventDefault()
+        const archiveTaskId = e.target.elements.archiveTaskId.value
+        
+        try {
+            const response = await axios.put(`http://localhost:5000/tasks/archive-task/${archiveTaskId}`)
+            if (response.status === 200) {
+                toast('Task archived successfully', {
+                    duration: 4000,
+                    position: 'top-center',
+                    style: {
+                        background: '#22c55e',
+                        color: "#fff"
+                    }
+                })
+
+                fetchTasks()
+                closeModal()
             }
         } catch (error) {
             console.error('Failed to remove user from task:', error)
@@ -167,7 +190,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                         </span>
                     </form>
 
-                    <span id='assignedUsers' className='flex flex-col gap-1'>
+                    <span id='assignedUsers' className='flex flex-col gap-1 mb-5'>
                         {taskPersons
                             .map((user) => (
                                 <form key={user._id} onSubmit={(e) => handleRemoveUser(e)}>
@@ -183,6 +206,15 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                 </form>
                             ))
                         }
+                    </span>
+
+                    <span id='archiveTask'>
+                        <hr className='mb-5' />
+                        <form onSubmit={(e) => handleArchiveTask(e)}>
+                            <label className={labelClasses} htmlFor="archiveTaskId">Archive Task</label>
+                            <input type="hidden" name='archiveTaskId' value={taskID} />
+                            <button type="submit" className='bg-red-500 text-white px-5 py-2 text-sm'>Archive Task</button>
+                        </form>
                     </span>
                 </span>
             </span>

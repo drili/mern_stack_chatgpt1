@@ -158,6 +158,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                                     fetchTaskData={fetchTaskData}
                                                     fetchTasks={fetchTasks}
                                                     task={task}
+                                                    closeModal={closeModal}
                                                 />
                                             </section>
                                         </div>

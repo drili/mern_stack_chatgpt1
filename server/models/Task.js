@@ -41,7 +41,11 @@ const taskSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-    }
+    },
+    isArchived: {
+        type: Boolean,
+        default: false,
+    },
 },
 {
     timestamps: true,

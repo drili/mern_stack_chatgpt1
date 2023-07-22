@@ -45,7 +45,10 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
     const { userId } = req.params
 
     try {
-        const tasks = await Task.find({ createdBy: userId })
+        const tasks = await Task.find({ 
+            createdBy: userId,
+            isArchived: { $ne: true }
+        })
             .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
             .populate("taskPersons", ["username", "email", "profileImage", "userRole", "userTitle"])
             .sort({ _id: -1 })
@@ -150,6 +153,23 @@ router.route("/remove-user/:taskId/:taskPersonId").put(async (req, res) => {
     } catch (error) {
         console.error("Failed to remove user from task", error)
         res.status(500).json({ error: "Failed to remove user from task" })
+    }
+})
+
+router.route("/archive-task/:taskId").put(async (req, res) => {
+    const { taskId } = req.params
+
+    try {
+        const task = await Task.findByIdAndUpdate(
+            taskId,
+            { isArchived: true },
+            { new: true }
+        )
+
+        res.json(task)
+    } catch (error) {
+        console.error("Failed to archive task", error);
+        res.status(500).json({ error: "Failed to archive task" });
     }
 })
 
