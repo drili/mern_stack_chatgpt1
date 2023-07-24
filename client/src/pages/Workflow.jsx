@@ -107,9 +107,9 @@ const Workflow = () => {
                 suffix="Drag-n-drop the tasks to move them."
             />
 
-            <section className='flex flex-row'>
+            <section className='flex'>
                 {Object.entries(workflowColumns).map(([itemId, items]) => (
-                    <section key={itemId} className=''>
+                    <section key={itemId} className='flex-1'>
                         {items.map((item) => (
                             <section key={item.id} className=''>
                                 <span>Workflow {item.col}</span>
