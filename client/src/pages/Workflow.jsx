@@ -26,17 +26,17 @@ const listsData = {
 };
 
 const workflowColumnsData = {
+    col0: [
+        { id: "col0", col: "0" }
+    ],
     col1: [
-        { id: "col1" }
+        { id: "col1", col: "1" }
     ],
     col2: [
-        { id: "col2" }
+        { id: "col2", col: "2" }
     ],
     col3: [
-        { id: "col3" }
-    ],
-    col4: [
-        { id: "col4" }
+        { id: "col3", col: "3" }
     ]
 }
 
@@ -45,6 +45,7 @@ const Workflow = () => {
     const [workflowColumns, setWorkflowColumns] = useState(workflowColumnsData)
     const [tasks, setTasks] = useState([])
     const { user } = useContext(UserContext)
+    const [filteredTasksByColumn, setFilteredTasksByColumn] = useState({});
 
     const fetchTasks = async () => {
         try {
@@ -86,7 +87,16 @@ const Workflow = () => {
     }, [user])
 
     useEffect(() => {
-        console.log(tasks);
+        if (tasks.length > 0) {
+            if (tasks.length > 0) {
+                const filteredTasksObj = {};
+                Object.entries(workflowColumnsData).forEach(([columnId, columnItems]) => {
+                    const columnNum = parseInt(columnItems[0].col, 10);
+                    filteredTasksObj[columnNum] = tasks.filter((task) => task.workflowStatus === columnNum);
+                });
+                setFilteredTasksByColumn(filteredTasksObj);
+            }
+        }
     }, [tasks])
     
     return (
@@ -97,11 +107,22 @@ const Workflow = () => {
                 suffix="Drag-n-drop the tasks to move them."
             />
 
-            <section className='flex place-content-between'>
+            <section className='flex flex-row'>
                 {Object.entries(workflowColumns).map(([itemId, items]) => (
-                    <section key={itemId} className='flex flex-col'>
-                        <span>{itemId}</span>
-                        <span>{items.id}</span>
+                    <section key={itemId} className=''>
+                        {items.map((item) => (
+                            <section key={item.id} className=''>
+                                <span>Workflow {item.col}</span>
+                                <span id='filteredTasks'>
+                                    {filteredTasksByColumn[item.col]?.map((task) => (
+                                        <section key={task._id} className=''>
+                                            <span>{task.taskName}</span>
+                                            <span>{task.taskDescription}</span>
+                                        </section>
+                                    ))}
+                                </span>
+                            </section>
+                        ))}
                     </section>
                 ))}
 
