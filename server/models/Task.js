@@ -46,6 +46,10 @@ const taskSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    workflowStatus: {
+        type: Number,
+        default: 0
+    }
 },
 {
     timestamps: true,
