@@ -1,30 +1,59 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PageHeading from '../components/PageHeading'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { UserContext } from '../context/UserContext'
+import axios from 'axios';
+
+const listsData = {
+    list1: [
+        { id: 'item1', content: 'Item 1' },
+        { id: 'item2', content: 'Item 2' },
+        { id: 'item3', content: 'Item 3' },
+    ],
+    list2: [
+        { id: 'item4', content: 'Item 4' },
+        { id: 'item5', content: 'Item 5' },
+        { id: 'item6', content: 'Item 6' },
+    ],
+    list3: [
+        { id: 'item7', content: 'Item 7' },
+        { id: 'item8', content: 'Item 8' },
+        { id: 'item9', content: 'Item 9' },
+    ],
+    list4: [
+        { id: 'item10', content: 'Item 10' }
+    ],
+};
+
+const workflowColumnsData = {
+    col1: [
+        { id: "col1" }
+    ],
+    col2: [
+        { id: "col2" }
+    ],
+    col3: [
+        { id: "col3" }
+    ],
+    col4: [
+        { id: "col4" }
+    ]
+}
 
 const Workflow = () => {
-    const listsData = {
-        list1: [
-            { id: 'item1', content: 'Item 1' },
-            { id: 'item2', content: 'Item 2' },
-            { id: 'item3', content: 'Item 3' },
-        ],
-        list2: [
-            { id: 'item4', content: 'Item 4' },
-            { id: 'item5', content: 'Item 5' },
-            { id: 'item6', content: 'Item 6' },
-        ],
-        list3: [
-            { id: 'item7', content: 'Item 7' },
-            { id: 'item8', content: 'Item 8' },
-            { id: 'item9', content: 'Item 9' },
-        ],
-        list4: [
-            { id: 'item10', content: 'Item 10' }
-        ],
-    };
-    
     const [lists, setLists] = useState(listsData)
+    const [workflowColumns, setWorkflowColumns] = useState(workflowColumnsData)
+    const [tasks, setTasks] = useState([])
+    const { user } = useContext(UserContext)
+
+    const fetchTasks = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
+            setTasks(response.data)
+        } catch (error) {
+            console.error('Failed to fetch tasks', error);
+        }
+    }
 
     const onDragEnd = (result) => {
         const { source, destination } = result
@@ -50,7 +79,15 @@ const Workflow = () => {
             [source.droppableId]: sourceList,
             [destination.droppableId]: destinationList,
         }))
-    }    
+    }
+
+    useEffect(() => {
+        fetchTasks()
+    }, [user])
+
+    useEffect(() => {
+        console.log(tasks);
+    }, [tasks])
     
     return (
         <div id='workflowPage'>
@@ -59,6 +96,17 @@ const Workflow = () => {
                 subHeading={`Welcome to the workflow area`}
                 suffix="Drag-n-drop the tasks to move them."
             />
+
+            <section className='flex place-content-between'>
+                {Object.entries(workflowColumns).map(([itemId, items]) => (
+                    <section key={itemId} className='flex flex-col'>
+                        <span>{itemId}</span>
+                        <span>{items.id}</span>
+                    </section>
+                ))}
+
+                <hr />
+            </section>
 
             <section>
                 <DragDropContext onDragEnd={onDragEnd}>
