@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Layout from './components/Layout';
 import CreateTask from './pages/CreateTask';
 import CreateCustomer from './pages/CreateCustomer';
+import Workflow from './pages/Workflow';
 
 function AppRoutes() {
     return (
@@ -26,6 +27,7 @@ function AppRoutes() {
                                 <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                                 <Route path="create-task" element={<ProtectedRoute><CreateTask /></ProtectedRoute>} />
                                 <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} />
+                                <Route path="workflow" element={<ProtectedRoute><Workflow /></ProtectedRoute>} />
                             </Routes>
                         </Layout>
                     } 

@@ -8,9 +8,7 @@ import { UserProvider } from './context/UserContext.jsx';
 import { initFlowbite } from 'flowbite';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-	<React.StrictMode>
-		<UserProvider>
-			<Routes />
-		</UserProvider>
-	</React.StrictMode>,
+	<UserProvider>
+		<Routes />
+	</UserProvider>
 )
