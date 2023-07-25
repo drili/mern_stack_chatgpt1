@@ -3,6 +3,7 @@ import PageHeading from '../components/PageHeading'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { UserContext } from '../context/UserContext'
 import axios from 'axios'
+import TaskModal from '../components/task/TaskModal'
 
 const workflowColumnsData = {
     col0: [
@@ -24,6 +25,17 @@ const Workflow = () => {
     const [tasks, setTasks] = useState([])
     const { user } = useContext(UserContext)
     const [filteredTasksByColumn, setFilteredTasksByColumn] = useState({})
+    const [selectedTaskId, setSelectedTaskId] = useState(null)
+    const [showModal, setShowModal] = useState(false)
+
+    const handleTaskModal = (taskId) => {
+        setShowModal(true)
+        setSelectedTaskId(taskId)
+    }
+
+    const onCloseModal = () => {
+        setShowModal(false)
+    }
 
     const fetchTasks = async () => {
         try {
@@ -124,6 +136,8 @@ const Workflow = () => {
                                                         {...provided.draggableProps}
                                                         {...provided.dragHandleProps}
                                                         className='flex flex-col border p-5'
+                                                        // onClick={(e) => handleTaskOnclick(e, task._id)}
+                                                        onClick={() => handleTaskModal(task._id)}
                                                     >
                                                         <p>{task._id}</p>
                                                         <p>{task.taskName}</p>
@@ -139,6 +153,16 @@ const Workflow = () => {
                     ))}
                 </section>
             </DragDropContext>
+
+            {selectedTaskId && (
+                <TaskModal
+                    taskID={selectedTaskId}
+                    showModalState={showModal}
+                    // onCloseModal={() => setShowModal(false)}
+                    onCloseModal={onCloseModal}
+                    fetchTasks={fetchTasks}
+                />
+            )}
         </div>
     )
 }
