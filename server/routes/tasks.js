@@ -51,6 +51,7 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
         })
             .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
             .populate("taskPersons", ["username", "email", "profileImage", "userRole", "userTitle"])
+            .populate("taskCustomer", ["customerName", "customerColor"])
             .sort({ _id: -1 })
             
         res.json(tasks)
