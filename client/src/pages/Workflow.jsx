@@ -91,7 +91,7 @@ const Workflow = () => {
             />
 
             <DragDropContext onDragEnd={onDragEnd}>
-                <section className='flex'>
+                <section className='flex gap-5'>
                     {Object.entries(workflowColumnsData).map(([key, value]) => (
                         <span className='flex-1' key={key}>
                             <h4>Workflow {value[0].col}</h4>
@@ -100,7 +100,7 @@ const Workflow = () => {
                                     <span
                                         ref={provided.innerRef}
                                         {...provided.droppableProps}
-                                        className='flex flex-col'
+                                        className='flex flex-col gap-2'
                                     >
                                         {filteredTasksByColumn[value[0]?.col]?.map((task, index) => (
                                             <Draggable key={task._id} draggableId={task._id} index={index}>
@@ -109,10 +109,10 @@ const Workflow = () => {
                                                         ref={provided.innerRef}
                                                         {...provided.draggableProps}
                                                         {...provided.dragHandleProps}
-                                                        className='border p-5'
+                                                        className='flex flex-col border p-5'
                                                     >
-                                                        {task._id}
-                                                        {task.taskName}
+                                                        <p>{task._id}</p>
+                                                        <p>{task.taskName}</p>
                                                     </span>
                                                 )}
                                             </Draggable>
