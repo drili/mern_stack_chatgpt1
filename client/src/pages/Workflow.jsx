@@ -34,6 +34,15 @@ const Workflow = () => {
         }
     }
 
+    const updateTaskWorkflow = async (taskId, workflowStatus) => {
+        try {
+            const response = await axios.put(`http://localhost:5000/tasks/update-taskworkflow/${taskId}`, { workflowStatus })
+            console.log(response)
+        } catch (error) {
+            console.error('Failed to update task workflowStatus', error)
+        }
+    }
+
     useEffect(() => {
         fetchTasks()
     }, [user])
@@ -51,6 +60,9 @@ const Workflow = () => {
 
     const onDragEnd = (result) => {
         const { source, destination, draggableId } = result
+        console.log({ source });
+        console.log({ destination });
+        console.log({ draggableId });
 
         if (!destination) {
             return
@@ -80,6 +92,8 @@ const Workflow = () => {
             [sourceColumnId]: sourceColumnTasks,
             [destinationColumnId]: destinationColumnTasks,
         }))
+
+        updateTaskWorkflow(draggableId, destination.droppableId)
     }
 
     return (

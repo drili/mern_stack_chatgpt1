@@ -173,4 +173,22 @@ router.route("/archive-task/:taskId").put(async (req, res) => {
     }
 })
 
+router.route("/update-taskworkflow/:taskId").put(async (req, res) => {
+    const { taskId } = req.params
+    const { workflowStatus } = req.body
+
+    try {
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            { workflowStatus: workflowStatus },
+            { new: true }
+        )
+
+        res.json(updatedTask)
+    } catch (error) {
+        console.error("Failed to update task workflowStatus", error)
+        res.status(500).json({ error: "Failed to updated task workflowStatus" })
+    }
+})
+
 module.exports = router
