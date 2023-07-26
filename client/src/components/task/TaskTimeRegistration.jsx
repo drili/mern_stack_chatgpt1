@@ -5,12 +5,22 @@ import { UserContext } from '../../context/UserContext'
 
 const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId }) => {
     const { user } = useContext(UserContext)
+    const [timeRegistrations, setTimeRegistrations] = useState([])
     const [formRegisterTime, setFormRegisterTime] = useState({
         userId: user.id,
         taskId: taskId,
         timeRegistered: "",
         description: ""
     })
+
+    const fetchTimeRegistrations = async (taskId) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/time-registrations/time-registered/${taskId}`)
+            setTimeRegistrations(response.data)
+        } catch (error) {
+            console.error('Failed to fetch registered time(s)', error)
+        }
+    }
 
     const handleInputChange = async (e) => {
         setFormRegisterTime((formData) => ({
@@ -24,7 +34,6 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId }) => {
         
         if (formRegisterTime.timeRegistered > 0) {
             try {
-                console.log({formRegisterTime});
                 const response = await axios.post(`http://localhost:5000/time-registrations/register-time`, formRegisterTime)
                 if (response.status === 201) {
                     toast('Time registered successfully', {
@@ -35,6 +44,8 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId }) => {
                             color: "#fff"
                         }
                     })
+
+                    fetchTimeRegistrations(taskId)
                 }
             } catch (error) {
                 console.error('Failed to register time', error)
@@ -47,9 +58,12 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId }) => {
                     }
                 })
             }
-            console.log({formRegisterTime});
         }
     }
+
+    useEffect(() => {
+        fetchTimeRegistrations(taskId)
+    }, [taskId])
 
     return (
         <div id='TaskTimeRegistration' className='mt-5 py-5 px-5 border-0 rounded-lg bg-indigo-50 relative flex flex-col w-full outline-none focus:outline-none'>
@@ -75,7 +89,17 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId }) => {
 
                 <div className='flex-1'>
                     <label className={labelClasses}>Total Time Registered</label>
-                    <p className='font-bold underline'>::: 0.5</p>
+
+                    
+                    {timeRegistrations && timeRegistrations.length > 0 ? (
+                        <p className='font-bold underline'>
+                            {timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}
+                        </p>
+                    ) : (
+                        <p className='font-bold underline'>
+                            0
+                        </p>
+                    )}
                 </div>
             </span>
 
