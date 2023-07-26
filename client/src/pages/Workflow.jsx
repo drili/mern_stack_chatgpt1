@@ -118,7 +118,7 @@ const Workflow = () => {
                                     <span
                                         ref={provided.innerRef}
                                         {...provided.droppableProps}
-                                        className='flex flex-col gap-1 bg-slate-100 py-2 px-2'
+                                        className='flex flex-col gap-1 bg-slate-100 rounded-md py-2 px-2'
                                     >
                                         {filteredTasksByColumn[value[0]?.col]?.map((task, index) => (
                                             <Draggable key={task._id} draggableId={task._id} index={index}>
