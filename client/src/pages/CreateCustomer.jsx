@@ -133,17 +133,20 @@ const CreateCustomer = () => {
                                 {filteredCustomers
                                     .filter((customer) => !customer.isArchived)
                                     .map((customer) => (
-                                        <li key={customer._id}>
-                                            <div className='flex gap-2 text-sm mb-2'>
+                                        <li 
+                                            key={customer._id}
+                                            style={{ border : `1px solid ${customer.customerColor}` }}
+                                            className='mb-2 rounded-lg'
+                                            >
+                                            <div className='flex text-sm'>
                                                 <span 
-                                                    className={`block rounded-lg py-1 px-5 bg`}
-                                                    style={{ backgroundColor : `${customer.customerColor}` }}
+                                                    className={`block rounded-lg py-1 px-5 bg flex-1`}
                                                 >
                                                     <p 
                                                         style={{ color : `${customer.customerColor}` }}
-                                                        className='text-sm text-inherit invert font-bold'>{customer.customerName}</p>
+                                                        className='text-sm text-inherit font-bold'>{customer.customerName}</p>
                                                 </span>
-                                                <button className='p-0 px-2' onClick={() => handleArchiveCustomer(customer._id)}>Delete</button>
+                                                <button className='p-0 px-2' onClick={() => handleArchiveCustomer(customer._id)}>Archive</button>
                                             </div>
                                         </li>
                                     ))}

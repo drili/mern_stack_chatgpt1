@@ -5,19 +5,20 @@ import { UserContext } from '../context/UserContext'
 import axios from 'axios'
 import TaskModal from '../components/task/TaskModal'
 import TaskCard from '../components/task/TaskCard'
+import useTaskModal from '../functions/useTaskModal'
 
 const workflowColumnsData = {
     col0: [
-        { id: "col0", col: "0" }
+        { id: "col0", col: "0", name: "Todo(s)" }
     ],
     col1: [
-        { id: "col1", col: "1" }
+        { id: "col1", col: "1", name: "To do this week" }
     ],
     col2: [
-        { id: "col2", col: "2" }
+        { id: "col2", col: "2", name: "In Progress" }
     ],
     col3: [
-        { id: "col3", col: "3" }
+        { id: "col3", col: "3", name: "Completed" }
     ]
 }
 
@@ -26,17 +27,7 @@ const Workflow = () => {
     const [tasks, setTasks] = useState([])
     const { user } = useContext(UserContext)
     const [filteredTasksByColumn, setFilteredTasksByColumn] = useState({})
-    const [selectedTaskId, setSelectedTaskId] = useState(null)
-    const [showModal, setShowModal] = useState(false)
-
-    const handleTaskModal = (taskId) => {
-        setShowModal(true)
-        setSelectedTaskId(taskId)
-    }
-
-    const onCloseModal = () => {
-        setShowModal(false)
-    }
+    const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal();
 
     const fetchTasks = async () => {
         try {
@@ -107,6 +98,8 @@ const Workflow = () => {
         updateTaskWorkflow(draggableId, destination.droppableId)
     }
 
+
+
     return (
         <div id='workflowPage'>
             <PageHeading
@@ -119,38 +112,38 @@ const Workflow = () => {
                 <section className='flex gap-5'>
                     {Object.entries(workflowColumnsData).map(([key, value]) => (
                         <span className='flex-1' key={key}>
-                            <h4>Workflow {value[0].col}</h4>
+                            <h3 className='font-bold mb-5 border-b pb-2'>{value[0].name}</h3>
                             <Droppable droppableId={value[0].col}>
                                 {(provided) => (
                                     <span
                                         ref={provided.innerRef}
                                         {...provided.droppableProps}
-                                        className='flex flex-col gap-2'
+                                        className='flex flex-col gap-1 bg-slate-100 py-2 px-2'
                                     >
                                         {filteredTasksByColumn[value[0]?.col]?.map((task, index) => (
                                             <Draggable key={task._id} draggableId={task._id} index={index}>
                                                 {(provided) => (
-                                                    // <span
-                                                    //     ref={provided.innerRef}
-                                                    //     {...provided.draggableProps}
-                                                    //     {...provided.dragHandleProps}
-                                                    //     className='flex flex-col border p-5'
-                                                    //     // onClick={(e) => handleTaskOnclick(e, task._id)}
-                                                    //     onClick={() => handleTaskModal(task._id)}
-                                                    // >
-                                                    //     <p>{task._id}</p>
-                                                    //     <p>{task.taskName}</p>
-                                                    // </span>
-                                                    
-                                                    <TaskCard
-                                                        taskId={task._id}
-                                                        taskName={task.taskName}
-                                                        taskDescription={task.taskDescription}
-                                                        taskPersons={task.taskPersons}
-                                                        customerName={task.taskCustomer.customerName}
-                                                        customerColor={task.taskCustomer.customerColor}
-                                                        // customer={task.taskCustomer}
-                                                    ></TaskCard>
+                                                    <span
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        // className='flex flex-col border p-5'
+                                                        // onClick={(e) => handleTaskOnclick(e, task._id)}
+                                                        onClick={() => handleTaskModal(task._id)}
+                                                    >
+                                                        <TaskCard
+                                                            key={task._id}
+                                                            taskId={task._id}
+                                                            taskName={task.taskName}
+                                                            taskDescription={task.taskDescription}
+                                                            taskPersons={task.taskPersons}
+                                                            customerName={task.taskCustomer.customerName}
+                                                            customerColor={task.taskCustomer.customerColor}
+                                                            taskLow={task.taskTimeLow}
+                                                            taskHigh={task.taskTimeHigh}
+                                                            // customer={task.taskCustomer}
+                                                        ></TaskCard>
+                                                    </span>
                                                 )}
                                             </Draggable>
                                         ))}
