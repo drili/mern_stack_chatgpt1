@@ -40,19 +40,37 @@ const TaskCard = ({taskId, taskName, taskDescription, taskPersons, customerName,
             </span>
 
             <span className=''>
-                <section className='relative h-[50px] mt-5 overflow-hidden'>
-                    <hr className='mb-2'/>
-                    {taskPersons.map((person, index) => (
-                        <img 
-                            key={index}
-                            id={index}
-                            className='absolute w-[40px] h-[40px] object-cover object-center rounded-full' 
-                            src={`http://localhost:5000/uploads/${person.profileImage}`}
-                            style={{
-                                left: `${index * 30}px`
-                            }}
-                            />
-                    ))}
+                <section className='relative h-[45px] mt-5 overflow-hidden'>
+                    <hr className='mb-3'/>
+                    {taskPersons.map((person, index) => {
+                        let personsLeft = Math.max(taskPersons.length - 2);
+
+                        if (index < 2) {
+                            return (
+                                <span key={index}>
+                                        <img 
+                                        id={index}
+                                        className='absolute w-[30px] h-[30px] object-cover object-center rounded-full' 
+                                        src={`http://localhost:5000/uploads/${person.profileImage}`}
+                                        style={{
+                                            left: `${index * 20}px`
+                                        }}
+                                    />
+                                    {taskPersons.length > 2 && index < 1 && (
+                                        <span
+                                            className='absolute w-[30px] h-[30px] object-cover object-center rounded-full bg-indigo-500 flex items-center justify-center text-white font-medium text-xs'
+                                            style={{
+                                                left: `40px`,
+                                                zIndex: "1"
+                                            }}
+                                        >
+                                            +{personsLeft}
+                                        </span>
+                                    )}
+                                </span>
+                            )
+                        }
+                    })}
                 </section>
             </span>
 
