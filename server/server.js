@@ -8,6 +8,7 @@ const customerRouter = require("./routes/customers")
 const updateRouter = require("./routes/updates")
 const taskRouter = require("./routes/tasks")
 const sprintRouter = require("./routes/sprints")
+const TimeRegistrationRouter = require("./routes/time-registrations")
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use("/customers", customerRouter)
 app.use("/updates", updateRouter)
 app.use("/tasks", taskRouter)
 app.use("/sprints", sprintRouter)
+app.use("/time-registrations", TimeRegistrationRouter)
 
 const uri = 'mongodb+srv://dbkynetic:Kynetic123123@cluster0.f80a2n8.mongodb.net/'
 mongoose.connect(uri, { 

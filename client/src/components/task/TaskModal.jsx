@@ -3,6 +3,7 @@ import { FaWindowClose } from "react-icons/fa"
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 import TaskModalSettings from './TaskModalSettings'
+import TaskTimeRegistration from './TaskTimeRegistration'
 
 const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
     const [showModal, setShowModal] = useState(false)
@@ -104,7 +105,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                             <p className='text-slate-500 text-sm mt-2'>#{taskID}</p>
                                         </span>
                                         <button
-                                            className="text-white bg-red-500 font-bold uppercase text-sm focus:outline-none ease-linear transition-all duration-150"
+                                            className="text-white bg-black font-bold uppercase text-sm focus:outline-none ease-linear transition-all duration-150"
                                             type="button"
                                             onClick={closeModal}
                                         >
@@ -117,6 +118,14 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                         
                                         <div className='grid grid-cols-2 gap-10'>
                                             <section className='mt-5'>
+                                                <section>
+                                                    <TaskTimeRegistration
+                                                        labelClasses={labelClasses}
+                                                        inputClasses={inputClasses}
+                                                        taskId={taskID}
+                                                    ></TaskTimeRegistration>
+                                                </section>
+
                                                 <form className='mt-5' onSubmit={handleUpdateTask}>
                                                     <div>
                                                         <label htmlFor="taskName" className={labelClasses}>Task Name</label>
