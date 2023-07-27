@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Task = require("../models/Task")
+const Sprint = require("../models/Sprints")
 
 router.route("/create").post(async (req, res) => {
     const {
@@ -58,6 +59,38 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
     } catch (error) {
         console.error("Failed to fetch tasks by user", error)
         res.status(500).json({ error: "Failed to fetch tasks by user" })
+    }
+})
+
+router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
+    try {
+        const { userId } = req.params
+        const { month, year } = req.query
+
+        if (!month || !year) {
+            return
+        }
+
+        const targetTaskSprint = await Sprint.findOne({
+            sprintMonth: month,
+            sprintYear: year
+        })
+
+        const tasks = await Task.find({
+            taskPersons: userId,
+            isArchived: { $ne: true },
+            taskSprints: targetTaskSprint._id
+        })
+            .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
+            .populate("taskPersons", ["_id", "username", "email", "profileImage", "userRole", "userTitle"])
+            .populate("taskCustomer", ["customerName", "customerColor"])
+            .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
+            .sort({ _id: -1 })
+
+        res.json(tasks)
+    } catch (error) {
+        console.error("Failed to fetch tasks by user & sprint", error)
+        res.status(500).json({ error: "Failed to fetch tasks by user & sprint" })
     }
 })
 

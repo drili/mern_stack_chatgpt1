@@ -34,10 +34,10 @@ const taskSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
-    taskSprints: {
+    taskSprints: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Sprints',
-    },
+    }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

@@ -6,6 +6,7 @@ import axios from 'axios'
 import TaskModal from '../components/task/TaskModal'
 import TaskCard from '../components/task/TaskCard'
 import useTaskModal from '../functions/useTaskModal'
+import getCurrentSprint from '../functions/getCurrentSprint'
 
 const workflowColumnsData = {
     col0: [
@@ -27,13 +28,17 @@ const Workflow = () => {
     const [tasks, setTasks] = useState([])
     const { user } = useContext(UserContext)
     const [filteredTasksByColumn, setFilteredTasksByColumn] = useState({})
-    const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal();
+    const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal()
+    const activeSprint  = getCurrentSprint()
 
     const fetchTasks = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
-            setTasks(response.data)
-            console.log(response.data);
+            // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
+            if (activeSprint) {
+                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprint.month}&year=${activeSprint.year}`)
+                setTasks(response.data)
+            }
+           
         } catch (error) {
             console.error('Failed to fetch tasks', error)
         }
@@ -50,7 +55,7 @@ const Workflow = () => {
 
     useEffect(() => {
         fetchTasks()
-    }, [user])
+    }, [user, activeSprint])
 
     useEffect(() => {
         if (tasks.length > 0) {
@@ -60,6 +65,7 @@ const Workflow = () => {
                 filteredTasksObj[columnNum] = tasks.filter((task) => task.workflowStatus === columnNum)
             })
             setFilteredTasksByColumn(filteredTasksObj)
+
         }
     }, [tasks])
 

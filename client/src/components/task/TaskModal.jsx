@@ -28,6 +28,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
 
     const fetchTaskData = async (taskID) => {
         const response = await axios.get(`http://localhost:5000/tasks/fetch-by-id/${taskID}`)
+        console.log(response.data)
         setTask(response.data)
         setFormData((formData) => ({
             ...formData,
@@ -86,7 +87,8 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                 {showModal ? (
                     <>
                         <div
-                            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                            // className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                            className='absolute z-50 top-0 w-full translate-x-[-50%] left-[50%]'
                         >
                             <div className="relative my-6 mx-auto max-w-screen-xl w-full">
                                 
@@ -94,7 +96,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                     
                                     <div className='flex items-start justify-between px-10 pt-5 pb-0 rounded-t'>
                                         <span className="taskLabel bg-indigo-100 text-sm px-2 py-1 rounded text-indigo-800 font-bold">
-                                            {task[0]?.taskSprints?.sprintName}
+                                            {task[0]?.taskSprints[0]?.sprintName}
                                         </span>
                                     </div>
                                     <div className="flex items-start justify-between p-10 pb-5 rounded-t">
@@ -126,7 +128,10 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                                                     ></TaskTimeRegistration>
                                                 </section>
 
-                                                <form className='mt-5' onSubmit={handleUpdateTask}>
+                                                <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-indigo-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
+                                                    <div>
+                                                        <h2 className='font-semibold mb-5'>Update Task</h2>
+                                                    </div>
                                                     <div>
                                                         <label htmlFor="taskName" className={labelClasses}>Task Name</label>
                                                         <input type="text" name="taskName" placeholder="Task Name" required value={formData["taskName"]} 
