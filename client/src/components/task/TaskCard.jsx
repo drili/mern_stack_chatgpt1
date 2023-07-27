@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import TaskModal from './TaskModal'
 
-const TaskCard = ({taskId, taskName, taskDescription, taskPersons, customerName, customerColor, taskLow, taskHigh}) => {
+const TaskCard = ({taskId, taskName, taskDescription, taskPersons, customerName, customerColor, taskLow, taskHigh, taskSprintId, taskSprintName}) => {
     const [selectedTaskId, setSelectedTaskId] = useState(null)
     const [showModal, setShowModal] = useState(false)
     
@@ -16,15 +16,29 @@ const TaskCard = ({taskId, taskName, taskDescription, taskPersons, customerName,
             id={taskId} 
             className='task-card block p-4 mb-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer'>
             <span>
-                <span 
-                    className={`border rounded-md px-4 py-1 text-xs k`}
-                    style={{
-                        color: `${customerColor}`,
-                        border: `1px solid ${customerColor}`
-                    }}
-                >
-                    {customerName}
-                </span>
+                <section className='flex gap-2'>
+                    <span 
+                        className={`border rounded-md px-4 py-1 text-xs k`}
+                        style={{
+                            color: `${customerColor}`,
+                            border: `1px solid ${customerColor}`
+                        }}
+                    >
+                        {customerName}
+                    </span>
+                    {taskSprintName && (
+                        <span 
+                            className={`border rounded-md px-4 py-1 text-xs k`}
+                            style={{
+                                color: `${customerColor}`,
+                                border: `1px solid}`
+                            }}
+                        >
+                            {taskSprintName}
+                        </span>
+                    )}
+                    
+                </section>
                 <h3 className='font-bold mt-5 leading-5'>{taskName}</h3>
             </span>
 

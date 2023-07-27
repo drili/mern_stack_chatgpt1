@@ -31,7 +31,7 @@ const Workflow = () => {
     const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal()
     const activeSprint  = getCurrentSprint()
 
-    const fetchTasks = async () => {
+    const fetchTasksByUserAndSprint = async () => {
         try {
             // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
             if (activeSprint) {
@@ -54,11 +54,12 @@ const Workflow = () => {
     }
 
     useEffect(() => {
-        fetchTasks()
+        fetchTasksByUserAndSprint()
     }, [user, activeSprint])
 
     useEffect(() => {
         if (tasks.length > 0) {
+            console.log({tasks})
             const filteredTasksObj = {}
             Object.entries(workflowColumnsData).forEach(([columnId, columnItems]) => {
                 const columnNum = parseInt(columnItems[0].col, 10)
@@ -147,6 +148,8 @@ const Workflow = () => {
                                                             customerColor={task.taskCustomer.customerColor}
                                                             taskLow={task.taskTimeLow}
                                                             taskHigh={task.taskTimeHigh}
+                                                            taskSprintId={task.taskSprints[0]._id}
+                                                            taskSprintName={task.taskSprints[0].sprintName}
                                                             // customer={task.taskCustomer}
                                                         ></TaskCard>
                                                     </span>
@@ -168,7 +171,8 @@ const Workflow = () => {
                     showModalState={showModal}
                     // onCloseModal={() => setShowModal(false)}
                     onCloseModal={onCloseModal}
-                    fetchTasks={fetchTasks}
+                    fetchTasks={fetchTasksByUserAndSprint}
+                    // fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
                 />
             )}
         </div>

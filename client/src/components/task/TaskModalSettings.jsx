@@ -46,6 +46,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 })
 
                 fetchTaskData(taskID)
+                fetchTasks()
             }
         } catch (error) {
             console.error('Failed to update task', error)

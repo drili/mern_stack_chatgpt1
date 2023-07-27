@@ -141,6 +141,7 @@ const CreateTask = () => {
 
     const onCloseModal = () => {
         setShowModal(false)
+        toast.dismiss()
     }
     
     return (
@@ -266,6 +267,7 @@ const CreateTask = () => {
                                         customerColor={task.taskCustomer.customerColor}
                                         taskLow={task.taskTimeLow}
                                         taskHigh={task.taskTimeHigh}
+                                        taskSprintName={task.taskSprints[0].sprintName}
                                     ></TaskCard>
                                 </span>
 
