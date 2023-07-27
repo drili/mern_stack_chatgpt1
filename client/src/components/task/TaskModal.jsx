@@ -43,6 +43,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
         setShowModal(false)
         setTask([])
         onCloseModal()
+        toast.dismiss()
     }
     
     useEffect(() => {

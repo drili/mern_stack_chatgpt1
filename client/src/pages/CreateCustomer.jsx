@@ -28,8 +28,6 @@ const CreateCustomer = () => {
         return customerName.includes(query)
     })
 
-    console.log({customers});
-
     const handleCreateCustomer = async (data) => {
         if (!data) {
             return
