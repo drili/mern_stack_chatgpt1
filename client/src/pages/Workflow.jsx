@@ -7,6 +7,7 @@ import TaskModal from '../components/task/TaskModal'
 import TaskCard from '../components/task/TaskCard'
 import useTaskModal from '../functions/useTaskModal'
 import getCurrentSprint from '../functions/getCurrentSprint'
+import WorkflowFilters from '../components/workflow/WorkflowFilters'
 
 const workflowColumnsData = {
     col0: [
@@ -114,6 +115,8 @@ const Workflow = () => {
                 subHeading={`Welcome to the workflow area`}
                 suffix="Drag-n-drop the tasks to move them."
             />
+
+            <WorkflowFilters></WorkflowFilters>
 
             <DragDropContext onDragEnd={onDragEnd}>
                 <section className='flex gap-5'>
