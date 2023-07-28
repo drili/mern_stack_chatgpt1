@@ -103,7 +103,7 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId }) => {
                 </div>
             </span>
 
-            <Toaster />
+            {/* <Toaster /> */}
         </div>
     )
 }

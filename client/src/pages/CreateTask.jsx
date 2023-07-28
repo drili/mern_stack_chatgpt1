@@ -252,7 +252,7 @@ const CreateTask = () => {
                         </span>
                         
                         <span id='tasksList'>
-                            {tasks.map((task) => (
+                            {tasks && tasks.map((task) => (
                                 <span
                                     key={task._id}
                                     onClick={() => handleTaskModal(task._id)}

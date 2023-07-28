@@ -220,7 +220,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 </span>
             </span>
 
-            <Toaster />
+            {/* <Toaster /> */}
         </div>
     )
 }
