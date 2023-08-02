@@ -41,6 +41,7 @@ const Workflow = () => {
 
                 if (response.data.length == 0) {
                     setTasks([])
+                    setFilteredTasks([])
                     return
                 }
                 setTasks(response.data)
@@ -72,7 +73,7 @@ const Workflow = () => {
             task.taskDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
             task.taskCustomer.customerName.toLowerCase().includes(searchTerm.toLowerCase())
         )
-                
+
         setFilteredTasks(filtered)
     }
 
