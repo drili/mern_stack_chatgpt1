@@ -32,11 +32,16 @@ const Workflow = () => {
     const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal()
     const activeSprint  = getCurrentSprint()
 
-    const fetchTasksByUserAndSprint = async () => {
+    const fetchTasksByUserAndSprint = async (activeSprintArray) => {
         try {
             // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
-            if (activeSprint) {
-                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprint.month}&year=${activeSprint.year}`)
+            if (activeSprintArray) {
+                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintArray.month}&year=${activeSprintArray.year}`)
+
+                if (response.data.length == 0) {
+                    setTasks([])
+                    return
+                }
                 setTasks(response.data)
             }
            
@@ -55,19 +60,19 @@ const Workflow = () => {
     }
 
     useEffect(() => {
-        fetchTasksByUserAndSprint()
+        fetchTasksByUserAndSprint(activeSprint)
     }, [user, activeSprint])
 
     useEffect(() => {
         if (tasks.length > 0) {
-            console.log({tasks})
             const filteredTasksObj = {}
             Object.entries(workflowColumnsData).forEach(([columnId, columnItems]) => {
                 const columnNum = parseInt(columnItems[0].col, 10)
                 filteredTasksObj[columnNum] = tasks.filter((task) => task.workflowStatus === columnNum)
             })
             setFilteredTasksByColumn(filteredTasksObj)
-
+        } else {
+            setFilteredTasksByColumn([])
         }
     }, [tasks])
 
@@ -116,7 +121,10 @@ const Workflow = () => {
                 suffix="Drag-n-drop the tasks to move them."
             />
 
-            <WorkflowFilters></WorkflowFilters>
+            <WorkflowFilters
+                activeSprint={activeSprint}
+                fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
+            ></WorkflowFilters>
 
             <DragDropContext onDragEnd={onDragEnd}>
                 <section className='flex gap-5'>

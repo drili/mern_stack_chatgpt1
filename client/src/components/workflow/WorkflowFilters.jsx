@@ -4,9 +4,10 @@ import { BiUser } from "react-icons/bi"
 import axios from 'axios'
 
 
-const WorkflowFilters = () => {
+const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint }) => {
     const [sprints, setSprints] = useState([])
     const [customers, setCustomers] = useState([])
+    const [currentSprint, setCurrentSprint] = useState([])
 
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -29,10 +30,28 @@ const WorkflowFilters = () => {
         }
     }
 
+    const handleSprintChange = async (selectedValue) => {
+        const [id, sprintName, sprintYear, sprintMonth] = selectedValue.split('|');
+        console.log(id);
+        console.log(sprintYear);
+        console.log(sprintName);
+        const newSprintArray = { ...currentSprint }
+
+
+        newSprintArray.month = sprintMonth
+        newSprintArray.year = sprintYear
+
+        setCurrentSprint(newSprintArray)
+        fetchTasksByUserAndSprint(newSprintArray)
+    }
+
     useEffect(() => {
         fetchSprints()
         fetchCustomers()
-    }, [])
+        setCurrentSprint(activeSprint)
+
+        console.log({activeSprint})
+    }, [activeSprint])
 
     return (
         <div id='WorkflowFilters' className='py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none mb-10'>
@@ -43,7 +62,7 @@ const WorkflowFilters = () => {
                  */}
                 <div id='WorkflowFilters-activeSprint'>
                     <span className='h-full flex flex-col justify-center inline-block bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
-                        Active Sprint
+                        {currentSprint && currentSprint?.month} {currentSprint && currentSprint?.year}
                     </span>
                 </div>
 
@@ -66,10 +85,16 @@ const WorkflowFilters = () => {
                  */}
                 <div id='WorkflowFilters-filterSprint'>
                     <span className='flex gap-2 items-center'>
-                        <select className={`${inputClasses} min-w-[200px]`} defaultValue="">
+                        <select 
+                            className={`${inputClasses} min-w-[200px]`} 
+                            defaultValue=""
+                            onChange={(e) => handleSprintChange(e.target.value)}
+                            >
                             <option disabled value="">Select sprint</option>
                             {sprints && sprints.map((sprint) => (
-                                <option key={sprint?._id} value={sprint?._id}>{sprint?.sprintName}</option>
+                                <option key={sprint?._id} value={`${sprint?._id}|${sprint?.sprintName}|${sprint?.sprintYear}|${sprint.sprintMonth}`}>
+                                    {sprint?.sprintName}
+                                </option>
                             ))}
                         </select>
                         <BsCalendarFill size={20}></BsCalendarFill>
