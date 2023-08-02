@@ -32,7 +32,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
     }
 
     const handleSprintChange = async (selectedValue) => {
-        const [sprintYear, sprintMonth] = selectedValue.split('|')
+        const [id, sprintName, sprintYear, sprintMonth] = selectedValue.split('|');
         const newSprintArray = { ...currentSprint }
 
 
