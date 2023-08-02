@@ -4,10 +4,11 @@ import { BiUser } from "react-icons/bi"
 import axios from 'axios'
 
 
-const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint }) => {
+const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilteredTasks }) => {
     const [sprints, setSprints] = useState([])
     const [customers, setCustomers] = useState([])
     const [currentSprint, setCurrentSprint] = useState([])
+    const [searchTerm, setSearchTerm] = useState("")
 
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -32,9 +33,6 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint }) => {
 
     const handleSprintChange = async (selectedValue) => {
         const [id, sprintName, sprintYear, sprintMonth] = selectedValue.split('|');
-        console.log(id);
-        console.log(sprintYear);
-        console.log(sprintName);
         const newSprintArray = { ...currentSprint }
 
 
@@ -45,12 +43,17 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint }) => {
         fetchTasksByUserAndSprint(newSprintArray)
     }
 
+    const handleSearchTerm = async (e) => {
+        const newSearchTerm = e.target.value
+        setSearchTerm(newSearchTerm)
+        updateFilteredTasks(newSearchTerm)
+    }
+
     useEffect(() => {
         fetchSprints()
         fetchCustomers()
         setCurrentSprint(activeSprint)
 
-        console.log({activeSprint})
     }, [activeSprint])
 
     return (
@@ -66,23 +69,21 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint }) => {
                     </span>
                 </div>
 
-                 {/* TODO: 
-                    Add search field to filter between tasks
-                 */}
-                 <div id='WorkflowFilters-searchField'>
+                {/* TODO: 
+                Add search field to filter between tasks
+                */}
+                <div id='WorkflowFilters-searchField'>
                     <span className='flex gap-2 items-center'>
                         <input 
                             type="text"
                             className={`${inputClasses} min-w-[200px]`}
                             placeholder='Search task(s)'
+                            onChange={handleSearchTerm}
                         />
                         <BsSearch size={20}></BsSearch>
                     </span>
-                 </div>
+                </div>
 
-                 {/* TODO: 
-                    Add filter by sprint
-                 */}
                 <div id='WorkflowFilters-filterSprint'>
                     <span className='flex gap-2 items-center'>
                         <select 

@@ -27,6 +27,7 @@ const workflowColumnsData = {
 const Workflow = () => {
     const [workflowColumns, setWorkflowColumns] = useState(workflowColumnsData)
     const [tasks, setTasks] = useState([])
+    const [filteredTasks, setFilteredTasks] = useState([])
     const { user } = useContext(UserContext)
     const [filteredTasksByColumn, setFilteredTasksByColumn] = useState({})
     const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal()
@@ -43,6 +44,8 @@ const Workflow = () => {
                     return
                 }
                 setTasks(response.data)
+                setFilteredTasks(response.data)
+
             }
            
         } catch (error) {
@@ -59,22 +62,37 @@ const Workflow = () => {
         }
     }
 
+    const updateFilteredTasks = async (searchTerm) => {
+        // if (!searchTerm) {
+        //     setFilteredTasks(tasks)
+        //     return
+        // }
+        const filtered = tasks.filter(task =>
+            task.taskName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            task.taskDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            task.taskCustomer.customerName.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+                
+        setFilteredTasks(filtered)
+    }
+
     useEffect(() => {
         fetchTasksByUserAndSprint(activeSprint)
     }, [user, activeSprint])
 
     useEffect(() => {
-        if (tasks.length > 0) {
+        if (filteredTasks.length > 0) {
             const filteredTasksObj = {}
             Object.entries(workflowColumnsData).forEach(([columnId, columnItems]) => {
                 const columnNum = parseInt(columnItems[0].col, 10)
-                filteredTasksObj[columnNum] = tasks.filter((task) => task.workflowStatus === columnNum)
+                filteredTasksObj[columnNum] = filteredTasks.filter((task) => task.workflowStatus === columnNum)
             })
             setFilteredTasksByColumn(filteredTasksObj)
         } else {
             setFilteredTasksByColumn([])
         }
-    }, [tasks])
+
+    }, [tasks, filteredTasks])
 
     const onDragEnd = (result) => {
         const { source, destination, draggableId } = result
@@ -111,8 +129,6 @@ const Workflow = () => {
         updateTaskWorkflow(draggableId, destination.droppableId)
     }
 
-
-
     return (
         <div id='workflowPage'>
             <PageHeading
@@ -124,6 +140,7 @@ const Workflow = () => {
             <WorkflowFilters
                 activeSprint={activeSprint}
                 fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
+                updateFilteredTasks={updateFilteredTasks}
             ></WorkflowFilters>
 
             <DragDropContext onDragEnd={onDragEnd}>
