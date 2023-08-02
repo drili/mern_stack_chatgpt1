@@ -4,7 +4,7 @@ import { BiUser } from "react-icons/bi"
 import axios from 'axios'
 
 
-const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilteredTasks }) => {
+const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilteredTasks, updatedFilteredTasksCustomer }) => {
     const [sprints, setSprints] = useState([])
     const [customers, setCustomers] = useState([])
     const [currentSprint, setCurrentSprint] = useState([])
@@ -32,7 +32,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
     }
 
     const handleSprintChange = async (selectedValue) => {
-        const [id, sprintName, sprintYear, sprintMonth] = selectedValue.split('|');
+        const [sprintYear, sprintMonth] = selectedValue.split('|')
         const newSprintArray = { ...currentSprint }
 
 
@@ -47,6 +47,12 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
         const newSearchTerm = e.target.value
         setSearchTerm(newSearchTerm)
         updateFilteredTasks(newSearchTerm)
+    }
+
+    const handleCustomerChange = async (selectedValue) => {
+        const [_id, customerName] = selectedValue.split('|')
+
+        updatedFilteredTasksCustomer(customerName)
     }
 
     useEffect(() => {
@@ -107,10 +113,14 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
                  */}
                  <div id='WorkflowFilters-filterCustomer'>
                     <span className='flex gap-2 items-center'>
-                        <select className={`${inputClasses} min-w-[200px]`} defaultValue="">
+                        <select 
+                            className={`${inputClasses} min-w-[200px]`} 
+                            defaultValue=""
+                            onChange={(e) => handleCustomerChange(e.target.value)}
+                            >
                             <option disabled value="">Select customer</option>
                             {customers.map((customer) => (
-                                <option key={customer?._id} value={customer?._id}>{customer?.customerName}</option>
+                                <option key={customer?._id} value={`${customer?._id}|${customer?.customerName}`}>{customer?.customerName}</option>
                             ))}
                         </select>
                         <BiUser size={20}></BiUser>

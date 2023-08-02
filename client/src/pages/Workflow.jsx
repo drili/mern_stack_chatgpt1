@@ -64,14 +64,18 @@ const Workflow = () => {
     }
 
     const updateFilteredTasks = async (searchTerm) => {
-        // if (!searchTerm) {
-        //     setFilteredTasks(tasks)
-        //     return
-        // }
         const filtered = tasks.filter(task =>
             task.taskName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             task.taskDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
             task.taskCustomer.customerName.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+
+        setFilteredTasks(filtered)
+    }
+
+    const updatedFilteredTasksCustomer = async (customerName) => {
+        const filtered = tasks.filter(task =>
+            task.taskCustomer.customerName.toLowerCase().includes(customerName.toLowerCase())
         )
 
         setFilteredTasks(filtered)
@@ -142,6 +146,7 @@ const Workflow = () => {
                 activeSprint={activeSprint}
                 fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
                 updateFilteredTasks={updateFilteredTasks}
+                updatedFilteredTasksCustomer={updatedFilteredTasksCustomer}
             ></WorkflowFilters>
 
             <DragDropContext onDragEnd={onDragEnd}>
