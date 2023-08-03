@@ -3,14 +3,15 @@ const router = express.Router()
 const TimeRegistration = require("../models/TimeRegistration")
 
 router.route("/register-time").post(async (req,res) => {
-    const { userId, taskId, timeRegistered, description } = req.body
-
+    const { userId, taskId, timeRegistered, description, sprintId } = req.body
+    
     try {
         const timeRegistration = await TimeRegistration.create({
             userId,
             taskId,
             timeRegistered,
-            description
+            description,
+            sprintId
         })
     
         return res.status(201).json(timeRegistration)
