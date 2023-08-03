@@ -10,6 +10,7 @@ import Layout from './components/Layout';
 import CreateTask from './pages/CreateTask';
 import CreateCustomer from './pages/CreateCustomer';
 import Workflow from './pages/Workflow';
+import NotFound from './pages/NotFound';
 
 function AppRoutes() {
     return (
@@ -28,6 +29,7 @@ function AppRoutes() {
                                 <Route path="create-task" element={<ProtectedRoute><CreateTask /></ProtectedRoute>} />
                                 <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} />
                                 <Route path="workflow" element={<ProtectedRoute><Workflow /></ProtectedRoute>} />
+                                <Route path="*" element={<NotFound/>} />
                             </Routes>
                         </Layout>
                     } 
