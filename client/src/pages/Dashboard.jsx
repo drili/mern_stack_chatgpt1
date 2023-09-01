@@ -30,7 +30,7 @@ const Dashboard = () => {
                 <span>
                     <Card>
                         <div>
-                            <h3 className="font-bold">Time Registered</h3>
+                            <h3 className="font-bold">Time Registered This Sprint</h3>
                         </div>
                     </Card>
                 </span>
