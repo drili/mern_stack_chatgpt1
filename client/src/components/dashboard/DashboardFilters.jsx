@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { BsSearch, BsCalendarFill } from "react-icons/bs"
 import getCurrentSprint from '../../functions/getCurrentSprint'
 
-const DashboardFilters = () => {
+const DashboardFilters = ({ onSelectedSprint }) => {
     const [sprints, setSprints] = useState([])
     const [currentSprint, setCurrentSprint] = useState([])
     const activeSprint  = getCurrentSprint()
@@ -14,11 +14,17 @@ const DashboardFilters = () => {
     const fetchSprints = async () => {
         try {
             const response = await axios.get("http://localhost:5000/sprints/fetch")
+            console.log(response.data);
             setSprints(response.data)
         } catch (error) {
             console.error('Failed to fetch sprints', error);
             
         }
+    }
+
+    const handleSprintChange = (e) => {
+        const selectedValue = e.target.value
+        onSelectedSprint(selectedValue)
     }
 
     useEffect(() => {
@@ -41,11 +47,16 @@ const DashboardFilters = () => {
                         <select 
                             className={`${inputClasses} min-w-[200px]`} 
                             defaultValue=""
-                            onChange={(e) => handleSprintChange(e.target.value)}
+                            // onChange={(e) => handleSprintChange(e.target.value)}
+                            onChange={handleSprintChange}
                             >
                             <option disabled value="">Select sprint</option>
                             {sprints && sprints.map((sprint) => (
-                                <option key={sprint?._id} value={`${sprint?._id}|${sprint?.sprintName}|${sprint?.sprintYear}|${sprint.sprintMonth}`}>
+                                <option 
+                                    key={sprint?._id} 
+                                    value={`${sprint?._id}`}
+                                    // value={`${sprint?._id}|${sprint?.sprintName}|${sprint?.sprintYear}|${sprint.sprintMonth}`}
+                                    >
                                     {sprint?.sprintName}
                                 </option>
                             ))}

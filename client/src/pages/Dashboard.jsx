@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import axios from 'axios'
 import { Link, useNavigate } from "react-router-dom"
 import PageHeading from '../components/PageHeading'
@@ -6,6 +6,13 @@ import { Card } from "flowbite-react"
 import DashboardFilters from "../components/dashboard/DashboardFilters"
 
 const Dashboard = () => {
+    const [selectedSprint, setSelectedSprint] = useState("")
+
+    const handleSprintChange = (selectedValue) => {
+        console.log({ selectedValue })
+        setSelectedSprint(selectedValue)
+    }
+
     return (
         <div id='dashboardPage'>
             <PageHeading 
@@ -14,7 +21,9 @@ const Dashboard = () => {
                 suffix="A quick overview of your data"
             />
 
-            <DashboardFilters></DashboardFilters>
+            <DashboardFilters
+                onSelectedSprint={handleSprintChange}
+            ></DashboardFilters>
             
 
             <section className='grid grid-cols-3 gap-10 mb-10'>
