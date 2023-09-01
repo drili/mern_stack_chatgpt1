@@ -36,4 +36,23 @@ router.route("/time-registered/:taskId").get(async (req,res) => {
     }
 })
 
+router.route("/time-registered-user/:sprintId/:userId").get(async (req, res) => {
+    const { sprintId } = req.params
+    const { userId } = req.params
+
+    if(sprintId && userId) {
+        try {
+            const timeRegistered = await TimeRegistration.find({
+                sprintId,
+                userId
+            })
+    
+            return res.status(200).json(timeRegistered)
+        } catch (error) {
+            console.error("There was an error fetching time registration by user & sprint", error)
+            return res.status(500).json({ error: "Failed to fetch time registrations user & sprint" })
+        }
+    }
+})
+
 module.exports = router
