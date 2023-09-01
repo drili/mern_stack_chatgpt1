@@ -9,8 +9,8 @@ const getCurrentSprint = () => {
         const currentYear = currentDate.getFullYear().toString()
 
         setActiveSprint({
-            month: currentMonth,
-            year: currentYear,
+            sprintMonth: currentMonth,
+            sprintYear: currentYear,
         })
     }, [])
 

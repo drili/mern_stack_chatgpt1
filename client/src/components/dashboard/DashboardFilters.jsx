@@ -25,6 +25,12 @@ const DashboardFilters = ({ onSelectedSprint }) => {
     const handleSprintChange = (e) => {
         const selectedValue = e.target.value
         onSelectedSprint(selectedValue)
+
+        const selectedSprint = sprints.find((sprint) => sprint._id === selectedValue)
+        console.log({selectedSprint})
+        if (selectedSprint) {
+            setCurrentSprint(selectedSprint)
+        }
     }
 
     useEffect(() => {
@@ -38,7 +44,7 @@ const DashboardFilters = ({ onSelectedSprint }) => {
                 
                 <div id='WorkflowFilters-activeSprint'>
                     <span className='h-full flex flex-col justify-center inline-block bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
-                        {currentSprint && currentSprint?.month} {currentSprint && currentSprint?.year}
+                        {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
                     </span>
                 </div>
 
