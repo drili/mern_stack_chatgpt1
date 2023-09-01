@@ -68,9 +68,15 @@ const Dashboard = () => {
                     <Card>
                         {/* TODO: (WIP) Finish this card */}
                         <div>
-                            <h3 className="font-bold">Your Time Registered This Sprint</h3>
-                            <h1 className="font-bold">{totalAccumulatedTime} hours</h1>
+                            <span className="flex flex-col gap-2 mb-5">
+                                <h3 className="font-bold">Your Time Registered This Sprint</h3>
+                                <h1 className="font-bold">{totalAccumulatedTime} hours</h1>
+                            </span>
                             
+                            <span className="flex flex-col gap-2">
+                                <span className="line block h-[2px] bg-red-100 w-full"></span>
+                                <p>40% of total (200 hours)</p>
+                            </span>
                         </div>
                     </Card>
                 </span>
