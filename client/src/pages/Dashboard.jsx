@@ -11,14 +11,30 @@ import getCurrentSprint from "../functions/getCurrentSprint"
 const Dashboard = () => {
     const { user } = useContext(UserContext)
     const [selectedSprint, setSelectedSprint] = useState("")
-    const [timeRegistered, setTimeRegistered] = useState([])
     const activeSprint  = getCurrentSprint()
+    
+    const [timeRegistered, setTimeRegistered] = useState([])
+    const [totalAccumulatedTime, setTotalAccumulatedTime] = useState("")
 
     const fetchTimeRegistrations = async (sprintId) => {
         try {
             if (sprintId) {
                 const response = await axios.get(`http://localhost:5000/time-registrations/time-registered-user/${sprintId}/${user.id}`)
                 setTimeRegistered(response.data)
+
+                if (response.status == 200) {
+                    const totalAccumulatedTime = response.data.reduce((accumulator, time) => {
+                        const timeValue = parseFloat(time?.timeRegistered)
+
+                        if (!isNaN(timeValue)) {
+                            accumulator += timeValue;
+                        }
+
+                        return accumulator
+                    }, 0)
+
+                    setTotalAccumulatedTime(totalAccumulatedTime)
+                }
             }
         } catch (error) {
             console.error('Failed to fetch time registrations', error)
@@ -53,9 +69,8 @@ const Dashboard = () => {
                         {/* TODO: (WIP) Finish this card */}
                         <div>
                             <h3 className="font-bold">Your Time Registered This Sprint</h3>
-                            {timeRegistered.map((time) => (
-                                <p key={time?._id}>{time?.timeRegistered}</p>
-                            ))}
+                            <h1 className="font-bold">{totalAccumulatedTime} hours</h1>
+                            
                         </div>
                     </Card>
                 </span>
