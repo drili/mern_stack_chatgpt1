@@ -85,7 +85,10 @@ const Dashboard = () => {
                             <span className="flex flex-col gap-2">
                                 <span className="relative">
                                     <span className="line absolute block h-[2px] bg-slate-100 w-full"></span>
-                                    <span className={`line absolute block h-[2px] bg-slate-500 w-[${parseFloat((totalAccumulatedTime / (workDays * 8))*100, 2).toFixed(0)}%]`}></span>
+                                    <span 
+                                        className={`line absolute block h-[2px] bg-slate-500`}
+                                        style={{ width: `${parseFloat((totalAccumulatedTime / (workDays * 8))*100, 2).toFixed(0)}%` }}
+                                        ></span>
                                 </span>
                                 <p>{parseFloat((totalAccumulatedTime / (workDays * 8))*100, 2).toFixed(2)}% of total ({workDays * 8} hours)</p>
                                 <p></p>
