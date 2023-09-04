@@ -7,11 +7,13 @@ import DashboardFilters from "../components/dashboard/DashboardFilters"
 import { UserContext } from '../context/UserContext'
 import { useEffect } from "react"
 import getCurrentSprint from "../functions/getCurrentSprint"
+import monthWorkdays from "../functions/monthWorkdays"
 
 const Dashboard = () => {
     const { user } = useContext(UserContext)
     const [selectedSprint, setSelectedSprint] = useState("")
     const activeSprint  = getCurrentSprint()
+    const [workDays, setWorkDays] = useState("")
     
     const [timeRegistered, setTimeRegistered] = useState([])
     const [totalAccumulatedTime, setTotalAccumulatedTime] = useState("")
@@ -41,13 +43,20 @@ const Dashboard = () => {
         }
     }
 
-    const handleSprintChange = (selectedValue) => {
+    const handleSprintChange = (selectedValue, selectedSprint) => {
         setSelectedSprint(selectedValue)
         fetchTimeRegistrations(selectedValue)
+
+        const monthWorkdaysRes = monthWorkdays(selectedSprint?.sprintMonth, selectedSprint?.sprintYear)
+        setWorkDays(monthWorkdaysRes)
     }
 
     useEffect(() => {
         fetchTimeRegistrations(activeSprint?.sprintId)
+
+        // const monthWorkdaysRes = monthWorkdays("September", "2023")
+        const monthWorkdaysRes = monthWorkdays(activeSprint?.sprintMonth, activeSprint?.sprintYear)
+        setWorkDays(monthWorkdaysRes)
     }, [activeSprint])
 
     return (
@@ -74,8 +83,15 @@ const Dashboard = () => {
                             </span>
                             
                             <span className="flex flex-col gap-2">
-                                <span className="line block h-[2px] bg-red-100 w-full"></span>
-                                <p>40% of total (200 hours)</p>
+                                <span className="relative">
+                                    <span className="line absolute block h-[2px] bg-slate-100 w-full"></span>
+                                    <span 
+                                        className={`line absolute block h-[2px] bg-slate-500`}
+                                        style={{ width: `${parseFloat((totalAccumulatedTime / (workDays * 8))*100, 2).toFixed(0)}%` }}
+                                        ></span>
+                                </span>
+                                <p>{parseFloat((totalAccumulatedTime / (workDays * 8))*100, 2).toFixed(2)}% of total ({workDays * 8} hours)</p>
+                                <p></p>
                             </span>
                         </div>
                     </Card>

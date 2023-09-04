@@ -14,7 +14,7 @@ const DashboardFilters = ({ onSelectedSprint }) => {
     const fetchSprints = async () => {
         try {
             const response = await axios.get("http://localhost:5000/sprints/fetch")
-            console.log(response.data);
+            // console.log(response.data);
             setSprints(response.data)
         } catch (error) {
             console.error('Failed to fetch sprints', error);
@@ -24,11 +24,11 @@ const DashboardFilters = ({ onSelectedSprint }) => {
 
     const handleSprintChange = (e) => {
         const selectedValue = e.target.value
-        onSelectedSprint(selectedValue)
-
+        
         const selectedSprint = sprints.find((sprint) => sprint._id === selectedValue)
-        console.log({selectedSprint})
+        // console.log({selectedSprint})
         if (selectedSprint) {
+            onSelectedSprint(selectedValue, selectedSprint)
             setCurrentSprint(selectedSprint)
         }
     }
