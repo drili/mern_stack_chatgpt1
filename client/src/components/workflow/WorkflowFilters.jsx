@@ -66,18 +66,12 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
         <div id='WorkflowFilters' className='py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none mb-10'>
             <section className='flex justify-end gap-8'>
                 
-                {/* TODO: 
-                    Add current/active sprint
-                 */}
                 <div id='WorkflowFilters-activeSprint'>
                     <span className='h-full flex flex-col justify-center inline-block bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
                         {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
                     </span>
                 </div>
 
-                {/* TODO: 
-                Add search field to filter between tasks
-                */}
                 <div id='WorkflowFilters-searchField'>
                     <span className='flex gap-2 items-center'>
                         <input 
@@ -108,9 +102,6 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
                     </span>
                 </div>
 
-                 {/* TODO: 
-                    Add filter by customer
-                 */}
                  <div id='WorkflowFilters-filterCustomer'>
                     <span className='flex gap-2 items-center'>
                         <select 
