@@ -36,8 +36,8 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
         const newSprintArray = { ...currentSprint }
 
 
-        newSprintArray.month = sprintMonth
-        newSprintArray.year = sprintYear
+        newSprintArray.sprintMonth = sprintMonth
+        newSprintArray.sprintYear = sprintYear
 
         setCurrentSprint(newSprintArray)
         fetchTasksByUserAndSprint(newSprintArray)
@@ -71,7 +71,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
                  */}
                 <div id='WorkflowFilters-activeSprint'>
                     <span className='h-full flex flex-col justify-center inline-block bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
-                        {currentSprint && currentSprint?.month} {currentSprint && currentSprint?.year}
+                        {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
                     </span>
                 </div>
 

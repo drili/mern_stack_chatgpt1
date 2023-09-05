@@ -74,12 +74,11 @@ const Dashboard = () => {
 
             <section className='grid grid-cols-3 gap-10 mb-10'>
                 <span>
-                    <Card>
-                        {/* TODO: (WIP) Finish this card */}
+                    <Card className="h-full">
                         <div>
                             <span className="flex flex-col gap-2 mb-5">
                                 <h3 className="font-bold">Your Time Registered This Sprint</h3>
-                                <h1 className="font-bold">{totalAccumulatedTime} hours</h1>
+                                <h2 className="text-4xl font-bold">{totalAccumulatedTime} hours</h2>
                             </span>
                             
                             <span className="flex flex-col gap-2">
@@ -98,11 +97,45 @@ const Dashboard = () => {
                 </span>
 
                 <span>
+                    <Card className="h-full">
+                        <span className="flex flex-col gap-2 mb-5">
+                            <h3 className="font-bold">Total allocated time this sprint</h3>
+                            <h2 className="text-4xl font-bold">{`...`} hours</h2>
+                        </span>
 
+                        <span className="flex flex-col gap-2">
+                            <span className="relative">
+                                <span className="line absolute block h-[2px] bg-slate-100 w-full"></span>
+                                <span 
+                                    className={`line absolute block h-[2px] bg-slate-500`}
+                                    style={{ width: `50%` }}
+                                    ></span>
+                            </span>
+                            <p>{`50`}% of total ({`200`} hours)</p>
+                            <p></p>
+                        </span>
+                    </Card>
                 </span>
 
                 <span>
+                    <Card className="h-full">
+                        <span className="flex flex-col gap-2 mb-5">
+                            <h3 className="font-bold">Finished tasks this sprint</h3>
+                            <h2 className="text-4xl font-bold">{`...`} tasks</h2>
+                        </span>
 
+                        <span className="flex flex-col gap-2">
+                            <span className="relative">
+                                <span className="line absolute block h-[2px] bg-slate-100 w-full"></span>
+                                <span 
+                                    className={`line absolute block h-[2px] bg-slate-500`}
+                                    style={{ width: `50%` }}
+                                    ></span>
+                            </span>
+                            <p>{`50`}% of total ({`200`} tasks)</p>
+                            <p></p>
+                        </span>
+                    </Card>
                 </span>
             </section>
         </div>
