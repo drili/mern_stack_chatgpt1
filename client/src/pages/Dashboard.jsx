@@ -8,6 +8,8 @@ import { UserContext } from '../context/UserContext'
 import { useEffect } from "react"
 import getCurrentSprint from "../functions/getCurrentSprint"
 import monthWorkdays from "../functions/monthWorkdays"
+import { Card } from "flowbite-react"
+import DashboardWeeklyChart from "../components/dashboard/DashboardWeeklyChart"
 
 const Dashboard = () => {
     const { user } = useContext(UserContext)
@@ -123,6 +125,31 @@ const Dashboard = () => {
                     totalAllocatedTimeLow={totalAllocatedTimeLow}
                     totalAllocatedTimeHigh={totalAllocatedTimeHigh}
                 ></DashboardCards>
+            </section>
+
+            <section id="timeRegsWeekly" className="grid grid-cols-2 gap-10 mb-10">
+                <span>
+                    <Card className="h-full">
+                        <div>
+                            <span className="flex flex-col gap-2 mb-5">
+                                <h3 className="font-bold">Your time registrations this week</h3>
+                            </span>
+
+                            <span className="flex flex-col gap-2">
+                                <DashboardWeeklyChart
+                                    fetchTimeRegistrations={timeRegistered}
+                                ></DashboardWeeklyChart>
+                            </span>
+                        </div>
+                    </Card>
+                </span>
+
+                <span>
+                    <Card className="h-full">
+                        <h3>Your recent activity...</h3>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae vero accusantium! Consequatur qui nostrum aliquam debitis voluptatibus deserunt eligendi!</p>
+                    </Card>
+                </span>
             </section>
         </div>
     )
