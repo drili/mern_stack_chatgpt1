@@ -22,6 +22,7 @@ ChartJS.register(
 )
 
 const labels = getCurrentWeekDates();
+console.log({labels})
 
 export const options = {
     responsive: true,
@@ -66,6 +67,16 @@ export const data = {
 }
 
 const DashboardWeeklyChart = ({ fetchTimeRegistrations }) => {
+    const filteredRegistrationsByDate = {};
+
+    // TODO: finish this and underst and learn it better.
+    labels.forEach((date) => {
+        filteredRegistrationsByDate[date] = fetchTimeRegistrations.filter((registration) => {
+            return registration.currentTime === date;
+        });
+    });
+
+    console.log({filteredRegistrationsByDate})
     return (
         <div>
             <Bar options={options} data={data} />
