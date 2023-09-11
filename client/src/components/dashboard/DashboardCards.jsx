@@ -23,7 +23,7 @@ const DashboardCards = ({
                             <span className="relative">
                                 <span className="line absolute block h-[2px] bg-slate-100 w-full"></span>
                                 <span
-                                    className={`line absolute block h-[2px] bg-slate-500`}
+                                    className={`line absolute block h-[2px] bg-slate-500 max-w-[100%]`}
                                     style={{ width: `${parseFloat((totalAccumulatedTime / (workDays * 8)) * 100, 2).toFixed(0)}%` }}
                                 ></span>
                             </span>

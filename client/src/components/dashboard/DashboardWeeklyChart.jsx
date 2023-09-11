@@ -50,33 +50,35 @@ export const options = {
     },
 }
 
-export const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Hours registered',
-            data: [4, 6, 8.5, 5, 9],
-            backgroundColor: '#646cff',
-        },
-        {
-            label: 'Recommended hours',
-            data: [8.5, 8.5, 8.5, 8.5, 8.5],
-            backgroundColor: '#64748b',
-        },
-    ],
-}
-
 const DashboardWeeklyChart = ({ fetchTimeRegistrations }) => {
     const filteredRegistrationsByDate = {};
 
-    // TODO: finish this and underst and learn it better.
-    labels.forEach((date) => {
-        filteredRegistrationsByDate[date] = fetchTimeRegistrations.filter((registration) => {
-            return registration.currentTime === date;
-        });
-    });
+    const totalRegisteredTimeArray = []
+    for (const key in filteredRegistrationsByDate) {
+        const registrations = filteredRegistrationsByDate[key]
+        const totalRegisteredTime = registrations.reduce((total, registration) => {
+            return total + registration.timeRegistered
+        }, 0)
 
-    console.log({filteredRegistrationsByDate})
+        totalRegisteredTimeArray.push(totalRegisteredTime)
+    }
+
+    const data = {
+        labels,
+        datasets: [
+            {
+                label: 'Hours registered',
+                data: [totalRegisteredTimeArray],
+                backgroundColor: '#646cff',
+            },
+            {
+                label: 'Recommended hours',
+                data: [8.5, 8.5, 8.5, 8.5, 8.5],
+                backgroundColor: '#64748b',
+            },
+        ],
+    }
+
     return (
         <div>
             <Bar options={options} data={data} />
