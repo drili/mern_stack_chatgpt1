@@ -24,6 +24,7 @@ const CreateTask = () => {
     const [customers, setCustomers] = useState([])
     const [sprints, setSprints] = useState([])
     const [labels, setLabels] = useState([])
+    const [verticals, setVerticals] = useState([])
     const [activeUsers, setActiveUsers] = useState([])
     const { user } = useContext(UserContext)
     const [tasks, setTasks] = useState([])
@@ -77,6 +78,16 @@ const CreateTask = () => {
         }
     }
 
+    const fetchVerticals = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/verticals/fetch-verticals")
+            setVerticals(response.data)
+            console.log(response.data)
+        } catch (error) {
+            console.error('Failed to fetch verticals', error);
+        }
+    }
+
     useEffect(() => {
         setTaskData((taskData) => ({
             ...taskData,
@@ -87,6 +98,7 @@ const CreateTask = () => {
         fetchTasks()
         fetchCustomers()
         fetchLabels()
+        fetchVerticals()
     }, [])
 
     const handleFormChange = (e) => {
@@ -227,15 +239,22 @@ const CreateTask = () => {
                                             ))
                                         }
                                 </select>
-
-                                {/* <label className={labelClasses} htmlFor="taskLabel">Task Label</label>
-                                <input type="text" name="taskLabel" value={taskData.taskLabel} onChange={handleFormChange} placeholder="Task Label" required 
-                                className={inputClasses} /> */}
                             </div>
                             <div>
                                 <label className={labelClasses} htmlFor="taskVertical">Task Vertical</label>
-                                <input type="text" name="taskVertical" value={taskData.taskVertical} onChange={handleFormChange} placeholder="Task Vertical" required 
-                                className={inputClasses} />
+                                <select
+                                    onChange={handleFormChange}
+                                    name="taskVertical"
+                                    placeholder='Task Vertical'
+                                    required
+                                    className={inputClasses}>
+                                        <option>Select Vertical</option>
+                                        {verticals
+                                            .map((vertical) => (
+                                                <option value={vertical._id} key={vertical._id}>{vertical.verticalName}</option>
+                                            ))
+                                        }
+                                </select>
                             </div>
                         </span>
                         

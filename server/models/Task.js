@@ -28,8 +28,9 @@ const taskSchema = new mongoose.Schema({
         ref: "Label"
     },
     taskVertical: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref: "Vertical"
     },
     taskPersons: [{
         type: mongoose.Schema.Types.ObjectId,

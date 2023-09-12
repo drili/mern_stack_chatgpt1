@@ -147,7 +147,28 @@ const Dashboard = () => {
                 <span>
                     <Card className="h-full">
                         <h3>Your recent activity...</h3>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae vero accusantium! Consequatur qui nostrum aliquam debitis voluptatibus deserunt eligendi!</p>
+                        <div id="recentActivity">
+                            <div>
+                                <h2>42%</h2>
+                                <p>Intern time</p>
+                            </div>
+                            <div>
+                                <h2>12%</h2>
+                                <p>Client time</p>
+                            </div>
+                            <div>
+                                <h2>62%</h2>
+                                <p>Off time</p>
+                            </div>
+                            <div>
+                                <h2>12%</h2>
+                                <p>Sick time</p>
+                            </div>
+                        </div>
+                        
+                        <span>
+                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae vero accusantium! Consequatur qui nostrum aliquam debitis voluptatibus deserunt eligendi!</p>
+                        </span>
                     </Card>
                 </span>
             </section>
