@@ -23,6 +23,7 @@ const CreateTask = () => {
     });
     const [customers, setCustomers] = useState([])
     const [sprints, setSprints] = useState([])
+    const [labels, setLabels] = useState([])
     const [activeUsers, setActiveUsers] = useState([])
     const { user } = useContext(UserContext)
     const [tasks, setTasks] = useState([])
@@ -67,6 +68,15 @@ const CreateTask = () => {
         }
     }
 
+    const fetchLabels = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/labels/fetch-labels")
+            setLabels(response.data)
+        } catch (error) {
+            console.error('Failed to fetch labels', error);
+        }
+    }
+
     useEffect(() => {
         setTaskData((taskData) => ({
             ...taskData,
@@ -76,6 +86,7 @@ const CreateTask = () => {
         fetchUsers()
         fetchTasks()
         fetchCustomers()
+        fetchLabels()
     }, [])
 
     const handleFormChange = (e) => {
@@ -203,8 +214,23 @@ const CreateTask = () => {
                         <span className='grid grid-cols-2 gap-4'>
                             <div>
                                 <label className={labelClasses} htmlFor="taskLabel">Task Label</label>
+                                <select
+                                    onChange={handleFormChange}
+                                    name="taskLabel"
+                                    placeholder='Task Label'
+                                    required
+                                    className={inputClasses}>
+                                        <option>Select Label</option>
+                                        {labels
+                                            .map((label) => (
+                                                <option value={label._id} key={label._id}>{label.labelName}</option>
+                                            ))
+                                        }
+                                </select>
+
+                                {/* <label className={labelClasses} htmlFor="taskLabel">Task Label</label>
                                 <input type="text" name="taskLabel" value={taskData.taskLabel} onChange={handleFormChange} placeholder="Task Label" required 
-                                className={inputClasses} />
+                                className={inputClasses} /> */}
                             </div>
                             <div>
                                 <label className={labelClasses} htmlFor="taskVertical">Task Vertical</label>

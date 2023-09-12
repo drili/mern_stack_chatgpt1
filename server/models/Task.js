@@ -23,8 +23,9 @@ const taskSchema = new mongoose.Schema({
         ref: "Customer"
     },
     taskLabel: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref: "Label"
     },
     taskVertical: {
         type: String,
