@@ -53,6 +53,12 @@ export const options = {
 const DashboardWeeklyChart = ({ fetchTimeRegistrations }) => {
     const filteredRegistrationsByDate = {};
 
+    labels.forEach((date) => {
+        filteredRegistrationsByDate[date] = fetchTimeRegistrations.filter((registration) => {
+            return registration.currentTime === date;
+        });
+    });
+
     const totalRegisteredTimeArray = []
     for (const key in filteredRegistrationsByDate) {
         const registrations = filteredRegistrationsByDate[key]
@@ -62,13 +68,15 @@ const DashboardWeeklyChart = ({ fetchTimeRegistrations }) => {
 
         totalRegisteredTimeArray.push(totalRegisteredTime)
     }
+    
+    const totalRegisteredTimeArraySliced = totalRegisteredTimeArray.slice(0, 5)
 
     const data = {
         labels,
         datasets: [
             {
                 label: 'Hours registered',
-                data: [totalRegisteredTimeArray],
+                data: totalRegisteredTimeArraySliced,
                 backgroundColor: '#646cff',
             },
             {
