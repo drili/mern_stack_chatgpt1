@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Layout from './components/Layout';
 import CreateTask from './pages/CreateTask';
 import CreateCustomer from './pages/CreateCustomer';
+import Customers from './pages/Customers';
 import Workflow from './pages/Workflow';
 import NotFound from './pages/NotFound';
 
@@ -27,7 +28,15 @@ function AppRoutes() {
                                 <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                                 <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                                 <Route path="create-task" element={<ProtectedRoute><CreateTask /></ProtectedRoute>} />
-                                <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} />
+                                
+                                {/* // FIXME: Fix nested routing */}
+                                <Route 
+                                    path="customers" 
+                                    element={<ProtectedRoute><Customers /></ProtectedRoute>}
+                                >
+                                    <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} />
+                                </Route>
+                                {/* <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} /> */}
                                 <Route path="workflow" element={<ProtectedRoute><Workflow /></ProtectedRoute>} />
                                 <Route path="*" element={<NotFound/>} />
                             </Routes>
