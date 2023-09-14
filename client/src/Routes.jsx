@@ -31,9 +31,9 @@ function AppRoutes() {
                                 
                                 {/* // FIXME: Fix nested routing */}
                                 <Route 
-                                    path="customers" 
-                                    element={<ProtectedRoute><Customers /></ProtectedRoute>}
+                                    path="customers"
                                 >
+                                    <Route index={true} element={<Customers />}></Route>
                                     <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} />
                                 </Route>
                                 {/* <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} /> */}

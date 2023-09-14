@@ -8,6 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const CreateCustomer = () => {
     const [customers, setCustomers] = useState([])
     const [searchQuery, setSearchQuery] = useState("")
+    const [showArchived, setShowArchived] = useState(false)
 
     const fetchCustomers = async () => {
         try {
@@ -115,21 +116,33 @@ const CreateCustomer = () => {
                             <hr className='mb-5'/>
                         </span>
 
-                        <span className='search-container'>
+                        <span className='search-container grid grid-cols-2 gap-4'>
                             <input
                                 type='text'
                                 placeholder='Search customers'
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className='mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500'
+                                className='mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 px-4 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500'
                             >
                             </input>
+
+                            <div class="flex items-center mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-4 w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500">
+                                <input 
+                                    id="bordered-checkbox-1" 
+                                    type="checkbox" 
+                                    value="" 
+                                    name="bordered-checkbox" 
+                                    class=""
+                                    onChange={() => setShowArchived(!showArchived)}
+                                    />
+                                <label for="bordered-checkbox-1" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-800">Show archived customers</label>
+                            </div>
                         </span>
 
                         <div>
                             <ul>
                                 {filteredCustomers
-                                    .filter((customer) => !customer.isArchived)
+                                    .filter((customer) => (showArchived ? true : !customer.isArchived))
                                     .map((customer) => (
                                         <li 
                                             key={customer._id}
