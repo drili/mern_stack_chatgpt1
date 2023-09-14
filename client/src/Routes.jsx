@@ -29,7 +29,6 @@ function AppRoutes() {
                                 <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                                 <Route path="create-task" element={<ProtectedRoute><CreateTask /></ProtectedRoute>} />
                                 
-                                {/* // FIXME: Fix nested routing */}
                                 <Route 
                                     path="customers"
                                 >
