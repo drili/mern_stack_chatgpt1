@@ -157,7 +157,7 @@ const CreateCustomer = () => {
                                                         style={{ color : `${customer.customerColor}` }}
                                                         className='text-sm text-inherit font-bold'>{customer.customerName}</p>
                                                 </span>
-                                                // TODO: Add "Un-archive" button to archived customers
+                                                {/* // TODO: Add "Un-archive" button to archived customers */}
                                                 <button className='p-0 px-2' onClick={() => handleArchiveCustomer(customer._id)}>Archive</button>
                                             </div>
                                         </li>
