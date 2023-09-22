@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 
+// TODO: Add timeRegistrationType
 const timeRegistrationSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
