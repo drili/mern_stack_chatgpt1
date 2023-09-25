@@ -18,6 +18,7 @@ const Layout = ({ children }) => {
 
     return (
         <div className='layout flex'>
+            {/* // TODO: Finish sidebar */}
             {showSidebar && (
                 <aside className='relative bg-indigo-50 w-1/6 min-h-screen p-4'>
                     <div className='sidebar-content fixed bottom-20 left-0 p-4'>
