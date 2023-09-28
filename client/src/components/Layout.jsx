@@ -33,61 +33,47 @@ const Layout = ({ children }) => {
                                 iconComponent={BsHouseDoor}
                             />
 
-                            <Link 
-                                to="/dashboard" 
-                                className={`flex items-center gap-4 py-2 pl-3 pr-4 text-gray-900 rounded ${
-                                    currentPath === '/dashboard' ? 'bg-indigo-100' : '200:bg-gray-100'
-                                  } md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}>
-                                <BsHouseDoor/>Dashboard
-                            </Link>
+                            <SidebarLink
+                                menuLink="/workflow"
+                                linkText="Workflow"
+                                currentPath={currentPath}
+                                iconComponent={BsList}
+                            />
 
-                            <Link 
-                                to="/workflow" 
-                                className={`flex items-center gap-4 py-2 pl-3 pr-4 text-gray-900 rounded ${
-                                    currentPath === '/workflow' ? 'bg-indigo-200' : 'hover:bg-gray-100'
-                                  } md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}>
-                                <BsList/>Workflow
-                            </Link>
+                            <SidebarLink
+                                menuLink="#"
+                                linkText="Sprint Overview"
+                                currentPath={currentPath}
+                                iconComponent={BsCalendar}
+                            />
+                            
+                            <SidebarLink
+                                menuLink="#"
+                                linkText="Time Registrations"
+                                currentPath={currentPath}
+                                iconComponent={BsClock}
+                            />
 
-                            <Link 
-                                to="#" 
-                                className={`flex items-center gap-4 py-2 pl-3 pr-4 text-gray-900 rounded ${
-                                    currentPath === '/sprint-overview' ? 'bg-indigo-200' : 'hover:bg-gray-100'
-                                  } md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}>
-                                <BsCalendar/>Sprint Overview
-                            </Link>
+                            <SidebarLink
+                                menuLink="/customers"
+                                linkText="Customers"
+                                currentPath={currentPath}
+                                iconComponent={BsPeople}
+                            />
 
-                            <Link 
-                                to="#" 
-                                className={`flex items-center gap-4 py-2 pl-3 pr-4 text-gray-900 rounded ${
-                                    currentPath === '/time-registration' ? 'bg-indigo-200' : 'hover:bg-gray-100'
-                                  } md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}>
-                                <BsClock/>Time Registrations
-                            </Link>
+                            <SidebarLink
+                                menuLink="/profile"
+                                linkText="User Profile"
+                                currentPath={currentPath}
+                                iconComponent={BsPerson}
+                            />
 
-                            <Link 
-                                to="/customers" 
-                                className={`flex items-center gap-4 py-2 pl-3 pr-4 text-gray-900 rounded ${
-                                    currentPath === '/customers' ? 'bg-indigo-200' : 'hover:bg-gray-100'
-                                  } md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}>
-                                <BsPeople/>Customers
-                            </Link>
-
-                            <Link 
-                                to="/profile" 
-                                className={`flex items-center gap-4 py-2 pl-3 pr-4 text-gray-900 rounded ${
-                                    currentPath === '/profile' ? 'bg-indigo-200' : 'hover:bg-gray-100'
-                                  } md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}>
-                               <BsPerson/>Profile
-                            </Link>
-
-                            <Link 
-                                to="#" 
-                                className={`flex items-center gap-4 py-2 pl-3 pr-4 text-gray-900 rounded ${
-                                    currentPath === '/admin' ? 'bg-indigo-200' : 'hover:bg-gray-100'
-                                  } md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}>
-                               <BsGear/>Admin
-                            </Link>
+                            <SidebarLink
+                                menuLink="#"
+                                linkText="Admin"
+                                currentPath={currentPath}
+                                iconComponent={BsGear}
+                            />
                         </span>
                     </div>
                 </aside>
@@ -97,12 +83,12 @@ const Layout = ({ children }) => {
                 <Navbar />
 
                 {isMobile && (
-                    <button 
+                    <button
                         className='fixed bottom-4 left-4 bg-indigo-500 text-white px-3 py-1 rounded-md z-10'
                         onClick={toggleSidebar}
                     >
-                    {showSidebar && isMobile ? <AiOutlineMenu/> : <AiOutlineMenu/>}
-                </button>
+                        {showSidebar && isMobile ? <AiOutlineMenu /> : <AiOutlineMenu />}
+                    </button>
                 )}
 
                 <section id="mainSection" className='max-w-screen-xl flex mx-auto p-4"'>
