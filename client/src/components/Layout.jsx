@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
                 <aside className='relative bg-indigo-50 w-1/6 min-h-screen p-4'>
                     <div className='sidebar-content fixed top-40 left-0 p-4'>
                         <span>
-                            <h2>Sidebar Content</h2>
+                            <h2 className='mb-3 font-thin'>Menu</h2>
                         </span>
 
                         <span className='sidebarLinks'>
@@ -77,6 +77,11 @@ const Layout = ({ children }) => {
                                 iconComponent={BsGear}
                             />
                         </span>
+                    </div>
+
+                    {/* // TODO: add user context here */}
+                    <div>
+
                     </div>
                 </aside>
             )}
