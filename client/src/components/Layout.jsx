@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
                             <h2 className='mb-3 font-thin'>Menu</h2>
                         </span>
 
-                        <span className='sidebarLinks'>
+                        <span className='sidebarLinks flex flex-col gap-4'>
                             <SidebarLink
                                 menuLink="/dashboard"
                                 linkText="Dashboard"
