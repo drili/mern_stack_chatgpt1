@@ -1,0 +1,2 @@
+- https://dribbble.com/shots/21478246-Omoi-Customer-Relationship-Management-Dashboard
+- https://dribbble.com/shots/22293183-Sales-Analytics-Dashboard-Design
