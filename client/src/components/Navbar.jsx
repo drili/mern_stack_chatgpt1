@@ -38,11 +38,11 @@ const Navbar = () => {
     return (
         <>
             <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-                <div className="w-full p-4 flex flex-wrap items-center justify-between mx-auto py-4">
+                <div className="w-full px-6 flex flex-wrap items-center justify-between mx-auto py-4">
                     <a href="#" className="flex items-left">  
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Unify</span>
                     </a>
-                    {/* // FIX NAVBAR BUTTONS */}
+
                     <div className="flex md:order-2">
                         <span id="navbarButtons" className='flex gap-4 items-center mr-4'>
                             <button type="submit" className='h-fit whitespace-nowrap button text-black bg-white border-indigo-500 hover:bg-indigo-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Register Offtime</button>

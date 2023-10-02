@@ -21,13 +21,13 @@ const Layout = ({ children }) => {
                 - Adjust styling/css
             */}
             {showSidebar && (
-                <aside className='relative bg-indigo-50 w-1/6 min-h-screen p-4'>
-                    <div className='sidebar-content fixed top-40 left-0 p-4'>
+                <aside className='relative bg-slate-50 w-1/6 min-h-screen p-6'>
+                    <div className='sidebar-content top-40 left-0 sticky'>
                         <span>
                             <h2 className='mb-3 font-thin'>Menu</h2>
                         </span>
 
-                        <span className='sidebarLinks flex flex-col gap-4'>
+                        <span className='sidebarLinks flex flex-col gap-2'>
                             <SidebarLink
                                 menuLink="/dashboard"
                                 linkText="Dashboard"
