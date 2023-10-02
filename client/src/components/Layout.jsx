@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import Navbar from './Navbar';
-import { Link, useLocation } from 'react-router-dom';
-import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear } from 'react-icons/bs';
-import SidebarLink from './navbar/SidebarLink';
+import React, { useState, useContext } from 'react'
+import Navbar from './Navbar'
+import { Link, useLocation } from 'react-router-dom'
+import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear } from 'react-icons/bs'
+import SidebarLink from './navbar/SidebarLink'
+import { UserContext } from '../context/UserContext'
 
 const Layout = ({ children }) => {
     const [showSidebar, setShowSidebar] = useState(true)
     const [isMobile, setIsMobile] = useState(false)
+    const { user } = useContext(UserContext)
 
     const location = useLocation()
     const currentPath = location.pathname
@@ -21,7 +23,7 @@ const Layout = ({ children }) => {
                 <aside className='relative bg-slate-50 w-1/6 min-h-screen p-6'>
                     <div className='sidebar-content top-40 left-0 sticky'>
                         <span>
-                            <h2 className='mb-3 font-thin'>Menu</h2>
+                            <h2 className='mb-3 font-thin text-zinc-300'>Menu</h2>
                         </span>
 
                         <span className='sidebarLinks flex flex-col gap-2'>
@@ -76,9 +78,14 @@ const Layout = ({ children }) => {
                         </span>
                     </div>
 
-                    {/* // TODO: add user context here */}
-                    <div>
 
+                    {/* // TODO: add user context here */}
+                    <div id="sidebarUser">
+                        <span>
+                        <p className='font-bold'>@{user.username}</p>
+                        <p className='font-light'>{user.email}</p>
+                        </span>
+                        <img src={`http://localhost:5000/uploads/${user.profile_image}`} />
                     </div>
                 </aside>
             )}
