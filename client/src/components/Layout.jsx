@@ -76,16 +76,20 @@ const Layout = ({ children }) => {
                                 iconComponent={BsGear}
                             />
                         </span>
-                    </div>
 
+                        <hr className='mt-[40px]' />
 
-                    {/* // TODO: add user context here */}
-                    <div id="sidebarUser">
-                        <span>
-                        <p className='font-bold'>@{user.username}</p>
-                        <p className='font-light'>{user.email}</p>
-                        </span>
-                        <img src={`http://localhost:5000/uploads/${user.profile_image}`} />
+                        {/* // TODO: add user context here */}
+                        <div id="sidebarUser" className='flex items-center justify-center p-4 space-x-2 mt-[40px]'>
+                            <img 
+                                src={`http://localhost:5000/uploads/${user.profile_image}`} 
+                                className='h-12 w-12 rounded-full object-cover'
+                            />
+                            <div>
+                                <p className='font-bold text-gray-900'>@{user.username}</p>
+                                <p className='font-light text-gray-600'>{user.email}</p>
+                            </div>
+                        </div>
                     </div>
                 </aside>
             )}
