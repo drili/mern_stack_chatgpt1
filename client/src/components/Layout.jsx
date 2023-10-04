@@ -42,7 +42,7 @@ const Layout = ({ children }) => {
                             />
 
                             <SidebarLink
-                                menuLink="#"
+                                menuLink="/sprint-overview"
                                 linkText="Sprint Overview"
                                 currentPath={currentPath}
                                 iconComponent={BsCalendar}

@@ -12,6 +12,7 @@ import CreateCustomer from './pages/CreateCustomer';
 import Customers from './pages/Customers';
 import Workflow from './pages/Workflow';
 import NotFound from './pages/NotFound';
+import SprintOverview from './pages/SprintOverview';
 
 function AppRoutes() {
     return (
@@ -28,7 +29,7 @@ function AppRoutes() {
                                 <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                                 <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                                 <Route path="create-task" element={<ProtectedRoute><CreateTask /></ProtectedRoute>} />
-                                
+                                <Route path="sprint-overview" element={<ProtectedRoute><SprintOverview/></ProtectedRoute>} />
                                 <Route 
                                     path="customers"
                                 >
