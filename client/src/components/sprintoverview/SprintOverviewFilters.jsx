@@ -42,7 +42,7 @@ const SprintOverviewFilters = ({ onSelectedSprint }) => {
         <div id='WorkflowFilters' className='items-center py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-row justify-between w-full outline-none focus:outline-none mb-10'>
             {/* // TODO: Finish toggler */}
             <section className='flex gap-4'>
-                <button className='bg-white px-4 py-2 rounded-lg underline'>
+                <button className='bg-white px-4 py-2 rounded-lg border-1 border-zinc-300'>
                     Persons
                 </button>
 

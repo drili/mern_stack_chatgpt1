@@ -22,10 +22,12 @@ const SprintOverview = () => {
                 onSelectedSprint={handleSprintChange}
             ></SprintOverviewFilters>
 
-            <section id="sprintOverviewFields">
+            <section id="sprintOverviewFields" className='flex flex-col gap-4'>
                 {/* // TODO: Iterate fields
                     SEE: https://cdn.dribbble.com/userupload/5436969/file/original-909df9bc5700b070aa88233b85601a7c.png?resize=1024x768
                     SEE: https://dribbble.com/shots/19338145-SaaS-Analytics-Dashboard */}
+                <DefaultAccordion></DefaultAccordion>
+                <DefaultAccordion></DefaultAccordion>
                 <DefaultAccordion></DefaultAccordion>
             </section>
             

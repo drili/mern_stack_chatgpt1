@@ -5,7 +5,16 @@ const DefaultAccordion = () => {
         <Accordion collapseAll>
             <Accordion.Panel>
                 <Accordion.Title>
-                    What is Flowbite?
+                    <span className='flex gap-5 items-center'>
+                        <img 
+                            className='w-[60px] h-[60px] rounded-full object-cover'
+                            src="http://localhost:5000/uploads/profileImage-1689353160505-571836841.webp"
+                            />
+                        <span>
+                            <h2 className='text-lg font-bold text-gray-900'>Drilon Braha</h2>
+                            <h2 className='text-sm font-light text-zinc-500'>db@kynetic.dk</h2>
+                        </span>
+                    </span>
                 </Accordion.Title>
                 <Accordion.Content>
                     <p>
