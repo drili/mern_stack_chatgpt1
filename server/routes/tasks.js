@@ -3,6 +3,32 @@ const router = express.Router()
 const Task = require("../models/Task")
 const Sprint = require("../models/Sprints")
 
+router.route("/update-percentage").post(async (req, res) => {
+    const { taskId, percentageValues } = req.body
+    console.log({taskId, percentageValues})
+
+    try {
+        const task = await Task.findById(taskId)
+
+        if (!task) {
+            return res.status(404).json({ error: "Task not found" })
+        }
+
+        // FIXME: Error: Does not update the percentage
+        task.taskPersons.forEach((person) => {
+            if(percentageValues[person.toString()]) {
+                person.percentage = parseInt(percentageValues[person.toString()], 10)
+            }
+        })
+
+        await task.save()
+        return res.status(200).json({ message: 'Task percentage updated successfully' });
+    } catch (error) {
+        console.error('Error updating task percentage:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+})
+
 router.route("/create").post(async (req, res) => {
     const {
         taskName,

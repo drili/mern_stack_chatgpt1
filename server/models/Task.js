@@ -32,10 +32,22 @@ const taskSchema = new mongoose.Schema({
         required: true,
         ref: "Vertical"
     },
-    taskPersons: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }],
+    // taskPersons: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User"
+    // }],
+    taskPersons:[
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+            },
+            percentage: {
+                type: Number,
+                default: 100
+            },
+        },
+    ],
     taskSprints: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Sprints',

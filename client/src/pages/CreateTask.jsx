@@ -117,9 +117,14 @@ const CreateTask = () => {
     }
 
     const handleFormChangeUsers = (selectedOptions) => {
+        const personsWithPercentage = selectedOptions.map((option) => ({
+            userId: option.value,
+            percentage: 100,
+        }))
+
         setTaskData((prevData) => ({
             ...prevData,
-            taskPersons: selectedOptions.map((option) => option.value)
+            taskPersons: personsWithPercentage
         }))
     }
 

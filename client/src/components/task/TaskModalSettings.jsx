@@ -118,7 +118,30 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
             setErrorPercentage(true)
         } else {
             setErrorPercentage(false)
-            console.log({percentageValues})
+
+            const updatedPercentageData = {
+                taskId: taskID,
+                percentageValues: percentageValues
+            }
+
+            try {
+                const response = await axios.post(`http://localhost:5000/tasks/update-percentage`, updatedPercentageData)
+
+                console.log({response})
+                
+                if (response.status === 200) {
+                    toast('Percentage updated successfully', {
+                        duration: 4000,
+                        position: 'top-center',
+                        style: {
+                            background: '#22c55e',
+                            color: "#fff"
+                        }
+                    })
+                }
+            } catch (error) {
+                console.error("Error updating task percentage:", error)
+            }
         }
     }
 
