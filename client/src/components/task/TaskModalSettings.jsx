@@ -6,6 +6,9 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     const [sprints, setSprints] = useState([])
     const [usersNot, setUsersNot] = useState([])
     const [taskPersons, setTaskPersons] = useState([])
+    const [percentageValues, setPercentageValues] = useState({})
+    const [totalPercentage, setTotalPercentage] = useState(0)
+    const [errorPercentage, setErrorPercentage] = useState(false)
     const imageSrc = "http://localhost:5000/uploads/"
     const [formDataSprint, setFormDataSprint] = useState({
         taskSprintId: ""
@@ -102,6 +105,32 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
         }
     }
 
+    const handlePercentageUpdate = async (e) => {
+        e.preventDefault()
+
+        const totalPercentageCalc = Object.values(percentageValues).reduce(
+            (total, value) => total + parseInt(value || 0, 10),
+            0
+        )
+        
+        setTotalPercentage(totalPercentageCalc)
+        if (totalPercentageCalc != 100) {
+            setErrorPercentage(true)
+        } else {
+            setErrorPercentage(false)
+            console.log({percentageValues})
+        }
+    }
+
+    const handlePercentageChange = async (userId, newValue) => {
+        setPercentageValues((prevValues) => ({
+            ...prevValues,
+            [userId]: newValue
+        }))
+
+        console.log({percentageValues})
+    }
+
     const handleArchiveTask = async (e) => {
         e.preventDefault()
         const archiveTaskId = e.target.elements.archiveTaskId.value
@@ -194,19 +223,59 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                     <span id='assignedUsers' className='flex flex-col gap-1 mb-5'>
                         {taskPersons
                             .map((user) => (
-                                <form key={user._id} onSubmit={(e) => handleRemoveUser(e)}>
-                                    <span className='flex gap-2 items-center mb-2'>
-                                        <img className='w-[25px] h-[25px] object-cover object-center rounded-full' src={`${imageSrc}${user.profileImage}`} />
-                                        <p className='font-bold text-sm'>{user.username}</p>
+                                <div key={user._id}>
+                                    <span className='flex gap-2 items-center mb-1 border border-zinc-100 p-2 rounded-lg justify-between'>
+                                        <section className='flex gap-2 items-center'>
+                                            <img className='w-[25px] h-[25px] object-cover object-center rounded-full' src={`${imageSrc}${user.profileImage}`} />
+                                            <p className='font-bold text-sm'>{user.username}</p>
 
-                                        <input type="hidden" name='taskPersonId' value={user._id}  />
-                                        {taskPersons.length > 1 && (
-                                            <button type="submit" className='border-red-500 px-2 py-0 text-sm'>Remove</button>
-                                        )}
+                                            {taskPersons.length > 1 && (
+                                                <form onSubmit={(e) => handleRemoveUser(e)}>
+                                                    <input type="hidden" name='taskPersonId' value={user._id}  />
+                                                    <button type="submit" className='border-red-500 px-2 py-0 text-sm'>Remove</button>
+                                                </form>
+                                            )}
+                                        </section>
+
+                                        <section className='flex gap-2 items-center'>
+                                            {taskPersons.length > 1 && (
+                                                <>
+                                                    <form
+                                                        className='flex items-center gap-2'
+                                                        onSubmit={(e) => handlePercentageUpdate(e, user._id)}
+                                                    >
+                                                        <input type="hidden" name='taskPersonId' value={user._id}  />
+
+                                                        <span className='flex items-center gap-2 mr-2'>
+                                                            <input
+                                                                className="px-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
+                                                                type="number"
+                                                                max="100"
+                                                                min="1"
+                                                                value={percentageValues[user._id] || ''}
+                                                                onChange={(e) => handlePercentageChange(user._id, e.target.value)}
+                                                                name="personPercentage"
+                                                            />
+                                                            <label className='text-xs font-normal whitespace-nowrap' htmlFor="personPercentage">% alloc</label>
+                                                        </span>
+                                                        <button type="submit" className='border-indigo-500 px-2 py-0 text-sm'>Update</button>
+
+                                                    </form>
+                                                </>
+                                            )}
+                                        </section>
                                     </span>
-                                </form>
+                                </div>
                             ))
                         }
+
+                        {errorPercentage && (
+                            <div className='flex flex-col gap-1 text-right justify-end'>
+                                <p className='text-xs text-red-500'>There was an error, total percent allocation is not equal 100%</p>
+                                <p className='text-xs underline'>Current total allocation percentage: {totalPercentage}%</p>
+                            </div>
+                        )}
+                        
                     </span>
 
                     <span id='archiveTask'>
