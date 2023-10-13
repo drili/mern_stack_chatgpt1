@@ -95,7 +95,7 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
         const { month, year } = req.query
 
         if (!month || !year) {
-            return
+            return res.status(400).json({ error: "Month and year are required." });
         }
 
         const targetTaskSprint = await Sprint.findOne({
@@ -103,16 +103,25 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
             sprintYear: year
         })
 
+        console.log({targetTaskSprint})
+
         const tasks = await Task.find({
-            taskPersons: userId,
+            taskPersons: {
+                $elemMatch: {
+                    _id: userId
+                }
+            },
             isArchived: { $ne: true },
             taskSprints: targetTaskSprint._id
         })
-            .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
-            .populate("taskPersons", ["_id", "username", "email", "profileImage", "userRole", "userTitle"])
-            .populate("taskCustomer", ["customerName", "customerColor"])
-            .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
-            .sort({ _id: -1 })
+        .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
+        .populate({
+            path: "taskPersons.user",
+            select: ["_id", "username", "email", "profileImage", "userRole", "userTitle"]
+        })
+        .populate("taskCustomer", ["customerName", "customerColor"])
+        .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
+        .sort({ _id: -1 })
 
         res.json(tasks)
     } catch (error) {

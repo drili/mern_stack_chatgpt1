@@ -51,8 +51,10 @@ const Dashboard = () => {
 
     const fetchTasksByUserAndSprint = async (activeSprintArray) => {
         try {
-            if (activeSprintArray) {
+            if (activeSprintArray && activeSprintArray.sprintMonth) {
                 const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}`)
+
+                console.log(response.data)
 
                 const totalAllocatedTimeLow = response.data.reduce((accumulator, time) => {
                     const timeValueLow = parseFloat(time?.taskTimeLow)
