@@ -143,9 +143,9 @@ const CreateTask = () => {
                         color: "#fff"
                     }
                 })
-
-                fetchTasks()
             }
+            
+            fetchTasks()
         } catch (error) {
             console.error('Failed to create task', error)
             toast('There was an error creating task', {
