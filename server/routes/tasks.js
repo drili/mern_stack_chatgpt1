@@ -223,10 +223,9 @@ router.route("/assign-user/:taskId").put(async (req, res) => {
     }
 })
 
+// FIXME: When user is removed, reset the percentage on each user to 100
 router.route("/remove-user/:taskId/:taskPersonId").put(async (req, res) => {
     const { taskId, taskPersonId } = req.params
-
-    console.log({taskPersonId})
 
     try {
         const updatedTask = await Task.findByIdAndUpdate(
