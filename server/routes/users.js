@@ -247,9 +247,12 @@ router.route("/users-not-in-task").post(async (req, res) => {
     const { taskPersons } = req.body
 
     try {
+        const userIds = taskPersons.map(person => person.user)
+        console.log({userIds})
+
         const users = await User.find({
             $and: [
-                { _id: { $nin: taskPersons } },
+                { _id: { $nin: userIds } },
                 { isActivated: true }
             ]
         })

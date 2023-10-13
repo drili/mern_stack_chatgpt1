@@ -65,7 +65,7 @@ const TaskCard = ({taskId, taskName, taskDescription, taskPersons, customerName,
                                         <img 
                                         id={index}
                                         className='absolute w-[30px] h-[30px] object-cover object-center rounded-full' 
-                                        src={`http://localhost:5000/uploads/${person.profileImage}`}
+                                        src={`http://localhost:5000/uploads/${person.user.profileImage}`}
                                         style={{
                                             left: `${index * 20}px`
                                         }}

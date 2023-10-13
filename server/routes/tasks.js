@@ -5,7 +5,10 @@ const Sprint = require("../models/Sprints")
 
 router.route("/update-percentage").post(async (req, res) => {
     const { taskId, percentageValues } = req.body
-    console.log({taskId, percentageValues})
+
+    // for (const [key, value] of Object.entries(percentageValues)) {
+    //     console.log(`${key}: ${value}`)
+    // }
 
     try {
         const task = await Task.findById(taskId)
@@ -14,10 +17,11 @@ router.route("/update-percentage").post(async (req, res) => {
             return res.status(404).json({ error: "Task not found" })
         }
 
-        // FIXME: Error: Does not update the percentage
-        task.taskPersons.forEach((person) => {
-            if(percentageValues[person.toString()]) {
-                person.percentage = parseInt(percentageValues[person.toString()], 10)
+        task.taskPersons.forEach((person, index) => {
+            const userId = person.user._id.toString();
+
+            if (percentageValues[userId]) {
+                person.percentage = parseInt(percentageValues[userId], 10);
             }
         })
 
@@ -77,7 +81,11 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
             isArchived: { $ne: true }
         })
             .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
-            .populate("taskPersons", ["username", "email", "profileImage", "userRole", "userTitle"])
+            // .populate("taskPersons", ["username", "email", "profileImage", "userRole", "userTitle"])
+            .populate({
+                path: 'taskPersons.user',
+                select: ['_id', 'username', 'email', 'profileImage', 'userRole', 'userTitle']
+            })
             .populate("taskCustomer", ["customerName", "customerColor"])
             .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
             .sort({ _id: -1 })
@@ -102,8 +110,6 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
             sprintMonth: month,
             sprintYear: year
         })
-
-        console.log({targetTaskSprint})
 
         const tasks = await Task.find({
             taskPersons: {
@@ -135,7 +141,11 @@ router.route("/fetch-by-id/:taskId").get(async (req, res) => {
 
     try {
         const task = await Task.find({ _id: taskId })
-            .populate("taskPersons", ["_id", "username", "email", "profileImage", "userRole", "userTitle"])
+            // .populate("taskPersons", ["_id", "username", "email", "profileImage", "userRole", "userTitle"])
+            .populate({
+                path: 'taskPersons.user',
+                select: ['_id', 'username', 'email', 'profileImage', 'userRole', 'userTitle']
+            })
             .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
             .populate("taskCustomer", ["_id", "customerName", "customerColor"])
 
@@ -198,7 +208,12 @@ router.route("/assign-user/:taskId").put(async (req, res) => {
             return res.status(404).json({ error: 'Task not found' });
         }
 
-        task.taskPersons.push(assignedUserId)
+        const newTaskPerson = {
+            user: assignedUserId,
+            percentage: 100
+        }
+
+        task.taskPersons.push(newTaskPerson)
         const updatedTask = await task.save()
 
         res.json(updatedTask)
@@ -210,12 +225,17 @@ router.route("/assign-user/:taskId").put(async (req, res) => {
 
 router.route("/remove-user/:taskId/:taskPersonId").put(async (req, res) => {
     const { taskId, taskPersonId } = req.params
-    console.log(taskId, taskPersonId)
+
+    console.log({taskPersonId})
 
     try {
         const updatedTask = await Task.findByIdAndUpdate(
             taskId,
-            { $pull: { taskPersons: taskPersonId } },
+            { $pull: {
+                taskPersons: {
+                    user: taskPersonId,
+                }
+            } },
             { new: true }
         )
 

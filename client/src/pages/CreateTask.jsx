@@ -37,6 +37,7 @@ const CreateTask = () => {
         try {
             const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
             setTasks(response.data)
+
         } catch (error) {
             console.error('Failed to fetch tasks', error);
         }
@@ -82,7 +83,6 @@ const CreateTask = () => {
         try {
             const response = await axios.get("http://localhost:5000/verticals/fetch-verticals")
             setVerticals(response.data)
-            console.log(response.data)
         } catch (error) {
             console.error('Failed to fetch verticals', error);
         }
@@ -118,7 +118,7 @@ const CreateTask = () => {
 
     const handleFormChangeUsers = (selectedOptions) => {
         const personsWithPercentage = selectedOptions.map((option) => ({
-            userId: option.value,
+            user: option.value,
             percentage: 100,
         }))
 

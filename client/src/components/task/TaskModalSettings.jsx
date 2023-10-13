@@ -89,7 +89,6 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
         e.preventDefault()
 
         const taskPersonId = e.target.elements.taskPersonId.value
-        console.log({taskPersonId});
         if (!taskPersonId) {
             console.log('No taskPersonId')
         }
@@ -126,8 +125,6 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
 
             try {
                 const response = await axios.post(`http://localhost:5000/tasks/update-percentage`, updatedPercentageData)
-
-                console.log({response})
                 
                 if (response.status === 200) {
                     toast('Percentage updated successfully', {
@@ -150,8 +147,6 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
             ...prevValues,
             [userId]: newValue
         }))
-
-        console.log({percentageValues})
     }
 
     const handleArchiveTask = async (e) => {
@@ -181,9 +176,17 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     useEffect(() => {
         if (task && task[0] && task[0].taskPersons) {
             const taskPersons = task[0].taskPersons
+
             setTaskPersons(taskPersons)
             fetchUsersNotInTask(taskPersons)
             fetchSprints()
+
+            const newPercentageValues = { ...percentageValues }
+            taskPersons.forEach((person) => {
+                newPercentageValues[person.user._id] = person.percentage
+            })
+            setPercentageValues(newPercentageValues);
+
         }
     }, [task, fetchTaskData, taskID])
 
@@ -246,15 +249,15 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                     <span id='assignedUsers' className='flex flex-col gap-1 mb-5'>
                         {taskPersons
                             .map((user) => (
-                                <div key={user._id}>
+                                <div key={user.user._id} id={user.user._id}>
                                     <span className='flex gap-2 items-center mb-1 border border-zinc-100 p-2 rounded-lg justify-between'>
                                         <section className='flex gap-2 items-center'>
-                                            <img className='w-[25px] h-[25px] object-cover object-center rounded-full' src={`${imageSrc}${user.profileImage}`} />
-                                            <p className='font-bold text-sm'>{user.username}</p>
+                                            <img className='w-[25px] h-[25px] object-cover object-center rounded-full' src={`${imageSrc}${user.user.profileImage}`} />
+                                            <p className='font-bold text-sm whitespace-nowrap'>{user.user.username}</p>
 
                                             {taskPersons.length > 1 && (
                                                 <form onSubmit={(e) => handleRemoveUser(e)}>
-                                                    <input type="hidden" name='taskPersonId' value={user._id}  />
+                                                    <input type="hidden" name='taskPersonId' value={user.user._id}  />
                                                     <button type="submit" className='border-red-500 px-2 py-0 text-sm'>Remove</button>
                                                 </form>
                                             )}
@@ -265,18 +268,18 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                                 <>
                                                     <form
                                                         className='flex items-center gap-2'
-                                                        onSubmit={(e) => handlePercentageUpdate(e, user._id)}
+                                                        onSubmit={(e) => handlePercentageUpdate(e, user.user._id)}
                                                     >
-                                                        <input type="hidden" name='taskPersonId' value={user._id}  />
+                                                        <input type="hidden" name='taskPersonId' value={user.user._id}  />
 
                                                         <span className='flex items-center gap-2 mr-2'>
                                                             <input
-                                                                className="px-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
+                                                                className="max-w-[100px] px-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
                                                                 type="number"
                                                                 max="100"
                                                                 min="1"
-                                                                value={percentageValues[user._id] || ''}
-                                                                onChange={(e) => handlePercentageChange(user._id, e.target.value)}
+                                                                value={percentageValues[user.user._id] || ''}
+                                                                onChange={(e) => handlePercentageChange(user.user._id, e.target.value)}
                                                                 name="personPercentage"
                                                             />
                                                             <label className='text-xs font-normal whitespace-nowrap' htmlFor="personPercentage">% alloc</label>
