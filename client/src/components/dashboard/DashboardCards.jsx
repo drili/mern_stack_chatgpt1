@@ -58,7 +58,7 @@ const DashboardCards = ({
                     <span className="flex flex-col gap-2 mb-5">
                         <h3 className="font-bold">Total allocated time this sprint</h3>
                         <h2 className="text-4xl font-bold">
-                            {parseFloat((totalAllocatedTimeLow + totalAllocatedTimeHigh) / 2)} hours
+                            {parseFloat(((totalAllocatedTimeLow + totalAllocatedTimeHigh) / 2).toFixed(2))} hours
                         </h2>
                     </span>
 

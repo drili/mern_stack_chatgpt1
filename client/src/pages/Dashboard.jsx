@@ -54,11 +54,12 @@ const Dashboard = () => {
             if (activeSprintArray && activeSprintArray.sprintMonth) {
                 const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}`)
 
-                console.log(response.data)
-
                 const totalAllocatedTimeLow = response.data.reduce((accumulator, time) => {
-                    const timeValueLow = parseFloat(time?.taskTimeLow)
-
+                    const userTaskPerson = time.taskPersons.find(
+                        (person) => person.user._id === user.id
+                    )
+                    const timeValueLow = parseFloat((userTaskPerson.percentage / 100) * time?.taskTimeLow)
+                    
                     if (!isNaN(timeValueLow)) {
                         accumulator += timeValueLow;
                     }
@@ -66,7 +67,10 @@ const Dashboard = () => {
                 }, 0)
 
                 const totalAllocatedTimeHigh = response.data.reduce((accumulator, time) => {
-                    const timeValueHigh = parseFloat(time?.taskTimeHigh)
+                    const userTaskPerson = time.taskPersons.find(
+                        (person) => person.user._id === user.id
+                    )
+                    const timeValueHigh = parseFloat((userTaskPerson.percentage / 100) * time?.taskTimeHigh)
 
                     if (!isNaN(timeValueHigh)) {
                         accumulator += timeValueHigh;
