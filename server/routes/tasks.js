@@ -111,12 +111,10 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
             sprintYear: year
         })
 
+        console.log({targetTaskSprint})
+
         const tasks = await Task.find({
-            taskPersons: {
-                $elemMatch: {
-                    _id: userId
-                }
-            },
+            "taskPersons.user": userId,
             isArchived: { $ne: true },
             taskSprints: targetTaskSprint._id
         })
@@ -129,6 +127,7 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
         .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
         .sort({ _id: -1 })
 
+        console.log({tasks})
         res.json(tasks)
     } catch (error) {
         console.error("Failed to fetch tasks by user & sprint", error)

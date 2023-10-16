@@ -79,7 +79,6 @@ const Layout = ({ children }) => {
 
                         <hr className='mt-[40px]' />
 
-                        {/* // TODO: add user context here */}
                         <div id="sidebarUser" className='flex items-center justify-center p-4 space-x-2 mt-[40px]'>
                             <img 
                                 src={`http://localhost:5000/uploads/${user.profile_image}`} 
