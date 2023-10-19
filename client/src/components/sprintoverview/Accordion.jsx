@@ -1,32 +1,35 @@
-import { useEffect, useState } from 'react';
-import { Accordion, Table } from 'flowbite-react';
+import { useContext, useEffect, useState } from 'react'
+import { Accordion, Table } from 'flowbite-react'
+import { UserContext } from '../../context/UserContext'
 
-const DefaultAccordion = ({ content, taskId }) => {
-    const [accordionContent, setAccordionContent] = useState("")
+const DefaultAccordion = ({ userObject }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const { user } = useContext(UserContext)
 
     useEffect(() => {
-        const titleElement = document.querySelector(`#taskId_${taskId}`);
+        const titleElement = document.querySelector(`#taskId_${userObject._id}`);
         if (titleElement) {
             titleElement.addEventListener('click', () => {
-                setAccordionContent(content)
                 setIsOpen((prevIsOpen) => !prevIsOpen)
             })
-        }
+        }        
     }, [])
 
     return (
-        <Accordion collapseAll>
+        <Accordion collapseAll >
             <Accordion.Panel>
-                <Accordion.Title id={`taskId_${taskId}`} className="accordion-title-${taskId}">
+                <Accordion.Title id={`taskId_${userObject._id}`} className={user.id === userObject._id ? "bg-indigo-50 rounded-none" : ""}>
                     <span className='flex gap-5 items-center'>
                         <img
                             className='w-[60px] h-[60px] rounded-full object-cover'
-                            src="http://localhost:5000/uploads/profileImage-1689353160505-571836841.webp"
+                            src={`http://localhost:5000/uploads/${userObject.profileImage}`}
                         />
                         <span>
-                            <h2 className='text-lg font-bold text-gray-900'>Drilon Braha</h2>
-                            <h2 className='text-sm font-light text-zinc-500'>db@kynetic.dk</h2>
+                            <span className='flex gap-3'>
+                                <h2 className='text-lg font-bold text-gray-900'>{userObject.username}</h2>
+                                <label className='bg-indigo-100 text-indigo-800 rounded-md py-1 px-2 text-xs font-bold h-fit'>{userObject.userTitle}</label>
+                            </span>
+                            <h2 className='text-sm font-light text-zinc-500'>{userObject.email}</h2>
 
                         </span>
                     </span>
