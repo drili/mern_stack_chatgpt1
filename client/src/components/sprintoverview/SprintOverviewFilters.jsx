@@ -26,7 +26,7 @@ const SprintOverviewFilters = ({ onSelectedSprint }) => {
         const selectedValue = e.target.value
         
         const selectedSprint = sprints.find((sprint) => sprint._id === selectedValue)
-        // console.log({selectedSprint})
+        console.log({selectedSprint})
         if (selectedSprint) {
             onSelectedSprint(selectedValue, selectedSprint)
             setCurrentSprint(selectedSprint)

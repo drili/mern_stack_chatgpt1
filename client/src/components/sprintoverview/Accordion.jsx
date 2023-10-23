@@ -34,10 +34,10 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
         if (isOpen) {
             if (!selectedSprint) {
                 fetchSprintData(currentSprint)
-                // console.log({currentSprint});
+                console.log({currentSprint});
             } else {
                 fetchSprintData(selectedSprint)
-                // console.log({selectedSprint});
+                console.log({selectedSprint});
             }
         } else {
             setSprintData([])

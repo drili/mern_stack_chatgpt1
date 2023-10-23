@@ -11,7 +11,7 @@ const SprintOverview = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     const handleSprintChange = (selectedValue, selectedSprint) => {
-        setSelectedSprint(selectedValue)
+        setSelectedSprint(selectedSprint)
         setActiveUsers([])
         setIsLoading(true)
 
@@ -19,7 +19,6 @@ const SprintOverview = () => {
     }
     
     const fetchActiveUsers = async () => {
-        console.log(`::: fetchActiveUsers()`);
         try {
             const response = await axios.get(`http://localhost:5000/users/fetch-active-users`)
             if (response.status == 200) {
