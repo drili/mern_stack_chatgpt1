@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const Task = require("../models/Task")
 const Sprint = require("../models/Sprints")
+const TimeRegistration = require("../models/TimeRegistration")
 
 router.route("/update-percentage").post(async (req, res) => {
     const { taskId, percentageValues } = req.body
@@ -100,7 +101,7 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
 router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
     try {
         const { userId } = req.params
-        const { month, year } = req.query
+        const { month, year, time_reg } = req.query
 
         if (!month || !year) {
             return res.status(400).json({ error: "Month and year are required." });
@@ -127,8 +128,24 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
         .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
         .sort({ _id: -1 })
 
-        console.log({tasks})
-        res.json(tasks)
+        if(time_reg) {
+            const timeRegistrations = await TimeRegistration.find({
+                taskId: { $in: tasks.map(task => task._id) }
+            })
+            .select("_id userId taskId timeRegistered description createdAt updatedAt")
+
+            const tasksWithTimeRegistrations = tasks.map(task => {
+                const taskTimeRegistrations = timeRegistrations.filter(reg => reg.taskId.equals(task._id));
+                return {
+                    ...task.toObject(),  // *** Convert the Mongoose document to a plain object
+                    timeRegistrations: taskTimeRegistrations,
+                }
+            })
+    
+            res.json(tasksWithTimeRegistrations)
+        } else {
+            res.json(tasks)
+        }        
     } catch (error) {
         console.error("Failed to fetch tasks by user & sprint", error)
         res.status(500).json({ error: "Failed to fetch tasks by user & sprint" })
