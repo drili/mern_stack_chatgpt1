@@ -9,6 +9,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
     const [sprintData, setSprintData] = useState([])
     const { user } = useContext(UserContext)
     const currentSprint  = getCurrentSprint()
+    const [accumulatedValues, setAccumulatedValues] = useState({})
 
     useEffect(() => {
         const titleElement = document.querySelector(`#taskId_${userObject._id}`);
@@ -16,15 +17,34 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
             titleElement.addEventListener('click', () => {
                 setIsOpen((prevIsOpen) => !prevIsOpen)
             })
-        }        
+        }  
     }, [])
 
     const fetchSprintData = async (activeSprintArray) => {
         try {
             const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${userObject._id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}&time_reg=1`)
 
-            console.log(response.data)
             setSprintData(response.data)
+
+            // *** Accumulated data
+            const userAccumulatedValues = {}
+            response.data.forEach(data => {
+                const userId = data.taskPersons.find(person => person.user._id === userObject._id).user._id
+                const taskTimeLow = data.taskTimeLow
+                const taskTimeHigh = data.taskTimeHigh
+
+                if(!userAccumulatedValues[userId]) {
+                    userAccumulatedValues[userId] = {
+                        low: 0,
+                        high: 0
+                    }
+                }
+
+                userAccumulatedValues[userId].low += taskTimeLow;
+                userAccumulatedValues[userId].high += taskTimeHigh;
+            })
+            console.log({userAccumulatedValues});
+            setAccumulatedValues(userAccumulatedValues);
         } catch (error) {
             console.error('Failed to fetch tasks', error)
         }
@@ -34,10 +54,8 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
         if (isOpen) {
             if (!selectedSprint) {
                 fetchSprintData(currentSprint)
-                console.log({currentSprint});
             } else {
                 fetchSprintData(selectedSprint)
-                console.log({selectedSprint});
             }
         } else {
             setSprintData([])
@@ -50,17 +68,50 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
             <Accordion.Panel>
                 <Accordion.Title id={`taskId_${userObject._id}`} className={user.id === userObject._id ? "bg-indigo-50 rounded-none" : ""}>
                     <span className='flex gap-5 items-center'>
-                        <img
-                            className='w-[60px] h-[60px] rounded-full object-cover'
-                            src={`http://localhost:5000/uploads/${userObject.profileImage}`}
-                        />
-                        <span>
-                            <span className='flex gap-3'>
-                                <h2 className='text-lg font-bold text-gray-900'>{userObject.username}</h2>
-                                <label className='bg-indigo-100 text-indigo-800 rounded-md py-1 px-2 text-xs font-bold h-fit'>{userObject.userTitle}</label>
+                        <div className='flex gap-5 items-center'>
+                            <img
+                                className='w-[60px] h-[60px] rounded-full object-cover'
+                                src={`http://localhost:5000/uploads/${userObject.profileImage}`}
+                            />
+                            <span>
+                                <span className='flex gap-3'>
+                                    <h2 className='text-lg font-bold text-gray-900'>{userObject.username}</h2>
+                                    <label className='bg-indigo-100 text-indigo-800 rounded-md py-1 px-2 text-xs font-bold h-fit'>{userObject.userTitle}</label>
+                                </span>
+                                <h2 className='text-sm font-light text-zinc-500'>{userObject.email}</h2>
                             </span>
-                            <h2 className='text-sm font-light text-zinc-500'>{userObject.email}</h2>
-                        </span>
+                        </div>
+
+                        <div className='absolute right-[100px]'>
+                            <div id="taskInfoLabels" className='flex gap-4'>
+                                <span className='text-center'>
+                                    <label htmlFor="" className='text-sm'>Low</label>
+                                    {accumulatedValues[userObject._id] ? (
+                                        <p>{accumulatedValues[userObject._id].low}</p>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </span>
+
+                                <span className='text-center'>
+                                    <label htmlFor="" className='text-sm'>High</label>
+                                    {accumulatedValues[userObject._id] ? (
+                                        <p>{accumulatedValues[userObject._id].high}</p>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </span>
+
+                                <span className='text-center'>
+                                    <label htmlFor="" className='text-sm'>Median</label>
+                                    {accumulatedValues[userObject._id] ? (
+                                        <p>{(accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2}</p>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </span>
+                            </div>
+                        </div>
                     </span>
                 </Accordion.Title>
                 <Accordion.Content>
@@ -131,7 +182,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                             className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                                             href="/tables"
                                             >
-                                            <p>
+                                            <p className='border border-gray-300 rounded-lg text-center px-2 py-1 font-bold text-xs'>
                                                 Edit Task
                                             </p>
                                             </a>
