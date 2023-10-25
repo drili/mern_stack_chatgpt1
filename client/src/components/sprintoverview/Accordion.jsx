@@ -21,8 +21,12 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
     }, [])
 
     useEffect(() => {
-        if (currentSprint.month != "") {
-            fetchSprintData(currentSprint)
+        if (!selectedSprint) {
+            if (currentSprint.month != "") {
+                fetchSprintData(currentSprint)
+            }
+        } else {
+            fetchSprintData(selectedSprint)
         }
     }, [currentSprint])
 
@@ -94,7 +98,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                 <span className='text-center'>
                                     <label htmlFor="" className='text-sm'>Low</label>
                                     {accumulatedValues[userObject._id] ? (
-                                        <p>{accumulatedValues[userObject._id].low}</p>
+                                        <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[userObject._id].low}</p>
                                     ) : (
                                         <></>
                                     )}
@@ -103,7 +107,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                 <span className='text-center'>
                                     <label htmlFor="" className='text-sm'>High</label>
                                     {accumulatedValues[userObject._id] ? (
-                                        <p>{accumulatedValues[userObject._id].high}</p>
+                                        <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[userObject._id].high}</p>
                                     ) : (
                                         <></>
                                     )}
@@ -112,7 +116,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                 <span className='text-center'>
                                     <label htmlFor="" className='text-sm'>Median</label>
                                     {accumulatedValues[userObject._id] ? (
-                                        <p>{(accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2}</p>
+                                        <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{(accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2}</p>
                                     ) : (
                                         <></>
                                     )}
