@@ -49,7 +49,7 @@ const Layout = ({ children }) => {
                             />
                             
                             <SidebarLink
-                                menuLink="#"
+                                menuLink="/time-registrations"
                                 linkText="Time Registrations"
                                 currentPath={currentPath}
                                 iconComponent={BsClock}
