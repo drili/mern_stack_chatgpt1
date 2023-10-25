@@ -17,8 +17,14 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
             titleElement.addEventListener('click', () => {
                 setIsOpen((prevIsOpen) => !prevIsOpen)
             })
-        }  
+        }
     }, [])
+
+    useEffect(() => {
+        if (currentSprint.month != "") {
+            fetchSprintData(currentSprint)
+        }
+    }, [currentSprint])
 
     const fetchSprintData = async (activeSprintArray) => {
         try {
@@ -83,6 +89,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                         </div>
 
                         <div className='absolute right-[100px]'>
+                            {accumulatedValues[userObject._id] ? (
                             <div id="taskInfoLabels" className='flex gap-4'>
                                 <span className='text-center'>
                                     <label htmlFor="" className='text-sm'>Low</label>
@@ -111,6 +118,9 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                     )}
                                 </span>
                             </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </span>
                 </Accordion.Title>
