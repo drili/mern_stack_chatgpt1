@@ -7,31 +7,41 @@ import { Card } from 'flowbite-react'
 import {AiFillInfoCircle} from "react-icons/ai"
 import { UserContext } from '../context/UserContext'
 import "../assets/css/calendar/calendar.css"
+import axios from 'axios'
 
 const TimeRegistrations = () => {
     const localizer = momentLocalizer(moment);
     const { user } = useContext(UserContext)
     const [events, setEvents] = useState()
 
+    const CustomEvent = ({ event }) => {
+        return (
+            <div>
+                {event.title}
+            </div>
+        )
+    }
+
+    const fetchUserRegistrations = async (userId) => {
+        try {
+            const response = await axios.post(`http://localhost:5000/time-registrations/time-registered-by-user`, { userId })
+            const formattedEvents = response.data.map(item => {
+                return {
+                    id: `${item.createdAt}`,
+                    title: `${item.totalRegisteredTime} hours`,
+                    start: item.createdAt,
+                    end: item.createdAt
+                }
+            })
+            setEvents(formattedEvents)
+        } catch (error) {
+            console.error('Failed to fetch time registrations', error)
+        }
+    }
+
     useEffect(() => {
-        // TODO: Fetch all time registrations by user and import as formatted data below:
-        const eventsCreated = [
-            {
-                id: 1,
-                title: 'Hello',
-                start: new Date(),
-                end: new Date(),
-            },
-            {
-                id: 2,
-                title: "Test",
-                start: "2023-10-26T21:37:44.559+00:00",
-                end: "2023-10-26T21:37:44.559+00:00",
-            }
-        ]
-    
-        setEvents(eventsCreated)
-    }, [])
+        fetchUserRegistrations(user.id)
+    }, [user])
 
     const handleSelected = (event) => {
         console.log(event.id);
@@ -52,12 +62,16 @@ const TimeRegistrations = () => {
                         <Calendar
                             localizer={localizer}
                             events={events}
+                            components={{
+                                event: CustomEvent,
+                            }}
                             startAccessor="start"
                             endAccessor="end"
                             defaultDate={new Date()}
                             views={{
                                 month: true,
-                                day: true,
+                                // FIXME: Fix "day" picker issue/bug
+                                day: false,
                                 week: false,
                                 agenda: true
                             }}
@@ -81,6 +95,14 @@ const TimeRegistrations = () => {
                         <span className='flex gap-1 items-center flex-row'>
                             <AiFillInfoCircle/> 
                             <p className='text-xs font-thin'>Pick date to see your time registrations.</p>
+                        </span>
+
+                        <span>
+                            {events &&
+                                events.map(event => (
+                                    <p key={event.id}>{event.id}</p>
+                                ))
+                            }
                         </span>
                     </Card>
                 </div>

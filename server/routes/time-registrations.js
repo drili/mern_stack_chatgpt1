@@ -2,6 +2,34 @@ const express = require("express")
 const router = express.Router()
 const TimeRegistration = require("../models/TimeRegistration")
 
+router.route("/time-registered-by-user").post(async (req, res) => {
+    const { userId } = req.body
+    
+    try {
+        const timeRegistrations = await TimeRegistration.find({ userId });
+
+        const aggregatedData = timeRegistrations.reduce((acc, item) => {
+            const key = item.createdAt.toDateString();
+            if (!acc[key]) {
+                acc[key] = {
+                    createdAt: item.createdAt,
+                    totalRegisteredTime: 0,
+                }
+            }
+            acc[key].totalRegisteredTime += item.timeRegistered;
+
+            return acc;
+        }, {})
+
+        const result = Object.values(aggregatedData);
+
+        return res.status(200).json(result)
+    } catch (error) {
+        console.error('Failed fetch registered times', error);
+        return res.status(500).json({ error: 'Failed fetch registered times' });
+    }
+})
+
 router.route("/register-time").post(async (req,res) => {
     const { userId, taskId, timeRegistered, description, sprintId } = req.body
 
@@ -20,7 +48,7 @@ router.route("/register-time").post(async (req,res) => {
             sprintId,
             currentTime: currentTimeStr
         })
-    
+        
         return res.status(201).json(timeRegistration)
     } catch (error) {
         console.error('Failed to register time', error);

@@ -7,3 +7,17 @@
     background-size: 10px 10px;
     opacity: 0.5;
 }
+
+.rbc-calendar .rbc-active {
+    background-color: #6366f1 !important;
+    color: #fff !important;
+}
+
+.rbc-row-segment {
+    padding: 0 5px 0 5px;
+}
+
+.rbc-row-segment .rbc-event-content {
+    padding: 10px 0;
+    text-align: center;
+}
