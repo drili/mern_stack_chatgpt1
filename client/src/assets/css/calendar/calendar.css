@@ -1,0 +1,9 @@
+.rbc-event, .rbc-day-slot .rbc-background-event {
+    background-color: #312e81 !important;
+}
+
+.weekend-day {
+    background-image: repeating-linear-gradient(45deg, #959595 0, #959595 1px, #e5e5f7 0, #e5e5f7 50%);
+    background-size: 10px 10px;
+    opacity: 0.5;
+}
