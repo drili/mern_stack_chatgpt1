@@ -49,11 +49,8 @@ const SprintOverview = () => {
                 onSelectedSprint={handleSprintChange}
             ></SprintOverviewFilters>
 
+            {/* // TODO: Enable "Persons" vs. "Customers" filter. */}
             <section id="sprintOverviewFields" className='flex flex-col gap-4 relative'>
-                {/* // TODO: Iterate fields
-                    SEE: https://cdn.dribbble.com/userupload/5436969/file/original-909df9bc5700b070aa88233b85601a7c.png?resize=1024x768
-                    SEE: https://dribbble.com/shots/19338145-SaaS-Analytics-Dashboard */}
-
                 {isLoading ? (
                     <div className="absolute top-5 left-0 w-full h-full flex items-center justify-center">
                         <FaSpinner className="animate-spin text-indigo-500 text-4xl" />
