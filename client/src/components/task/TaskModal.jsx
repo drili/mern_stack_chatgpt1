@@ -47,6 +47,20 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
     }
     
     useEffect(() => {
+        if (showModalState) {
+            setTimeout(() => {
+                const taskElement = document.querySelector(`.taskModalComponent`)
+                if (taskElement) {
+                    console.log({taskElement});
+                    const offset = -0
+                    window.scroll({
+                        top: taskElement.getBoundingClientRect().top + window.scrollY + offset,
+                        behavior: 'smooth',
+                    })
+                }
+            }, 250)    
+        }
+
         setShowModal(showModalState)
         fetchTaskData(taskID)
     }, [showModalState])
@@ -83,7 +97,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
     }
 
     return (
-        <div id={taskID}>
+        <div id={`taskID_${taskID}`} className=''>
             <>
                 {showModal ? (
                     <>
@@ -91,7 +105,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                             // className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                             className='absolute z-50 top-0 w-full translate-x-[-50%] left-[50%]'
                         >
-                            <div className="relative my-6 mx-auto max-w-screen-xl w-full">
+                            <div className="relative my-6 mx-auto max-w-screen-xl w-full taskModalComponent">
                                 
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     

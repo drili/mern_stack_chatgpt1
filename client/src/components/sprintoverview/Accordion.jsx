@@ -228,7 +228,6 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                 </Accordion.Panel>
             </Accordion>
 
-            {/* // TODO: Move TaskModal to SprintOverview.jsx */}
             <TaskModal
                 taskID={selectedTaskId}
                 showModalState={showModal}
