@@ -9,10 +9,10 @@ router.route("/time-registered-by-user").post(async (req, res) => {
         const timeRegistrations = await TimeRegistration.find({ userId });
 
         const aggregatedData = timeRegistrations.reduce((acc, item) => {
-            const key = item.createdAt.toDateString();
+            const key = item.currentTime
             if (!acc[key]) {
                 acc[key] = {
-                    createdAt: item.createdAt,
+                    currentTime: item.currentTime,
                     totalRegisteredTime: 0,
                 }
             }
@@ -31,13 +31,13 @@ router.route("/time-registered-by-user").post(async (req, res) => {
 })
 
 router.route("/register-time").post(async (req,res) => {
-    const { userId, taskId, timeRegistered, description, sprintId } = req.body
+    const { userId, taskId, timeRegistered, description, sprintId, currentTime } = req.body
 
     const date = new Date();
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0'); 
     const year = date.getFullYear();
-    currentTimeStr = `${day}-${month}-${year}`
+    // currentTimeStr = `${day}-${month}-${year}`
     
     try {
         const timeRegistration = await TimeRegistration.create({
@@ -46,7 +46,7 @@ router.route("/register-time").post(async (req,res) => {
             timeRegistered,
             description,
             sprintId,
-            currentTime: currentTimeStr
+            currentTime: currentTime
         })
         
         return res.status(201).json(timeRegistration)

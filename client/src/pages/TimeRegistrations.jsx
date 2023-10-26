@@ -25,14 +25,16 @@ const TimeRegistrations = () => {
     const fetchUserRegistrations = async (userId) => {
         try {
             const response = await axios.post(`http://localhost:5000/time-registrations/time-registered-by-user`, { userId })
+            // console.log(response.data);
             const formattedEvents = response.data.map(item => {
                 return {
-                    id: `${item.createdAt}`,
+                    id: `${item.currentTime}`,
                     title: `${item.totalRegisteredTime} hours`,
-                    start: item.createdAt,
-                    end: item.createdAt
+                    start: item.currentTime,
+                    end: item.currentTime
                 }
             })
+            console.log({formattedEvents});
             setEvents(formattedEvents)
         } catch (error) {
             console.error('Failed to fetch time registrations', error)
