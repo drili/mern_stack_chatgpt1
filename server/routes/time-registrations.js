@@ -2,6 +2,22 @@ const express = require("express")
 const router = express.Router()
 const TimeRegistration = require("../models/TimeRegistration")
 
+router.route("/time-registrations-by-date/:date/:userId").get(async (req, res) => {
+    const { date, userId } = req.params
+
+    try {
+        const timeRegistrations = await TimeRegistration.find({
+            currentTime: date,
+            userId: userId
+        }).populate("taskId")
+
+        return res.status(200).json(timeRegistrations)
+    } catch (error) {
+        console.error('Failed fetch registered times by date', error);
+        return res.status(500).json({ error: 'Failed fetch registered times by date' });
+    }
+})
+
 router.route("/time-registered-by-user").post(async (req, res) => {
     const { userId } = req.body
     

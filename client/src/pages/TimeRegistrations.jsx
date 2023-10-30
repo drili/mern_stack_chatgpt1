@@ -8,11 +8,13 @@ import {AiFillInfoCircle} from "react-icons/ai"
 import { UserContext } from '../context/UserContext'
 import "../assets/css/calendar/calendar.css"
 import axios from 'axios'
+import TimeRegistrationTable from '../components/time-registrations/TimeRegistrationTable'
 
 const TimeRegistrations = () => {
     const localizer = momentLocalizer(moment);
     const { user } = useContext(UserContext)
     const [events, setEvents] = useState()
+    const [eventsByDate, setEventsByDate] = useState([])
 
     const CustomEvent = ({ event }) => {
         return (
@@ -34,10 +36,21 @@ const TimeRegistrations = () => {
                     end: item.currentTime
                 }
             })
-            console.log({formattedEvents});
+
             setEvents(formattedEvents)
         } catch (error) {
             console.error('Failed to fetch time registrations', error)
+        }
+    }
+
+    const fetchRegistrationsByDate = async (date) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/time-registrations/time-registrations-by-date/${date}/${user.id}`)
+            setEventsByDate(response.data)
+
+            console.log(response.data)
+        } catch (error) {
+            console.error('Failed to fetch time registrations by date', error)
         }
     }
 
@@ -47,6 +60,7 @@ const TimeRegistrations = () => {
 
     const handleSelected = (event) => {
         console.log(event.id);
+        fetchRegistrationsByDate(event.id)
     }
 
     return (
@@ -58,8 +72,8 @@ const TimeRegistrations = () => {
             />
 
             {/* // TODO: Finish "Time Registration" page */}
-            <section className='grid grid-cols-3 gap-10 mb-10'>
-                <div className='col-span-2'>
+            <section className='grid grid-cols-10 gap-10 mb-10'>
+                <div className='col-span-6'>
                     <div style={{ height: 500 }}>
                         <Calendar
                             localizer={localizer}
@@ -89,9 +103,8 @@ const TimeRegistrations = () => {
                         />
                     </div>
                 </div>
-
-                {/* // TODO: Finish this section. When user clicks on event, it shows log over all time registration by user on that date. */}
-                <div className='col-span-1'>
+                
+                <div className='col-span-4'>
                     <Card className='h-auto'>
                         <h3 className="font-bold">Your time registrations</h3>
                         <span className='flex gap-1 items-center flex-row'>
@@ -99,12 +112,10 @@ const TimeRegistrations = () => {
                             <p className='text-xs font-thin'>Pick date to see your time registrations.</p>
                         </span>
 
-                        <span>
-                            {events &&
-                                events.map(event => (
-                                    <p key={event.id}>{event.id}</p>
-                                ))
-                            }
+                        <span className='relative'>
+                            <TimeRegistrationTable
+                                eventObj={eventsByDate}
+                            />
                         </span>
                     </Card>
                 </div>
