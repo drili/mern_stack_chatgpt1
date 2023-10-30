@@ -13,7 +13,7 @@ const TimeRegistrationTable = ({ eventObj }) => {
                         Client
                     </Table.HeadCell> */}
                     <Table.HeadCell className='text-left'>
-                        Time Registered
+                        Time
                     </Table.HeadCell>
                     <Table.HeadCell className='text-left'>
                         Edit
