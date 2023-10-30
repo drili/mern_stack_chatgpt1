@@ -102,9 +102,6 @@ const TimeRegistrationTable = ({ eventObj, toast, fetchUserRegistrations, userId
                                 <Table.Cell className="whitespace-break-spaces font-medium text-gray-900 dark:text-white text-xs leading-3">
                                     {event.taskId.taskName}
                                 </Table.Cell>
-                                {/* <Table.Cell className='whitespace-break-spaces'>
-                                    {event.taskId.taskCustomer}
-                                </Table.Cell> */}
                                 <Table.Cell className='whitespace-break-spaces text-xs'>
                                     <input
                                         step="0.25"
@@ -113,10 +110,8 @@ const TimeRegistrationTable = ({ eventObj, toast, fetchUserRegistrations, userId
                                         value={editedTimes[event._id] || event.timeRegistered}
                                         onChange={(e) => handleTimeChange(event._id, e.target.value)}
                                     />
-                                    {/* {event.timeRegistered} */}
                                 </Table.Cell>
 
-                                {/* // TODO: Add functions to save/edit & delete time registrations */}
                                 <Table.Cell className='whitespace-break-spaces text-xs'>
                                     <a
                                         className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 text-xs"
