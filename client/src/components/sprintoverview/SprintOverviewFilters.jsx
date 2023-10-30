@@ -48,9 +48,9 @@ const SprintOverviewFilters = ({ onSelectedSprint }) => {
                     Persons
                 </button>
 
-                <button className=' px-4 py-2 rounded-lg'>
+                {/* <button className=' px-4 py-2 rounded-lg'>
                     Customers
-                </button>
+                </button> */}
             </section>
 
             <section className='flex justify-end gap-8'>

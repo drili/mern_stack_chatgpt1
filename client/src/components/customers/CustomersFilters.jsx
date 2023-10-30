@@ -41,14 +41,8 @@ const CustomersFilters = ({ onSelectedSprint }) => {
     }, [activeSprint])
 
     return (
-        <div id='CustomersFilters' className='py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none mb-10'>
-            <section className='flex justify-end gap-8'>
-                <div id='CustomersFilter-activeSprint'>
-                    <span className='h-full flex flex-col justify-center inline-block bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
-                        {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
-                    </span>
-                </div>
-
+        <div id='SprintOverviewFilters' className='items-center py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-row justify-between w-full outline-none focus:outline-none mb-10'>
+            <section className='flex gap-4'>
                 <div id="CustomersFilter-links">
                     <span className='h-full flex flex-row items-center gap-2 justify-center text-xs font-medium'>
                         <Link to="create-customer">
@@ -56,6 +50,14 @@ const CustomersFilters = ({ onSelectedSprint }) => {
                         </Link>
 
                         <AiFillPlusCircle size={20} color='' />
+                    </span>
+                </div>
+            </section>
+            
+            <section className='flex justify-end gap-8'>
+                <div id='CustomersFilter-activeSprint'>
+                    <span className='h-full flex flex-col justify-center inline-block bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
+                        {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
                     </span>
                 </div>
 
