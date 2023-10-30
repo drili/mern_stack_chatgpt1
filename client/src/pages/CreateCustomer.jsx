@@ -3,7 +3,8 @@ import PageHeading from '../components/PageHeading'
 import GenericForm from '../components/GenericForm'
 import axios from "axios"
 import toast, { Toaster } from 'react-hot-toast';
-
+import { BsFillTrashFill } from "react-icons/bs"
+import { AiOutlineUndo } from "react-icons/ai"
 
 const CreateCustomer = () => {
     const [customers, setCustomers] = useState([])
@@ -161,7 +162,7 @@ const CreateCustomer = () => {
                                             >
                                             <div className='flex text-sm'>
                                                 <span 
-                                                    className={`block rounded-lg py-1 px-5 bg flex-1`}
+                                                    className={`block rounded-lg py-2 px-5 bg flex-1`}
                                                 >
                                                     <p 
                                                         style={{ color : `${customer.customerColor}` }}
@@ -169,9 +170,9 @@ const CreateCustomer = () => {
                                                 </span>
                                                 {/* // TODO: Add "Un-archive" button to archived customers */}
                                                 {customer.isArchived ? (
-                                                        <button className='p-0 px-2' onClick={() => handleUnArchiveCustomer(customer._id)}>Un-Acrhive</button>
+                                                        <button className='p-0 px-2 flex gap-2 items-center' onClick={() => handleUnArchiveCustomer(customer._id)}>Un-Acrhive <AiOutlineUndo/></button>
                                                     ) : (
-                                                        <button className='p-0 px-2' onClick={() => handleArchiveCustomer(customer._id)}>Archive</button>
+                                                        <button className='p-0 px-2 flex gap-2 items-center' onClick={() => handleArchiveCustomer(customer._id)}>Archive <BsFillTrashFill/></button>
                                                     )
                                                 }
                                             </div>
