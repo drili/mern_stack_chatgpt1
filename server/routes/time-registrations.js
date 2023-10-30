@@ -2,6 +2,32 @@ const express = require("express")
 const router = express.Router()
 const TimeRegistration = require("../models/TimeRegistration")
 
+router.route("/time-registration-delete/:eventId").delete(async (req, res) => {
+    const { eventId } = req.params
+
+    try {
+        const timeRegistrationDelete = await TimeRegistration.findByIdAndDelete(eventId)
+
+        return res.status(200).json(timeRegistrationDelete)
+    } catch (error) {
+        console.error('Failed delete registered', error);
+        return res.status(500).json({ error: 'Failed delete registered' });
+    }
+})
+
+router.route("/time-registration-update").post(async (req, res) => {
+    const { eventId, editedTime } = req.body
+
+    try {
+        const timeRegistration = await TimeRegistration.findByIdAndUpdate(eventId, { $set: { timeRegistered: editedTime } })
+
+        return res.status(200).json(timeRegistration)
+    } catch (error) {
+        console.error('Failed update registered', error);
+        return res.status(500).json({ error: 'Failed update registered' });
+    }
+})
+
 router.route("/time-registrations-by-date/:date/:userId").get(async (req, res) => {
     const { date, userId } = req.params
 

@@ -9,6 +9,7 @@ import { UserContext } from '../context/UserContext'
 import "../assets/css/calendar/calendar.css"
 import axios from 'axios'
 import TimeRegistrationTable from '../components/time-registrations/TimeRegistrationTable'
+import toast, { Toaster } from 'react-hot-toast'
 
 const TimeRegistrations = () => {
     const localizer = momentLocalizer(moment);
@@ -115,11 +116,16 @@ const TimeRegistrations = () => {
                         <span className='relative'>
                             <TimeRegistrationTable
                                 eventObj={eventsByDate}
+                                toast={toast}
+                                fetchUserRegistrations={fetchUserRegistrations}
+                                userId={user.id}
                             />
                         </span>
                     </Card>
                 </div>
             </section>
+
+            <Toaster />
         </div>
     )
 }
