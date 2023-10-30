@@ -70,7 +70,7 @@ const Layout = ({ children }) => {
                             />
 
                             <SidebarLink
-                                menuLink="#"
+                                menuLink="/admin"
                                 linkText="Admin"
                                 currentPath={currentPath}
                                 iconComponent={BsGear}

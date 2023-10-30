@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Home from './components/Home';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
+import AdminRoute from './AdminRoute';
 import Profile from './pages/Profile';
 import Layout from './components/Layout';
 import CreateTask from './pages/CreateTask';
@@ -14,6 +15,8 @@ import Workflow from './pages/Workflow';
 import NotFound from './pages/NotFound';
 import SprintOverview from './pages/SprintOverview';
 import TimeRegistrations from './pages/TimeRegistrations';
+import Admin from './pages/admin/Admin';
+import CannotAccess from './pages/CannotAccess';
 
 function AppRoutes() {
     return (
@@ -40,6 +43,14 @@ function AppRoutes() {
                                 </Route>
                                 {/* <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} /> */}
                                 <Route path="workflow" element={<ProtectedRoute><Workflow /></ProtectedRoute>} />
+                                <Route path="admin" element={<ProtectedRoute>
+                                    <AdminRoute>
+                                        <Admin/>
+                                    </AdminRoute>
+                                </ProtectedRoute>} />
+                                <Route path="cannot-access" element={
+                                    <ProtectedRoute><CannotAccess/></ProtectedRoute>
+                                }/>
                                 <Route path="*" element={<NotFound/>} />
                             </Routes>
                         </Layout>
