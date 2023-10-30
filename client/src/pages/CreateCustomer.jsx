@@ -76,6 +76,16 @@ const CreateCustomer = () => {
         }
     }
 
+    const handleUnArchiveCustomer = async (customerId) => {
+        try {
+            await axios.put(`http://localhost:5000/customers/unarchive/${customerId}`)
+            fetchCustomers()
+            console.log("Customer un-archived successfully");
+        } catch (error) {
+            console.error("Failed to delete customer", error);
+        }
+    }
+
     const archivedCustomersCount = customers.filter(customer => !customer.isArchived).length
     const customerCount = customers.length
 
@@ -126,16 +136,15 @@ const CreateCustomer = () => {
                             >
                             </input>
 
-                            <div class="flex items-center mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-4 w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500">
+                            <div className="flex items-center mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-4 w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500">
                                 <input 
                                     id="bordered-checkbox-1" 
                                     type="checkbox" 
                                     value="" 
                                     name="bordered-checkbox" 
-                                    class=""
                                     onChange={() => setShowArchived(!showArchived)}
                                     />
-                                <label for="bordered-checkbox-1" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-800">Show archived customers</label>
+                                <label htmlFor="bordered-checkbox-1" className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-800">Show archived customers</label>
                             </div>
                         </span>
 
@@ -146,7 +155,8 @@ const CreateCustomer = () => {
                                     .map((customer) => (
                                         <li 
                                             key={customer._id}
-                                            style={{ border : `1px solid ${customer.customerColor}` }}
+                                            // style={{ border : `1px solid ${customer.customerColor}` }}
+                                            style={{ border: `1px solid #eee` }}
                                             className='mb-2 rounded-lg'
                                             >
                                             <div className='flex text-sm'>
@@ -158,7 +168,12 @@ const CreateCustomer = () => {
                                                         className='text-sm text-inherit font-bold'>{customer.customerName}</p>
                                                 </span>
                                                 {/* // TODO: Add "Un-archive" button to archived customers */}
-                                                <button className='p-0 px-2' onClick={() => handleArchiveCustomer(customer._id)}>Archive</button>
+                                                {customer.isArchived ? (
+                                                        <button className='p-0 px-2' onClick={() => handleUnArchiveCustomer(customer._id)}>Un-Acrhive</button>
+                                                    ) : (
+                                                        <button className='p-0 px-2' onClick={() => handleArchiveCustomer(customer._id)}>Archive</button>
+                                                    )
+                                                }
                                             </div>
                                         </li>
                                     ))}

@@ -56,4 +56,16 @@ router.route("/archive/:customerId").put(async (req,res) => {
     }
 })
 
+router.route("/unarchive/:customerId").put(async (req,res) => {
+    const { customerId } = req.params
+
+    try {
+        await Customer.findByIdAndUpdate(customerId, { $set : { isArchived: false } })
+        res.json({ message: "Customer archived & updated successfully" })
+    } catch (error) {
+        console.error("Failed to archive customer", error);
+        res.status(500).json({ error: "Failed to archive customer" });
+    }
+})
+
 module.exports = router
