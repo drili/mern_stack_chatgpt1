@@ -36,8 +36,12 @@ const Workflow = () => {
     const fetchTasksByUserAndSprint = async (activeSprintArray) => {
         try {
             // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
-            if (activeSprintArray) {
-                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}`)
+            const activeSprintCheck = activeSprintArray ? activeSprintArray : activeSprint
+            
+            if (activeSprintCheck) {
+                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
+
+                console.log(response.data);
 
                 if (response.data.length == 0) {
                     setTasks([])
