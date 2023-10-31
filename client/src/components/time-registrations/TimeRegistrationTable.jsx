@@ -100,7 +100,8 @@ const TimeRegistrationTable = ({ eventObj, toast, fetchUserRegistrations, userId
                         eventObjState.map(event => (
                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={event._id}>
                                 <Table.Cell className="whitespace-break-spaces font-medium text-gray-900 dark:text-white text-xs leading-3">
-                                    {event.taskId.taskName}
+                                    {event.taskId ? event.taskId.taskName : "Off- & Sicktime"}
+                                    {/* {event.taskId ? event.taskId.taskName : (event.registrationType === "offtime" ? "offtime" : "sicktime")} */}
                                 </Table.Cell>
                                 <Table.Cell className='whitespace-break-spaces text-xs'>
                                     <input

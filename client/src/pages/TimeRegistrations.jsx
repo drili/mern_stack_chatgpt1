@@ -11,6 +11,11 @@ import axios from 'axios'
 import TimeRegistrationTable from '../components/time-registrations/TimeRegistrationTable'
 import toast, { Toaster } from 'react-hot-toast'
 
+function formatDateToISO(ddmmyyyy) {
+    const [day, month, year] = ddmmyyyy.split('-');
+    return `${year}-${month}-${day}`;
+}
+
 const TimeRegistrations = () => {
     const localizer = momentLocalizer(moment);
     const { user } = useContext(UserContext)
@@ -28,13 +33,15 @@ const TimeRegistrations = () => {
     const fetchUserRegistrations = async (userId) => {
         try {
             const response = await axios.post(`http://localhost:5000/time-registrations/time-registered-by-user`, { userId })
-            // console.log(response.data);
+            console.log(response.data);
             const formattedEvents = response.data.map(item => {
+                const itemDate = item.currentTime
+                const formattedNewDate = formatDateToISO(itemDate)
                 return {
-                    id: `${item.currentTime}`,
+                    id: `${formattedNewDate}`,
                     title: `${item.totalRegisteredTime} hours`,
-                    start: item.currentTime,
-                    end: item.currentTime
+                    start: formattedNewDate,
+                    end: formattedNewDate
                 }
             })
 
@@ -61,7 +68,8 @@ const TimeRegistrations = () => {
 
     const handleSelected = (event) => {
         console.log(event.id);
-        fetchRegistrationsByDate(event.id)
+        const eventDate = formatDateToISO(event.id)
+        fetchRegistrationsByDate(eventDate)
     }
 
     return (
