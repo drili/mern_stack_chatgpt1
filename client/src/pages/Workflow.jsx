@@ -32,16 +32,16 @@ const Workflow = () => {
     const [filteredTasksByColumn, setFilteredTasksByColumn] = useState({})
     const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal()
     const activeSprint  = getCurrentSprint()
+    const [newSprintArray, setNewSprintArray] = useState(null)
 
     const fetchTasksByUserAndSprint = async (activeSprintArray) => {
         try {
+            console.log({activeSprintArray, newSprintArray });
             // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
-            const activeSprintCheck = activeSprintArray ? activeSprintArray : activeSprint
+            const activeSprintCheck = activeSprintArray ? activeSprintArray : newSprintArray
             
             if (activeSprintCheck) {
                 const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
-
-                console.log(response.data);
 
                 if (response.data.length == 0) {
                     setTasks([])
@@ -151,6 +151,7 @@ const Workflow = () => {
                 fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
                 updateFilteredTasks={updateFilteredTasks}
                 updatedFilteredTasksCustomer={updatedFilteredTasksCustomer}
+                setNewSprintArray={setNewSprintArray}
             ></WorkflowFilters>
 
             <DragDropContext onDragEnd={onDragEnd}>

@@ -4,7 +4,7 @@ import { BiUser } from "react-icons/bi"
 import axios from 'axios'
 
 
-const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilteredTasks, updatedFilteredTasksCustomer }) => {
+const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilteredTasks, updatedFilteredTasksCustomer, setNewSprintArray }) => {
     const [sprints, setSprints] = useState([])
     const [customers, setCustomers] = useState([])
     const [currentSprint, setCurrentSprint] = useState([])
@@ -39,6 +39,8 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
         newSprintArray.sprintMonth = sprintMonth
         newSprintArray.sprintYear = sprintYear
 
+        setNewSprintArray(newSprintArray);
+        
         setCurrentSprint(newSprintArray)
         fetchTasksByUserAndSprint(newSprintArray)
     }
