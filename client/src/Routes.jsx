@@ -17,6 +17,7 @@ import SprintOverview from './pages/SprintOverview';
 import TimeRegistrations from './pages/TimeRegistrations';
 import Admin from './pages/admin/Admin';
 import CannotAccess from './pages/CannotAccess';
+import RegisterOffTimes from './pages/RegisterOffTimes';
 
 function AppRoutes() {
     return (
@@ -43,6 +44,8 @@ function AppRoutes() {
                                 </Route>
                                 {/* <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} /> */}
                                 <Route path="workflow" element={<ProtectedRoute><Workflow /></ProtectedRoute>} />
+                                <Route path="register-offtime" element={<ProtectedRoute><RegisterOffTimes /></ProtectedRoute>} />
+                                
                                 <Route path="admin" element={<ProtectedRoute>
                                     <AdminRoute>
                                         <Admin/>

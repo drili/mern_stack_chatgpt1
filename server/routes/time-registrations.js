@@ -74,7 +74,7 @@ router.route("/time-registered-by-user").post(async (req, res) => {
 
 router.route("/register-time").post(async (req,res) => {
     const { userId, taskId, timeRegistered, description, sprintId, currentTime } = req.body
-
+    
     function formatDateForDisplay(inputDate) {
         const dateParts = inputDate.split('-')
         if (dateParts.length === 3) {
