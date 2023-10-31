@@ -54,8 +54,12 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
             const userAccumulatedValues = {}
             response.data.forEach(data => {
                 const userId = data.taskPersons.find(person => person.user._id === userObject._id).user._id
-                const taskTimeLow = data.taskTimeLow
-                const taskTimeHigh = data.taskTimeHigh
+                const taskAlloc = data.taskPersons.find(person => person.user._id === userObject._id).percentage
+                // const taskTimeLow = data.taskTimeLow
+                // const taskTimeHigh = data.taskTimeHigh
+
+                const taskTimeLow = parseFloat((taskAlloc / 100) * data.taskTimeLow)
+                const taskTimeHigh = parseFloat((taskAlloc / 100) * data.taskTimeHigh)
 
                 if(!userAccumulatedValues[userId]) {
                     userAccumulatedValues[userId] = {
@@ -67,7 +71,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                 userAccumulatedValues[userId].low += taskTimeLow;
                 userAccumulatedValues[userId].high += taskTimeHigh;
             })
-            console.log({userAccumulatedValues});
+            // console.log({userAccumulatedValues});
             setAccumulatedValues(userAccumulatedValues);
         } catch (error) {
             console.error('Failed to fetch tasks', error)
