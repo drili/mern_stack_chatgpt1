@@ -160,13 +160,14 @@ const CreateCustomer = () => {
                                             style={{ border: `1px solid #eee` }}
                                             className='mb-2 rounded-lg'
                                             >
-                                            <div className='flex text-sm'>
+                                            <div className='flex text-sm gap-4 justify-between'>
                                                 <span 
                                                     className={`block rounded-lg py-2 px-5 bg flex-1`}
+                                                    // style={{ background : `${customer.customerColor}` }}
                                                 >
                                                     <p 
-                                                        style={{ color : `${customer.customerColor}` }}
-                                                        className='text-sm text-inherit font-bold'>{customer.customerName}</p>
+                                                        
+                                                        className='text-sm text-inherit font-bold inline-block px-2 rounded-md'>{customer.customerName}</p>
                                                 </span>
                                                 {/* // TODO: Add "Un-archive" button to archived customers */}
                                                 {customer.isArchived ? (
