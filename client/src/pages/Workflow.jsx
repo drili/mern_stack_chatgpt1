@@ -36,7 +36,6 @@ const Workflow = () => {
 
     const fetchTasksByUserAndSprint = async (activeSprintArray) => {
         try {
-            console.log({activeSprintArray, newSprintArray });
             // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
             const activeSprintCheck = activeSprintArray ? activeSprintArray : newSprintArray
             
@@ -61,7 +60,7 @@ const Workflow = () => {
     const updateTaskWorkflow = async (taskId, workflowStatus) => {
         try {
             const response = await axios.put(`http://localhost:5000/tasks/update-taskworkflow/${taskId}`, { workflowStatus })
-            console.log(response)
+            // console.log(response)
         } catch (error) {
             console.error('Failed to update task workflowStatus', error)
         }
