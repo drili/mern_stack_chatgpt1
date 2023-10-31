@@ -75,10 +75,21 @@ router.route("/time-registered-by-user").post(async (req, res) => {
 router.route("/register-time").post(async (req,res) => {
     const { userId, taskId, timeRegistered, description, sprintId, currentTime } = req.body
 
-    const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
-    const year = date.getFullYear();
+    function formatDateForDisplay(inputDate) {
+        const dateParts = inputDate.split('-')
+        if (dateParts.length === 3) {
+            return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`
+        } else {
+            return inputDate
+        }
+    }
+
+    const formattedDate = formatDateForDisplay(currentTime)
+
+    const date = new Date()
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0') 
+    const year = date.getFullYear()
     // currentTimeStr = `${day}-${month}-${year}`
     
     try {
@@ -88,13 +99,13 @@ router.route("/register-time").post(async (req,res) => {
             timeRegistered,
             description,
             sprintId,
-            currentTime: currentTime
+            currentTime: formattedDate
         })
         
         return res.status(201).json(timeRegistration)
     } catch (error) {
-        console.error('Failed to register time', error);
-        return res.status(500).json({ error: 'Failed to register time' });
+        console.error('Failed to register time', error)
+        return res.status(500).json({ error: 'Failed to register time' })
     }
 })
 
