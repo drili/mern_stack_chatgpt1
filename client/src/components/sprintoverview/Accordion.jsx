@@ -25,6 +25,10 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
         toast.dismiss()
     }
 
+    const fetchTasks = () => {
+        return
+    }
+
     useEffect(() => {
         const titleElement = document.querySelector(`#taskId_${userObject._id}`);
         if (titleElement) {
@@ -75,6 +79,14 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
             setAccumulatedValues(userAccumulatedValues);
         } catch (error) {
             console.error('Failed to fetch tasks', error)
+        }
+    }
+
+    const sprintOverviewFetch = () => {
+        if (!selectedSprint) {
+            fetchSprintData(currentSprint)
+        } else {
+            fetchSprintData(selectedSprint)
         }
     }
 
@@ -236,6 +248,8 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                 taskID={selectedTaskId}
                 showModalState={showModal}
                 onCloseModal={onCloseModal}
+                fetchTasks={fetchTasks}
+                sprintOverviewFetch={sprintOverviewFetch}
             />
         </>
     )

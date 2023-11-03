@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import TaskModalSettings from './TaskModalSettings'
 import TaskTimeRegistration from './TaskTimeRegistration'
 
-const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
+const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOverviewFetch }) => {
     const [showModal, setShowModal] = useState(false)
     const [task, setTask] = useState([])
     const [taskSprint, setTaskSprint] = useState([])
@@ -82,6 +82,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks }) => {
                 })
             }
             fetchTasks()
+            sprintOverviewFetch()
         } catch (error) {
             console.error('Failed to update task', error)
             toast('There was an error updating task', {
