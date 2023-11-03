@@ -115,7 +115,7 @@ const RegisterOffTimes = () => {
                         </span>
 
                         <span>
-                            <label className={labelClasses} htmlFor="registrationType">Date</label>
+                            <label className={labelClasses} htmlFor="registrationType">Registration Type</label>
                             <select 
                                 className={inputClasses} 
                                 name="registrationType"

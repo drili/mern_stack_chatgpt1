@@ -27,6 +27,10 @@ const timeRegistrationSchema = new mongoose.Schema({
     },
     currentTime: {
         type: String
+    },
+    registrationType: {
+        type: String,
+        default: null
     }
 }, {
     timestamps: true

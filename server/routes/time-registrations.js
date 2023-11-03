@@ -73,7 +73,7 @@ router.route("/time-registered-by-user").post(async (req, res) => {
 })
 
 router.route("/register-time").post(async (req,res) => {
-    const { userId, taskId, timeRegistered, description, sprintId, currentTime } = req.body
+    const { userId, taskId, timeRegistered, description, sprintId, currentTime, registrationType, customerId } = req.body
     
     function formatDateForDisplay(inputDate) {
         const dateParts = inputDate.split('-')
@@ -82,6 +82,17 @@ router.route("/register-time").post(async (req,res) => {
         } else {
             return inputDate
         }
+    }
+
+    let registrationTypeValue
+    if (customerId) {
+        if (customerId === "6502b87bd426f295d2d250b1") {
+            registrationTypeValue = "intern"
+        } else {
+            registrationTypeValue = "client"
+        }
+    } else {
+        registrationTypeValue = registrationType
     }
 
     const formattedDate = formatDateForDisplay(currentTime)
@@ -99,7 +110,8 @@ router.route("/register-time").post(async (req,res) => {
             timeRegistered,
             description,
             sprintId,
-            currentTime: formattedDate
+            currentTime: formattedDate,
+            registrationType: registrationTypeValue
         })
         
         return res.status(201).json(timeRegistration)

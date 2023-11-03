@@ -28,7 +28,6 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
 
     const fetchTaskData = async (taskID) => {
         const response = await axios.get(`http://localhost:5000/tasks/fetch-by-id/${taskID}`)
-        console.log(response.data)
         setTask(response.data)
         setFormData((formData) => ({
             ...formData,
@@ -142,6 +141,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
                                                         inputClasses={inputClasses}
                                                         taskId={taskID}
                                                         sprintId={task[0]?.taskSprints[0]?._id}
+                                                        customerId={task[0]?.taskCustomer?._id}
                                                     ></TaskTimeRegistration>
                                                 </section>
 
