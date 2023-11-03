@@ -91,6 +91,16 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
     }
 
     useEffect(() => {
+        if (!selectedSprint) {
+            if (currentSprint.month != "") {
+                fetchSprintData(currentSprint)
+            }
+        } else {
+            fetchSprintData(selectedSprint)
+        }
+    }, [currentSprint])
+
+    useEffect(() => {
         if (isOpen) {
             if (!selectedSprint) {
                 fetchSprintData(currentSprint)

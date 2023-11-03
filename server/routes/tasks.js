@@ -98,6 +98,58 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
     }
 })
 
+router.route("/fetch-by-customer-sprint/:customerId").get(async (req, res) => {
+    try {
+        const { customerId } = req.params
+        const { month, year, time_reg } = req.query
+
+        if (!month || !year) {
+            return res.status(400).json({ error: "Month and year are required." });
+        }
+
+        const targetTaskSprint = await Sprint.findOne({
+            sprintMonth: month,
+            sprintYear: year
+        })
+        
+        const tasks = await Task.find({
+            taskCustomer: customerId,
+            isArchived: { $ne: true },
+            taskSprints: targetTaskSprint._id
+        })
+        .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
+        .populate({
+            path: "taskPersons.user",
+            select: ["_id", "username", "email", "profileImage", "userRole", "userTitle"]
+        })
+        .populate("taskCustomer", ["customerName", "customerColor"])
+        .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
+        .sort({ _id: -1 })
+
+        if(time_reg) {
+            const timeRegistrations = await TimeRegistration.find({
+                taskId: { $in: tasks.map(task => task._id) }
+            })
+            .select("_id userId taskId timeRegistered description createdAt updatedAt")
+
+            const tasksWithTimeRegistrations = tasks.map(task => {
+                const taskTimeRegistrations = timeRegistrations.filter(reg => reg.taskId.equals(task._id));
+                return {
+                    ...task.toObject(),  // *** Convert the Mongoose document to a plain object
+                    timeRegistrations: taskTimeRegistrations,
+                }
+            })
+    
+            res.json(tasksWithTimeRegistrations)
+        } else {
+            res.json(tasks)
+        }
+    } catch (error) {
+        console.error("Failed to fetch tasks by user & sprint", error)
+        res.status(500).json({ error: "Failed to fetch tasks by user & sprint" })
+    }
+})
+
 router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
     try {
         const { userId } = req.params
@@ -111,8 +163,6 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
             sprintMonth: month,
             sprintYear: year
         })
-
-        console.log({targetTaskSprint})
 
         const tasks = await Task.find({
             "taskPersons.user": userId,
