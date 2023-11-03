@@ -81,7 +81,7 @@ const DashboardWeeklyChart = ({ fetchTimeRegistrations }) => {
             },
             {
                 label: 'Recommended hours',
-                data: [8.5, 8.5, 8.5, 8.5, 8.5],
+                data: [7.5, 7.5, 7.5, 7.5, 7.5],
                 backgroundColor: '#64748b',
             },
         ],
