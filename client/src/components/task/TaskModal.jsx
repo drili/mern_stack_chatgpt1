@@ -190,6 +190,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
                                                     fetchTasks={fetchTasks}
                                                     task={task}
                                                     closeModal={closeModal}
+                                                    sprintOverviewFetch={sprintOverviewFetch}
                                                 />
                                             </section>
                                         </div>
