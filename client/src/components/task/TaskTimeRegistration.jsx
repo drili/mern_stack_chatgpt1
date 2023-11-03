@@ -34,9 +34,7 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, cu
 
     const handleRegisterTime = async (e) => {
         e.preventDefault()
-        
-        // TODO: Add data to timeRegistrationType:
-        // Types: Intern time, Client time, Off Time, Sick Time
+    
         if (formRegisterTime.timeRegistered > 0) {
             try {
                 const response = await axios.post(`http://localhost:5000/time-registrations/register-time`, formRegisterTime)

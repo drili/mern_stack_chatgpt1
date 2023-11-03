@@ -49,7 +49,6 @@ const SprintOverview = () => {
                 onSelectedSprint={handleSprintChange}
             ></SprintOverviewFilters>
 
-            {/* // TODO: Enable "Persons" vs. "Customers" filter. */}
             <section id="sprintOverviewFields" className='flex flex-col gap-4 relative'>
                 {isLoading ? (
                     <div className="absolute top-5 left-0 w-full h-full flex items-center justify-center">

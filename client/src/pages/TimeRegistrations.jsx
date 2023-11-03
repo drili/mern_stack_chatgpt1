@@ -80,7 +80,6 @@ const TimeRegistrations = () => {
                 suffix=""
             />
 
-            {/* // TODO: Finish "Time Registration" page */}
             <section className='grid grid-cols-10 gap-10 mb-10'>
                 <div className='col-span-6'>
                     <div style={{ height: 500 }}>

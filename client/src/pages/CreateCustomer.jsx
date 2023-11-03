@@ -169,7 +169,6 @@ const CreateCustomer = () => {
                                                         
                                                         className='text-sm text-inherit font-bold inline-block px-2 rounded-md'>{customer.customerName}</p>
                                                 </span>
-                                                {/* // TODO: Add "Un-archive" button to archived customers */}
                                                 {customer.isArchived ? (
                                                         <button className='p-0 px-2 flex gap-2 items-center' onClick={() => handleUnArchiveCustomer(customer._id)}>Un-Acrhive <AiOutlineUndo/></button>
                                                     ) : (

@@ -43,7 +43,6 @@ const Customers = () => {
     }, [])
 
     return (
-        // TODO: Finish customer page
         <div id="customerPage">
             <PageHeading
                 heading="Customers Page"
