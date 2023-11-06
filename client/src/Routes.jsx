@@ -15,9 +15,11 @@ import Workflow from './pages/Workflow';
 import NotFound from './pages/NotFound';
 import SprintOverview from './pages/SprintOverview';
 import TimeRegistrations from './pages/TimeRegistrations';
-import Admin from './pages/admin/Admin';
-import CannotAccess from './pages/CannotAccess';
 import RegisterOffTimes from './pages/RegisterOffTimes';
+
+import Admin from './pages/admin/Admin';
+import TimeRegistrationsOverview from './pages/admin/TimeRegistrationsOverview';
+import CannotAccess from './pages/CannotAccess';
 
 function AppRoutes() {
     return (
@@ -49,6 +51,11 @@ function AppRoutes() {
                                 <Route path="admin" element={<ProtectedRoute>
                                     <AdminRoute>
                                         <Admin/>
+                                    </AdminRoute>
+                                </ProtectedRoute>} />
+                                <Route path="admin/time-registrations-overview" element={<ProtectedRoute>
+                                    <AdminRoute>
+                                        <TimeRegistrationsOverview/>
                                     </AdminRoute>
                                 </ProtectedRoute>} />
                                 <Route path="cannot-access" element={
