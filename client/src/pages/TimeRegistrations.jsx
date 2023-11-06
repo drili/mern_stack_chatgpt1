@@ -33,7 +33,7 @@ const TimeRegistrations = () => {
     const fetchUserRegistrations = async (userId) => {
         try {
             const response = await axios.post(`http://localhost:5000/time-registrations/time-registered-by-user`, { userId })
-            console.log(response.data);
+            
             const formattedEvents = response.data.map(item => {
                 const itemDate = item.currentTime
                 const formattedNewDate = formatDateToISO(itemDate)

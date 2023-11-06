@@ -5,6 +5,8 @@ import CustomCodeBlock from '../../components/CustomCodeBlock'
 import axios from 'axios'
 import { FaSpinner } from 'react-icons/fa'
 
+// TODO: Add state management to usersData, so input fields can be updated.
+
 const PersonsOverview = () => {
     const [usersData, setUsersData] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -98,9 +100,9 @@ const PersonsOverview = () => {
                                         ) : (
                                             usersData &&
                                             usersData.map((user) => (
-                                                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={user._id}>
                                                     <Table.Cell className="whitespace-nowrap font-light text-gray-900 dark:text-white">
-                                                        {user._id}
+                                                        <input className={inputClasses} value={user._id} disabled />
                                                     </Table.Cell>
 
                                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
