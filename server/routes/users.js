@@ -5,9 +5,6 @@ const jwt = require("jsonwebtoken")
 const jwtMiddleware = require("../jwtMiddleware")
 const multer = require("multer")
 
-// ***
-// * Register Route
-// ***
 router.route("/register").post((req, res) => {
     const { 
         username, 
@@ -69,9 +66,6 @@ router.route("/register").post((req, res) => {
         })
 })
 
-// ***
-// * Login Route
-// ***
 router.route("/login").post((req, res) => {
     const { username, password } = req.body
 
@@ -112,9 +106,6 @@ router.route("/login").post((req, res) => {
         })
 })
 
-// ***
-// * Update User Route
-// ***
 router.route("/profile/update").put((req, res) => {
     const { username, email, userTitle, userId } = req.body;
 
@@ -149,9 +140,6 @@ router.route("/profile/update").put((req, res) => {
     });
 })
 
-// ***
-// * Update User Password Route
-// ***
 router.put("/profile/update-password", async (req, res) => {
     const { newPassword, userId } = req.body;
 
@@ -180,9 +168,6 @@ router.put("/profile/update-password", async (req, res) => {
     
 })
 
-// ***
-// * Update User Profile Image
-// ***
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads');
@@ -248,7 +233,6 @@ router.route("/users-not-in-task").post(async (req, res) => {
 
     try {
         const userIds = taskPersons.map(person => person.user)
-        console.log({userIds})
 
         const users = await User.find({
             $and: [
@@ -261,6 +245,17 @@ router.route("/users-not-in-task").post(async (req, res) => {
     } catch (error) {
         console.error('Failed to fetch users', error);
         res.status(500).json({ error: 'Failed to fetch users' });
+    }
+})
+
+router.route("/fetch-all-users").get(async (req, res) => {
+    try {
+        const users = await User.find().sort({ username: 1 })
+
+        return res.status(200).json(users)
+    } catch (error) {
+        console.error('Failed to fetch all users', error);
+        return res.status(500).json({ error: 'Failed to fetch all users' });
     }
 })
 

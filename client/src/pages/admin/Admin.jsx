@@ -59,12 +59,14 @@ const Admin = () => {
                             <FiUsers size={40}/>
                         </span>
                         <span>
-                            <h2 class="text-lg font-bold text-gray-900">Persons</h2>
+                            <h2 class="text-lg font-bold text-gray-900">Users Overview</h2>
                             <h2 class="text-sm font-light text-zinc-500">Admin Panel View</h2>
                         </span>
                     </div>
 
-                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-indigo-800 hover:text-white'>
+                    <Link 
+                        to="persons-overview"
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-indigo-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>

@@ -19,6 +19,7 @@ import RegisterOffTimes from './pages/RegisterOffTimes';
 
 import Admin from './pages/admin/Admin';
 import TimeRegistrationsOverview from './pages/admin/TimeRegistrationsOverview';
+import PersonsOverview from './pages/admin/PersonsOverview';
 import CannotAccess from './pages/CannotAccess';
 
 function AppRoutes() {
@@ -58,6 +59,12 @@ function AppRoutes() {
                                         <TimeRegistrationsOverview/>
                                     </AdminRoute>
                                 </ProtectedRoute>} />
+                                <Route path="admin/persons-overview" element={<ProtectedRoute>
+                                    <AdminRoute>
+                                        <PersonsOverview/>
+                                    </AdminRoute>
+                                </ProtectedRoute>} />
+                                
                                 <Route path="cannot-access" element={
                                     <ProtectedRoute><CannotAccess/></ProtectedRoute>
                                 }/>
