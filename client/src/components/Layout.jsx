@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import Navbar from './Navbar'
 import { Link, useLocation } from 'react-router-dom'
-import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear, BsCurrencyDollar } from 'react-icons/bs'
+import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear, BsCurrencyDollar, BsFillHeartPulseFill } from 'react-icons/bs'
 import SidebarLink from './navbar/SidebarLink'
 import { UserContext } from '../context/UserContext'
 
@@ -80,10 +80,17 @@ const Layout = ({ children }) => {
                                 />
 
                                 <SidebarLink
-                                    menuLink=""
+                                    menuLink="#"
                                     linkText="More Bizz"
                                     currentPath={currentPath}
                                     iconComponent={BsCurrencyDollar}
+                                />
+
+                                <SidebarLink
+                                    menuLink="#"
+                                    linkText="Client Health"
+                                    currentPath={currentPath}
+                                    iconComponent={BsFillHeartPulseFill}
                                 />
                             </span>
                         </span>
