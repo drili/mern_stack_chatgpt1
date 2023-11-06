@@ -26,7 +26,6 @@ const TimeRegOverviewFilter = ({ onSelectedSprint }) => {
         const selectedValue = e.target.value
 
         const selectedSprint = sprints.find((sprint) => sprint._id === selectedValue)
-        console.log({ selectedSprint })
         if (selectedSprint) {
             onSelectedSprint(selectedValue, selectedSprint)
             setCurrentSprint(selectedSprint)
@@ -41,7 +40,7 @@ const TimeRegOverviewFilter = ({ onSelectedSprint }) => {
     return (
         <div id='TimeRegOverviewFilter' className='items-center py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-row justify-between w-full outline-none focus:outline-none mb-10'>
             <section className='flex gap-4'>
-                
+
             </section>
 
             <section className='flex justify-end gap-8'>

@@ -1,6 +1,56 @@
 const express = require("express")
 const router = express.Router()
 const TimeRegistration = require("../models/TimeRegistration")
+const User = require("../models/User")
+
+router.route("/fetch-users-time-regs-by-sprint/:sprintId").get(async (req, res) => {
+    try {
+        const { sprintId } = req.params
+        const activeUsers = await User.find({ isActivated: true })
+        const activeUsersData = []
+
+        for (const user of activeUsers) {
+            const timeRegistrations = await TimeRegistration.find({ 
+                userId: user._id,
+                sprintId: sprintId
+            })
+
+            let totalTime = 0
+            let clientTime = 0
+            let internTime = 0
+            let restTime = 0
+
+            for (const registration of timeRegistrations) {
+                totalTime += registration.timeRegistered
+
+                if (registration.registrationType === "client") {
+                    clientTime += registration.timeRegistered
+                } else if (registration.registrationType === "intern") {
+                    internTime += registration.timeRegistered
+                } else {
+                    restTime += registration.timeRegistered
+                }
+            }
+
+            const userData = {
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                totalTime,
+                clientTime,
+                internTime,
+                restTime,
+            }
+
+            activeUsersData.push(userData)
+        }
+        
+        res.status(200).json(activeUsersData)
+    } catch (error) {
+        console.error('Failed to fetch data:', error)
+        res.status(500).json({ error: 'Internal server error' })
+    }
+})
 
 router.route("/time-registration-delete/:eventId").delete(async (req, res) => {
     const { eventId } = req.params

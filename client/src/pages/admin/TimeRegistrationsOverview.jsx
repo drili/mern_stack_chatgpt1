@@ -3,16 +3,41 @@ import PageHeading from '../../components/PageHeading'
 import TimeRegOverviewFilter from '../../components/admin/TimeRegOverviewFilter'
 import { Accordion, Table } from 'flowbite-react'
 import CustomCodeBlock from '../../components/CustomCodeBlock'
+import axios from 'axios'
+import getCurrentSprint from '../../functions/getCurrentSprint'
+import { FaSpinner } from 'react-icons/fa'
 
 const TimeRegistrationsOverview = () => {
     const [selectedSprint, setSelectedSprint] = useState("")
-    const [activeUsers, setActiveUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [timeRegistrations, setTimeRegistrations] = useState([])
+    const activeSprint = getCurrentSprint()
 
     const handleSprintChange = (selectedValue, selectedSprint) => {
         setSelectedSprint(selectedSprint)
         setIsLoading(true)
+
+        fetchTimeRegs(selectedSprint?._id)
     }
+
+    const fetchTimeRegs = async (sprintId) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/time-registrations/fetch-users-time-regs-by-sprint/${sprintId}`)
+
+            if (response.status == 200) {
+                setTimeout(() => {
+                    setTimeRegistrations(response.data)
+                    setIsLoading(false)
+                }, 250)
+            }
+        } catch (error) {
+            console.error('Failed to fetch time registrations', error)
+        }
+    }
+
+    useEffect(() => {
+        fetchTimeRegs(activeSprint?.sprintId)
+    }, [activeSprint])
 
     return (
         <div id='TimeRegistrationsOverview'>
@@ -32,7 +57,7 @@ const TimeRegistrationsOverview = () => {
                         <Accordion.Title>
                             <span className='flex gap-5 items-center'>
                                 <h2 className="text-lg font-bold text-gray-900">
-                                    Time Registrations in <CustomCodeBlock text="PLACEHOLDER: SPRINT" />
+                                    Time Registrations in {selectedSprint.sprintName}
                                 </h2>
                             </span>
                         </Accordion.Title>
@@ -45,20 +70,54 @@ const TimeRegistrationsOverview = () => {
                                             Name
                                         </Table.HeadCell>
                                         <Table.HeadCell className='text-left'>
-                                            Time Registered
+                                            Total Time Registered
+                                        </Table.HeadCell>
+
+                                        <Table.HeadCell className='text-left'>
+                                            Intern Time %
+                                        </Table.HeadCell>
+
+                                        <Table.HeadCell className='text-left'>
+                                            Client Time %
+                                        </Table.HeadCell>
+
+                                        <Table.HeadCell className='text-left'>
+                                            Off- & Sicktime %
                                         </Table.HeadCell>
                                     </Table.Head>
 
                                     <Table.Body className="divide-y">
-                                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                <CustomCodeBlock text="PLACEHOLDER: USERNAME" />
-                                            </Table.Cell>
+                                        {isLoading ? (
+                                            <div className="absolute top-5 left-0 w-full h-full flex items-center justify-center">
+                                                <FaSpinner className="animate-spin text-indigo-500 text-4xl" />
+                                            </div>
+                                        ) : (
+                                            timeRegistrations &&
+                                            timeRegistrations.map((regs) => (
+                                                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        {regs.username}
+                                                    </Table.Cell>
 
-                                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                <CustomCodeBlock text="PLACEHOLDER: TIME_REGISTERED" />
-                                            </Table.Cell>
-                                        </Table.Row>
+                                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        {regs.totalTime}
+                                                    </Table.Cell>
+
+                                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        {regs.internTime}
+                                                    </Table.Cell>
+
+                                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        {regs.clientTime}
+                                                    </Table.Cell>
+
+                                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        {regs.restTime}
+                                                    </Table.Cell>
+                                                </Table.Row>
+                                            ))
+                                        )}
+
                                     </Table.Body>
                                 </Table>
                             </section>
