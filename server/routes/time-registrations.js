@@ -9,40 +9,42 @@ router.route("/fetch-users-time-regs-by-sprint/:sprintId").get(async (req, res) 
         const activeUsers = await User.find({ isActivated: true })
         const activeUsersData = []
 
-        for (const user of activeUsers) {
-            const timeRegistrations = await TimeRegistration.find({ 
-                userId: user._id,
-                sprintId: sprintId
-            })
-
-            let totalTime = 0
-            let clientTime = 0
-            let internTime = 0
-            let restTime = 0
-
-            for (const registration of timeRegistrations) {
-                totalTime += registration.timeRegistered
-
-                if (registration.registrationType === "client") {
-                    clientTime += registration.timeRegistered
-                } else if (registration.registrationType === "intern") {
-                    internTime += registration.timeRegistered
-                } else {
-                    restTime += registration.timeRegistered
+        if (sprintId && activeUsers) {
+            for (const user of activeUsers) {
+                const timeRegistrations = await TimeRegistration.find({ 
+                    userId: user._id,
+                    sprintId: sprintId
+                })
+    
+                let totalTime = 0
+                let clientTime = 0
+                let internTime = 0
+                let restTime = 0
+    
+                for (const registration of timeRegistrations) {
+                    totalTime += registration.timeRegistered
+    
+                    if (registration.registrationType === "client") {
+                        clientTime += registration.timeRegistered
+                    } else if (registration.registrationType === "intern") {
+                        internTime += registration.timeRegistered
+                    } else {
+                        restTime += registration.timeRegistered
+                    }
                 }
+    
+                const userData = {
+                    _id: user._id,
+                    username: user.username,
+                    email: user.email,
+                    totalTime,
+                    clientTime,
+                    internTime,
+                    restTime,
+                }
+    
+                activeUsersData.push(userData)
             }
-
-            const userData = {
-                _id: user._id,
-                username: user.username,
-                email: user.email,
-                totalTime,
-                clientTime,
-                internTime,
-                restTime,
-            }
-
-            activeUsersData.push(userData)
         }
         
         res.status(200).json(activeUsersData)

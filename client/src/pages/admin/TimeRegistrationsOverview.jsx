@@ -21,6 +21,10 @@ const TimeRegistrationsOverview = () => {
     }
 
     const fetchTimeRegs = async (sprintId) => {
+        if (!sprintId) {
+            return
+        }
+        
         try {
             const response = await axios.get(`http://localhost:5000/time-registrations/fetch-users-time-regs-by-sprint/${sprintId}`)
 
@@ -36,7 +40,10 @@ const TimeRegistrationsOverview = () => {
     }
 
     useEffect(() => {
-        fetchTimeRegs(activeSprint?.sprintId)
+        if (activeSprint?.sprintId) {
+
+            fetchTimeRegs(activeSprint?.sprintId)
+        }
     }, [activeSprint])
 
     return (
@@ -57,7 +64,7 @@ const TimeRegistrationsOverview = () => {
                         <Accordion.Title>
                             <span className='flex gap-5 items-center'>
                                 <h2 className="text-lg font-bold text-gray-900">
-                                    Time Registrations in {selectedSprint.sprintName}
+                                    Time Registrations in {selectedSprint ? selectedSprint?.sprintName : `${activeSprint.sprintMonth} ${activeSprint.sprintYear}`}
                                 </h2>
                             </span>
                         </Accordion.Title>
@@ -88,13 +95,17 @@ const TimeRegistrationsOverview = () => {
 
                                     <Table.Body className="divide-y">
                                         {isLoading ? (
-                                            <div className="absolute top-5 left-0 w-full h-full flex items-center justify-center">
-                                                <FaSpinner className="animate-spin text-indigo-500 text-4xl" />
-                                            </div>
+                                            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                                <Table.Cell>
+                                                    <div className="absolute top-5 left-0 w-full h-full flex items-center justify-center">
+                                                        <FaSpinner className="animate-spin text-indigo-500 text-4xl" />
+                                                    </div>
+                                                </Table.Cell>
+                                            </Table.Row>
                                         ) : (
                                             timeRegistrations &&
                                             timeRegistrations.map((regs) => (
-                                                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={regs._id}>
                                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                                         {regs.username}
                                                     </Table.Cell>
