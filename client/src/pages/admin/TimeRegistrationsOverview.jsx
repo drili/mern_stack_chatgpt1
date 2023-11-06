@@ -24,7 +24,7 @@ const TimeRegistrationsOverview = () => {
         if (!sprintId) {
             return
         }
-        
+
         try {
             const response = await axios.get(`http://localhost:5000/time-registrations/fetch-users-time-regs-by-sprint/${sprintId}`)
 
@@ -81,15 +81,15 @@ const TimeRegistrationsOverview = () => {
                                         </Table.HeadCell>
 
                                         <Table.HeadCell className='text-left'>
-                                            Intern Time %
+                                            Intern Time
                                         </Table.HeadCell>
 
                                         <Table.HeadCell className='text-left'>
-                                            Client Time %
+                                            Client Time
                                         </Table.HeadCell>
 
                                         <Table.HeadCell className='text-left'>
-                                            Off- & Sicktime %
+                                            Off- & Sicktime
                                         </Table.HeadCell>
                                     </Table.Head>
 
