@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import Navbar from './Navbar'
 import { Link, useLocation } from 'react-router-dom'
-import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear } from 'react-icons/bs'
+import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear, BsCurrencyDollar } from 'react-icons/bs'
 import SidebarLink from './navbar/SidebarLink'
 import { UserContext } from '../context/UserContext'
 
@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
                 <aside className='relative bg-slate-50 w-1/6 min-h-screen p-6'>
                     <div className='sidebar-content top-40 left-0 sticky'>
                         <span>
-                            <h2 className='mb-3 font-thin text-zinc-300'>Menu</h2>
+                            <h2 className='mb-3 font-thin text-zinc-300'>Main Menu</h2>
                         </span>
 
                         <span className='sidebarLinks flex flex-col gap-2'>
@@ -47,7 +47,7 @@ const Layout = ({ children }) => {
                                 currentPath={currentPath}
                                 iconComponent={BsCalendar}
                             />
-                            
+
                             <SidebarLink
                                 menuLink="/time-registrations"
                                 linkText="Time Registrations"
@@ -69,19 +69,30 @@ const Layout = ({ children }) => {
                                 iconComponent={BsPerson}
                             />
 
-                            <SidebarLink
-                                menuLink="/admin"
-                                linkText="Admin"
-                                currentPath={currentPath}
-                                iconComponent={BsGear}
-                            />
+                            <span className='mt-[40px]'>
+                                <h2 className='mb-3 font-thin text-zinc-300'>Misc</h2>
+
+                                <SidebarLink
+                                    menuLink="/admin"
+                                    linkText="Admin"
+                                    currentPath={currentPath}
+                                    iconComponent={BsGear}
+                                />
+
+                                <SidebarLink
+                                    menuLink=""
+                                    linkText="More Bizz"
+                                    currentPath={currentPath}
+                                    iconComponent={BsCurrencyDollar}
+                                />
+                            </span>
                         </span>
 
                         <hr className='mt-[40px]' />
 
                         <div id="sidebarUser" className='flex items-center justify-center p-4 space-x-2 mt-[40px]'>
-                            <img 
-                                src={`http://localhost:5000/uploads/${user.profile_image}`} 
+                            <img
+                                src={`http://localhost:5000/uploads/${user.profile_image}`}
                                 className='h-12 w-12 rounded-full object-cover'
                             />
                             <div>

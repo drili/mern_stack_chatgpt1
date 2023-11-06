@@ -5,7 +5,7 @@ import { AiOutlineClockCircle, AiOutlineUsergroupAdd } from "react-icons/ai"
 import { FiUsers } from "react-icons/fi"
 import { BsListTask } from "react-icons/bs"
 import { Link } from 'react-router-dom'
-import { HiOutlineArrowSmRight } from "react-icons/hi"
+import { HiOutlineArrowSmRight, HiOutlineCog } from "react-icons/hi"
 
 const Admin = () => {
     return (
@@ -17,6 +17,24 @@ const Admin = () => {
             />
 
             <section id='AdminCards' className='grid gap-10 grid-cols-2'>
+                <Card className="h-full">
+                    <div className='flex gap-4 items-center'>
+                        <span>
+                            <HiOutlineCog size={40} color=''/>
+                        </span>
+                        <span>
+                            <h2 class="text-lg font-bold text-gray-900">General Features</h2>
+                            <h2 class="text-sm font-light text-zinc-500">Create new <b className='font-bold'>Sprints</b>, view archived <b className='font-bold'>Tasks</b> and more.</h2>
+                        </span>
+                    </div>
+
+                    <Link
+                        to="" 
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-indigo-800 hover:text-white'>
+                        View <HiOutlineArrowSmRight/>
+                    </Link>
+                </Card>
+
                 <Card className="h-full">
                     <div className='flex gap-4 items-center'>
                         <span>
