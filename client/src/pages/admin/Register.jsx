@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import axios from "axios"
-import backgroundImage from "../assets/pexels-artūras-kokorevas-15986451.jpg"
-import { Link } from "react-router-dom"
+import backgroundImage from "../../assets/pexels-artūras-kokorevas-15986451.jpg"
+import { Link, useNavigate } from "react-router-dom"
 
 function Register() {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [email, setEmail] = useState()
+    const navigate = useNavigate()
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -21,7 +22,9 @@ function Register() {
         }
 
         axios.post("http://localhost:5000/users/register", newUser)
-            .then(res => console.log(res.data))
+            .then(res => (
+                navigate("/admin/persons-overview")
+            ))
             .catch(err => console.error(err))
 
         setUsername("")
@@ -30,10 +33,10 @@ function Register() {
     }
 
     return (
-        <div id="loginFormSection" className='grid grid-cols-2 min-h-[100vh]'>
-            <section className="login-form p-40">
+        <div id="loginFormSection" className='grid grid-cols-2 align-center'>
+            <section className="login-form p-20">
                 <div className='mb-10 text-center'>
-                    <h1 className='font-bold'>Register Account</h1>
+                    <h2 className='font-bold'>Register New Account</h2>
                 </div>
 
                 <form onSubmit={onSubmit}>
@@ -77,19 +80,18 @@ function Register() {
                         <input 
                             className='button text-white mt-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'
                             type="submit" 
-                            value="Register" />
+                            value="Register Account" />
                     </div>
                 </form>
 
                 <div className='flex gap-2 mt-10 text-center m-auto align-center justify-center'>
-                    <h5>Already got an account?</h5>
-                    <Link to="/login">Login now</Link>
+                    <Link to="/admin/persons-overview">View User(s)</Link>
                 </div>
             </section>
 
-            <section className="login-image-field h-[100vh] overflow-hidden">
+            <section className="login-image-field h-[auto] overflow-hidden">
                 <img 
-                    className=''
+                    className='max-h-[600px] w-full'
                     src={backgroundImage} 
                     alt=""
                     loading="lazy" />
