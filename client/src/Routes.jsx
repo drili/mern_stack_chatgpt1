@@ -21,6 +21,7 @@ import Admin from './pages/admin/Admin';
 import TimeRegistrationsOverview from './pages/admin/TimeRegistrationsOverview';
 import PersonsOverview from './pages/admin/PersonsOverview';
 import CannotAccess from './pages/CannotAccess';
+import UserNotActivated from './pages/functionalities/UserNotActivated';
 
 function AppRoutes() {
     return (
@@ -29,6 +30,8 @@ function AppRoutes() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/user-not-activated" element={<UserNotActivated/>}/>
+
                 <Route 
                     path="/*" 
                     element={
@@ -68,6 +71,7 @@ function AppRoutes() {
                                 <Route path="cannot-access" element={
                                     <ProtectedRoute><CannotAccess/></ProtectedRoute>
                                 }/>
+
                                 <Route path="*" element={<NotFound/>} />
                             </Routes>
                         </Layout>
