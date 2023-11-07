@@ -281,4 +281,25 @@ router.route("/update-users/:userId").put(async (req, res) => {
     }
 })
 
+router.route("/update-user-activation/:userId").put(async (req, res) => {
+    const { userId } = req.params
+    const { isActivated } = req.body
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            { isActivated },
+            { new: true }
+        )
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error('Failed to update user', error);
+        return res.status(500).json({ message: 'Failed to update user' });
+    }
+})
+
 module.exports = router
