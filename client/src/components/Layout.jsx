@@ -69,7 +69,7 @@ const Layout = ({ children }) => {
                                 iconComponent={BsPerson}
                             />
 
-                            <span className='mt-[40px]'>
+                            <span className='mt-[20px]'>
                                 <h2 className='mb-3 font-thin text-zinc-300'>Misc</h2>
 
                                 <SidebarLink
@@ -95,7 +95,7 @@ const Layout = ({ children }) => {
                             </span>
                         </span>
 
-                        <hr className='mt-[40px]' />
+                        <hr className='mt-[20px]' />
 
                         <div id="sidebarUser" className='flex items-center justify-center p-4 space-x-2 mt-[40px]'>
                             <img
