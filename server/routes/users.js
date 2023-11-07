@@ -259,4 +259,26 @@ router.route("/fetch-all-users").get(async (req, res) => {
     }
 })
 
+router.route("/update-users/:userId").put(async (req, res) => {
+    const { userId } = req.params
+    const updatedUserData = req.body
+
+    try {
+        const user = await User.findOneAndUpdate(
+            { _id: userId },
+            updatedUserData,
+            { new: true }
+        )
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        return res.status(200).json(user);
+    } catch (error) {
+        console.error('Failed to update user', error);
+        return res.status(500).json({ message: 'Failed to update user' });
+    }
+})
+
 module.exports = router

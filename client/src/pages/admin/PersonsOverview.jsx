@@ -12,6 +12,8 @@ const PersonsOverview = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [imageSrc, setImageSrc] = useState(null)
 
+    const [editedUsers, setEditedUsers] = useState({});
+
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 
@@ -29,8 +31,39 @@ const PersonsOverview = () => {
         }
     }
 
-    const handleEditUser = async () => {
+    const handleInputChange = (event, userId) => {
+        const { name, value } = event.target
+        setEditedUsers((prevEditedUsers) => ({
+            ...prevEditedUsers,
+            [userId]: {
+                ...prevEditedUsers[userId],
+                [name]: value
+            }
+        }))
+    }
 
+    const handleEditUser = async (userId) => {
+        const editedData = editedUsers[userId]
+        
+        if (!editedData) {
+            return
+        }
+
+        try {
+            const response = await axios.put(`http://localhost:5000/users/update-users/${userId}`, editedData)
+
+            if(response.status === 200) {
+                console.log(`User updated successfully!`);
+                // setEditedUsers((prevEditedUsers) => ({
+                //     ...prevEditedUsers,
+                //     [userId]: {},
+                // }));
+            } else {
+                console.error('Failed to update user');
+            }
+        } catch (error) {
+            console.error('Failed to update user', error);
+        }
     }
 
     useEffect(() => {
@@ -117,29 +150,46 @@ const PersonsOverview = () => {
                                                     </Table.Cell>
 
                                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                        <input className={inputClasses} type='text' value={user.email} />
+                                                        <input 
+                                                            className={inputClasses}
+                                                            name="email"
+                                                            value={editedUsers[user._id]?.email || user.email}
+                                                            onChange={(e) => handleInputChange(e, user._id)}
+                                                        />
                                                     </Table.Cell>
 
                                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                        <input className={inputClasses} type='text' value={user.username} />
+                                                        <input 
+                                                            className={inputClasses}
+                                                            name="username"
+                                                            value={editedUsers[user._id]?.username || user.username}
+                                                            onChange={(e) => handleInputChange(e, user._id)}
+                                                        />
                                                     </Table.Cell>
 
                                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                        <input className={inputClasses} type='password' value={user.password} />
+                                                        <input className={inputClasses} type='password' value={user.password} disabled 
+                                                            onChange={() => (console.log(``))}
+                                                        />
+                                                    </Table.Cell>
+
+                                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        <input 
+                                                            className={inputClasses}
+                                                            name="userTitle"
+                                                            value={editedUsers[user._id]?.userTitle || user.userTitle}
+                                                            onChange={(e) => handleInputChange(e, user._id)}
+                                                        />
                                                     </Table.Cell>
 
                                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                                         {user.userRole === 1 ? "admin" : "default"}
                                                     </Table.Cell>
 
-                                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                        <input className={inputClasses} type='text' value={user.userTitle} />
-                                                    </Table.Cell>
-
                                                     <Table.Cell>
                                                         <a
                                                             className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                                                            onClick={() => handleEditUser()}
+                                                            onClick={() => handleEditUser(user._id)}
                                                         >
                                                             <p className='border border-gray-300 rounded-lg text-center px-2 py-1 font-bold text-xs'>
                                                                 Update
