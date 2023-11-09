@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Navbar from './Navbar'
 import { Link, useLocation } from 'react-router-dom'
 import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear, BsCurrencyDollar, BsFillHeartPulseFill } from 'react-icons/bs'
@@ -10,12 +10,26 @@ const Layout = ({ children }) => {
     const [isMobile, setIsMobile] = useState(false)
     const { user } = useContext(UserContext)
 
+    const [imageSrc, setImageSrc] = useState(null)
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [userImg, setUserImg] = useState("")
+
     const location = useLocation()
     const currentPath = location.pathname
 
     const toggleSidebar = () => {
         setShowSidebar(!showSidebar)
     }
+    
+    useEffect(() => {
+        if (user) {
+            setImageSrc("http://localhost:5000/uploads/")
+            setUsername(user.username)
+            setEmail(user.email)
+            setUserImg(user.profile_image)
+        }
+    }, [user])
 
     return (
         <div className='layout flex'>
@@ -99,12 +113,14 @@ const Layout = ({ children }) => {
 
                         <div id="sidebarUser" className='flex items-center justify-center p-4 space-x-2 mt-[40px]'>
                             <img
-                                src={`http://localhost:5000/uploads/${user.profile_image}`}
+                                // {${user.profile_image} ? src={`http://localhost:5000/uploads/${user.profile_image}` : `src=""`}
+                                // src={user.profile_image ? `http://localhost:5000/uploads/${user.profile_image}` : ''}
+                                src={`${imageSrc}${userImg}`}
                                 className='h-12 w-12 rounded-full object-cover'
                             />
                             <div>
-                                <p className='font-bold text-gray-900'>@{user.username}</p>
-                                <p className='font-light text-gray-600'>{user.email}</p>
+                                <p className='font-bold text-gray-900'>@{username}</p>
+                                <p className='font-light text-gray-600'>{email}</p>
                             </div>
                         </div>
                     </div>

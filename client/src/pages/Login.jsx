@@ -81,7 +81,7 @@ function Login() {
 
                 <div className='flex gap-2 mt-10 text-center m-auto align-center justify-center'>
                     <h5>Don't have an account?</h5>
-                    <Link to="/register">Register account</Link>
+                    {/* <Link to="/register">Register account</Link> */}
                 </div>
             </section>
 

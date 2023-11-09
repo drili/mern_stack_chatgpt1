@@ -9,7 +9,7 @@ export default function ProtectedRoute({ children }) {
     } else if (isAuthenticated && !isActivated) {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        // localStorage.clear();
+        localStorage.clear();
 
         return <Navigate to="/user-not-activated" />
     }

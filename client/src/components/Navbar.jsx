@@ -6,6 +6,7 @@ import userImage from "../assets/profile-pics/default-image.jpg"
 const Navbar = () => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
+    const [userImg, setUserImg] = useState("")
     const [profileImage, setProfileImage] = useState(null)
     const [imageSrc, setImageSrc] = useState(null)
     const navigate = useNavigate()
@@ -13,24 +14,26 @@ const Navbar = () => {
 
     useEffect(() => {
         if (user) {
-            setUsername(user.username)
-            setEmail(user.email)
-        }
-
-        if (!user.profile_image) {
-            setProfileImage(userImage)
-            setImageSrc("")
-
-        } else {
-            setProfileImage(user.profile_image)
+            setUsername(user?.username)
+            setEmail(user?.email)
+            setUserImg(user?.profile_image)
             setImageSrc("http://localhost:5000/uploads/")
         }
+
+        // if (!user.profile_image) {
+        //     setProfileImage(userImage)
+        //     setImageSrc("")
+
+        // } else {
+        //     setProfileImage(user?.profile_image)
+        //     setImageSrc("http://localhost:5000/uploads/")
+        // }
     }, [user])
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        // localStorage.clear();
+        localStorage.clear();
         setUsername('');
 
         navigate("/login")
@@ -59,7 +62,7 @@ const Navbar = () => {
                             <p className='font-bold'>@{username}</p>
                             <img 
                                 className='w-[40px] h-[40px] rounded-full object-cover ml-2'
-                                src={`${imageSrc}${profileImage}`} /
+                                src={`${imageSrc}${userImg}`} /
                                 >
                         </span>
                         
