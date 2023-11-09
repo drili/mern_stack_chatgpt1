@@ -10,6 +10,7 @@ import getCurrentSprint from "../functions/getCurrentSprint"
 import monthWorkdays from "../functions/monthWorkdays"
 import { Card } from "flowbite-react"
 import DashboardWeeklyChart from "../components/dashboard/DashboardWeeklyChart"
+import DashboardTeamEfforts from "../components/dashboard/DashboardTeamEfforts"
 
 const Dashboard = () => {
     const { user } = useContext(UserContext)
@@ -178,6 +179,13 @@ const Dashboard = () => {
                         </span>
                     </Card>
                 </span>
+            </section>
+
+            <section id="teamRegSection">
+                <h2>Team Effort</h2>
+
+                <DashboardTeamEfforts/>
+                {/* // TODO: Table overview over time registrations of team/users */}
             </section>
         </div>
     )
