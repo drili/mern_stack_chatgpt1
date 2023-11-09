@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
                 <aside className='relative bg-slate-50 w-1/6 min-h-screen p-6'>
                     <div className='sidebar-content top-40 left-0 sticky'>
                         <span>
-                            <h2 className='mb-3 font-thin text-zinc-300'>Main Menu</h2>
+                            <h3 className='mb-3 font-thin text-zinc-300'>Main Menu</h3>
                         </span>
 
                         <span className='sidebarLinks flex flex-col gap-2'>
@@ -84,7 +84,7 @@ const Layout = ({ children }) => {
                             />
 
                             <span className='mt-[20px]'>
-                                <h2 className='mb-3 font-thin text-zinc-300'>Misc</h2>
+                                <h3 className='mb-3 font-thin text-zinc-300'>Misc</h3>
 
                                 <SidebarLink
                                     menuLink="/admin"
