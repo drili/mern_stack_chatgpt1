@@ -89,7 +89,7 @@ const DashboardTeamEfforts = ({ registrationData, activeSprint }) => {
                                     </Table.Cell>
 
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                        <div className='max-h-[75px]'>
+                                        <div className='max-h-[50px]'>
                                             {regs.totalTime > 0 ? (
                                                 <DashboardTeamEffortsDoughnutChart
                                                     data={regs}
