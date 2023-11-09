@@ -41,6 +41,7 @@ router.route("/fetch-users-time-regs-by-sprint/:sprintId").get(async (req, res) 
                     clientTime,
                     internTime,
                     restTime,
+                    profileImage: user.profileImage
                 }
     
                 activeUsersData.push(userData)

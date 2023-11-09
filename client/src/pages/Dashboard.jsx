@@ -18,20 +18,36 @@ const Dashboard = () => {
     const activeSprint  = getCurrentSprint()
     const [workDays, setWorkDays] = useState("")
     const [tasks, setTasks] = useState([])
+    const [activeSprintState, setActiveSprintState] = useState([])
     
     const [timeRegistered, setTimeRegistered] = useState([])
     const [totalAccumulatedTime, setTotalAccumulatedTime] = useState("")
     const [totalAllocatedTimeLow, setTotalAllocatedTimeLow] = useState("")
     const [totalAllocatedTimeHigh, setTotalAllocatedTimeHigh] = useState("")
     const [finishedTasks, setFinishedTasks] = useState([])
+    const [timeRegisteredAll, setTimeRegisteredAll] = useState([])
+
+    const fetchTimeRegistrationsBySprint = async (sprintId) => {
+        try {
+            if(sprintId) {
+                const response = await axios.get(`http://localhost:5000/time-registrations/fetch-users-time-regs-by-sprint/${sprintId}/`)
+
+                if (response.status === 200) {
+                    setTimeRegisteredAll(response.data)
+                }
+            }
+        } catch (error) {
+            
+        }
+    }
 
     const fetchTimeRegistrations = async (sprintId) => {
         try {
             if (sprintId) {
                 const response = await axios.get(`http://localhost:5000/time-registrations/time-registered-user/${sprintId}/${user.id}`)
-                setTimeRegistered(response.data)
-
+                
                 if (response.status == 200) {
+                    setTimeRegistered(response.data)
                     const totalAccumulatedTime = response.data.reduce((accumulator, time) => {
                         const timeValue = parseFloat(time?.timeRegistered)
 
@@ -95,7 +111,9 @@ const Dashboard = () => {
     const handleSprintChange = (selectedValue, selectedSprint) => {
         setSelectedSprint(selectedValue)
         fetchTimeRegistrations(selectedValue)
+        fetchTimeRegistrationsBySprint(selectedValue)
         fetchTasksByUserAndSprint(selectedSprint)
+        setActiveSprintState(selectedSprint)
 
         const monthWorkdaysRes = monthWorkdays(selectedSprint?.sprintMonth, selectedSprint?.sprintYear)
         setWorkDays(monthWorkdaysRes)
@@ -103,7 +121,9 @@ const Dashboard = () => {
 
     useEffect(() => {
         fetchTimeRegistrations(activeSprint?.sprintId)
+        fetchTimeRegistrationsBySprint(activeSprint?.sprintId)
         fetchTasksByUserAndSprint(activeSprint)
+        setActiveSprintState(activeSprint)
 
         // const monthWorkdaysRes = monthWorkdays("September", "2023")
         const monthWorkdaysRes = monthWorkdays(activeSprint?.sprintMonth, activeSprint?.sprintYear)
@@ -181,10 +201,11 @@ const Dashboard = () => {
                 </span>
             </section>
 
-            <section id="teamRegSection">
-                <h2>Team Effort</h2>
-
-                <DashboardTeamEfforts/>
+            <section id="teamRegSection" className="mt-20 mb-20">
+                <DashboardTeamEfforts
+                    registrationData={timeRegisteredAll}
+                    activeSprint={activeSprintState}
+                />
                 {/* // TODO: Table overview over time registrations of team/users */}
             </section>
         </div>

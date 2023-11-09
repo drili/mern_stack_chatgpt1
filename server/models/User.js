@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
         },
         profileImage: {
             type: String,
-            default: null,
+            default: "profileImage-1689352117005-532153319.jpg",
         },
         userRole: {
             type: Number,
