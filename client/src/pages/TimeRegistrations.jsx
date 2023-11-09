@@ -4,7 +4,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from "moment"
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { Card } from 'flowbite-react'
-import {AiFillInfoCircle} from "react-icons/ai"
+import { AiFillInfoCircle } from "react-icons/ai"
 import { UserContext } from '../context/UserContext'
 import "../assets/css/calendar/calendar.css"
 import axios from 'axios'
@@ -33,7 +33,7 @@ const TimeRegistrations = () => {
     const fetchUserRegistrations = async (userId) => {
         try {
             const response = await axios.post(`http://localhost:5000/time-registrations/time-registered-by-user`, { userId })
-            
+
             const formattedEvents = response.data.map(item => {
                 const itemDate = item.currentTime
                 const formattedNewDate = formatDateToISO(itemDate)
@@ -99,24 +99,44 @@ const TimeRegistrations = () => {
                                 week: false,
                                 agenda: true
                             }}
-                            dayPropGetter={(date) => {
+                            dayPropGetter={(date, events) => {
                                 if (date.getDay() === 0 || date.getDay() === 6) {
                                     return {
                                         className: 'weekend-day',
                                     };
                                 }
-                                return {};
+                                { };
                             }}
                             onSelectEvent={handleSelected}
+                            eventPropGetter={
+                                (event, start, end, isSelected) => {
+                                    let newStyle = {
+                                        backgroundColor: "#c7d2fe",
+                                        color: 'white',
+                                        // borderRadius: "0px",
+                                        border: "none"
+                                    };
+
+                                    const numericPart = parseFloat(event.title.match(/\d+(\.\d+)?/)[0]);
+                                    if (numericPart >= 7.5) {
+                                        newStyle.backgroundColor = "#312e81"
+                                    }
+
+                                    return {
+                                        className: "",
+                                        style: newStyle
+                                    };
+                                }
+                            }
                         />
                     </div>
                 </div>
-                
+
                 <div className='col-span-4'>
                     <Card className='h-auto'>
                         <h3 className="font-bold">Your time registrations</h3>
                         <span className='flex gap-1 items-center flex-row'>
-                            <AiFillInfoCircle/> 
+                            <AiFillInfoCircle />
                             <p className='text-xs font-thin'>Pick date to see your time registrations.</p>
                         </span>
 
