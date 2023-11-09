@@ -98,6 +98,7 @@ const Layout = ({ children }) => {
                                     linkText="More Bizz"
                                     currentPath={currentPath}
                                     iconComponent={BsCurrencyDollar}
+                                    wip={true}
                                 />
 
                                 <SidebarLink
@@ -105,6 +106,7 @@ const Layout = ({ children }) => {
                                     linkText="Client Health"
                                     currentPath={currentPath}
                                     iconComponent={BsFillHeartPulseFill}
+                                    wip={true}
                                 />
                             </span>
                         </span>
