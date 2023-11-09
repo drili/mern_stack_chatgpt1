@@ -22,7 +22,6 @@ ChartJS.register(
 )
 
 const labels = getCurrentWeekDates();
-console.log({labels})
 
 export const options = {
     responsive: true,

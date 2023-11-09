@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from 'flowbite-react'
 import { FaSpinner } from 'react-icons/fa'
+import DashboardTeamEffortsDoughnutChart from './DashboardTeamEffortsDoughnutChart'
 
 const DashboardTeamEfforts = ({ registrationData, activeSprint }) => {
-    console.log({registrationData});
+    console.log({ registrationData });
     const [isLoading, setIsLoading] = useState(true)
     const [imageSrc, setImageSrc] = useState(null)
 
@@ -38,6 +39,10 @@ const DashboardTeamEfforts = ({ registrationData, activeSprint }) => {
                         <Table.HeadCell className='text-left'>
                             Off- & Sicktime
                         </Table.HeadCell>
+
+                        <Table.HeadCell className='text-left'>
+                            Attribution
+                        </Table.HeadCell>
                     </Table.Head>
 
                     <Table.Body className="divide-y">
@@ -67,21 +72,34 @@ const DashboardTeamEfforts = ({ registrationData, activeSprint }) => {
                                         </div>
                                     </Table.Cell>
 
-                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                        {regs.totalTime}
+                                    <Table.Cell className="whitespace-nowrap text-gray-900 dark:text-white font-bold underline">
+                                        {regs.totalTime} hours
                                     </Table.Cell>
 
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                        {regs.internTime}
+                                        {regs.internTime} hours
                                     </Table.Cell>
 
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                        {regs.clientTime}
+                                        {regs.clientTime} hours
                                     </Table.Cell>
 
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                        {regs.restTime}
+                                        {regs.restTime} hours
                                     </Table.Cell>
+
+                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                        <div className='max-h-[75px]'>
+                                            {regs.totalTime > 0 ? (
+                                                <DashboardTeamEffortsDoughnutChart
+                                                    data={regs}
+                                                />
+                                            ) : (
+                                                <div></div>
+                                            )}
+                                        </div>
+                                    </Table.Cell>
+
                                 </Table.Row>
                             ))
                         )}
