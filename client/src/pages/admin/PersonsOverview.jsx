@@ -5,6 +5,7 @@ import CustomCodeBlock from '../../components/CustomCodeBlock'
 import axios from 'axios'
 import { FaSpinner } from 'react-icons/fa'
 import toast, { Toaster } from 'react-hot-toast'
+import PersonsOverviewFilter from '../../components/admin/PersonsOverviewFilter'
 
 const PersonsOverview = () => {
     const [usersData, setUsersData] = useState([])
@@ -105,6 +106,7 @@ const PersonsOverview = () => {
                 suffix="Edit users and their information below."
             />
 
+            <PersonsOverviewFilter/>
 
             <div id='PersonsOverviewPage-table'>
                 <Accordion collapseAll={false}>

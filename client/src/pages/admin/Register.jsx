@@ -91,7 +91,7 @@ function Register() {
 
             <section className="login-image-field h-[auto] overflow-hidden">
                 <img 
-                    className='max-h-[600px] w-full'
+                    className='max-h-[700px] w-full'
                     src={backgroundImage} 
                     alt=""
                     loading="lazy" />
