@@ -117,9 +117,11 @@ const CreateTask = () => {
     }
 
     const handleFormChangeUsers = (selectedOptions) => {
+        const numberOfUsers = selectedOptions.length
+
         const personsWithPercentage = selectedOptions.map((option) => ({
             user: option.value,
-            percentage: 100,
+            percentage:  100 / numberOfUsers,
         }))
 
         setTaskData((prevData) => ({
@@ -133,6 +135,7 @@ const CreateTask = () => {
 
         try {
             const response = await axios.post("http://localhost:5000/tasks/create", taskData)
+            setTasks([])
 
             if (response.status === 200) {
                 toast('Task created successfully', {
@@ -143,9 +146,9 @@ const CreateTask = () => {
                         color: "#fff"
                     }
                 })
+
+                fetchTasks()
             }
-            
-            fetchTasks()
         } catch (error) {
             console.error('Failed to create task', error)
             toast('There was an error creating task', {
