@@ -76,12 +76,12 @@ const DashboardWeeklyChart = ({ fetchTimeRegistrations }) => {
             {
                 label: 'Hours registered',
                 data: totalRegisteredTimeArraySliced,
-                backgroundColor: '#646cff',
+                backgroundColor: '#f43f5e',
             },
             {
                 label: 'Recommended hours',
                 data: [7.5, 7.5, 7.5, 7.5, 7.5],
-                backgroundColor: '#64748b',
+                backgroundColor: '#fda4af',
             },
         ],
     }

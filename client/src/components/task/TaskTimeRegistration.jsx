@@ -74,7 +74,7 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, cu
     }, [taskId, sprintId])
 
     return (
-        <div id='TaskTimeRegistration' className='mt-5 py-5 px-5 border-0 rounded-lg bg-indigo-50 relative flex flex-col w-full outline-none focus:outline-none'>
+        <div id='TaskTimeRegistration' className='mt-5 py-5 px-5 border-0 rounded-lg bg-rose-50 relative flex flex-col w-full outline-none focus:outline-none'>
             <h2 className='font-semibold mb-5'>Register Time</h2>
 
             <span className='timeRegistrationField flex flex-col gap-4'>
@@ -108,7 +108,7 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, cu
                             </div>
                         </span>
 
-                        <button type="submit" className='mb-4 button text-black mt-1 bg-white border-indigo-500 hover:bg-indigo-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Register Time</button>
+                        <button type="submit" className='mb-4 button text-black mt-1 bg-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Register Time</button>
                     </form>
                 </div>
 

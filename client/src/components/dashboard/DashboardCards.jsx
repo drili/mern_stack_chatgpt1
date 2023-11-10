@@ -17,7 +17,7 @@ const DashboardCards = ({
                     <div>
                         <span className="flex flex-col gap-2 mb-5">
                             <h3 className="font-bold">Your Time Registered This Sprint</h3>
-                            <h2 className="text-4xl font-bold flex gap-2 mt-4 mb-0 text-indigo-500">
+                            <h2 className="text-4xl font-bold flex gap-2 mt-4 mb-0 text-rose-500">
                                 <BsFillClockFill /> {totalAccumulatedTime} hours
                             </h2>
                         </span>

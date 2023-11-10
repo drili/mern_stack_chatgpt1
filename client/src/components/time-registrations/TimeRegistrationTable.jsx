@@ -125,7 +125,7 @@ const TimeRegistrationTable = ({ eventObj, toast, fetchUserRegistrations, userId
                                 </Table.Cell>
                                 <Table.Cell className='whitespace-break-spaces text-xs'>
                                     <a
-                                        className="font-medium text-red-500 hover:underline dark:text-cyan-500 text-xs"
+                                        className="font-medium text-rose-950 hover:underline dark:text-cyan-500 text-xs"
                                         onClick={() => handleDeleteTime(event._id)}
                                     >
                                     <p className='border border-gray-300 rounded-lg text-center px-2 py-1 font-bold text-xs'>

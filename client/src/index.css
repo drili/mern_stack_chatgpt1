@@ -18,7 +18,7 @@
 
 a {
 	font-weight: 500;
-	color: #646cff;
+	color: #f43f5e;
 	text-decoration: inherit;
 }
 
@@ -48,7 +48,7 @@ button {
 }
 
 button:hover {
-	border-color: #646cff;
+	border-color: #f43f5e;
 }
 
 button:focus,
@@ -63,7 +63,7 @@ button:focus-visible {
 	}
 
 	a:hover {
-		color: #747bff;
+		color: #fda4af;
 	}
 
 	button {

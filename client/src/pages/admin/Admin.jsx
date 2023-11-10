@@ -30,7 +30,7 @@ const Admin = () => {
 
                     <Link
                         to="" 
-                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-indigo-800 hover:text-white'>
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -48,7 +48,7 @@ const Admin = () => {
 
                     <Link
                         to="time-registrations-overview" 
-                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-indigo-800 hover:text-white'>
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -66,7 +66,7 @@ const Admin = () => {
 
                     <Link 
                         to="persons-overview"
-                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-indigo-800 hover:text-white'>
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -82,7 +82,7 @@ const Admin = () => {
                         </span>
                     </div>
 
-                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-indigo-800 hover:text-white'>
+                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -98,7 +98,7 @@ const Admin = () => {
                         </span>
                     </div>
 
-                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-indigo-800 hover:text-white'>
+                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>

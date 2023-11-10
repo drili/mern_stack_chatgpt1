@@ -52,7 +52,7 @@ const SprintOverview = () => {
             <section id="sprintOverviewFields" className='flex flex-col gap-4 relative'>
                 {isLoading ? (
                     <div className="absolute top-5 left-0 w-full h-full flex items-center justify-center">
-                        <FaSpinner className="animate-spin text-indigo-500 text-4xl" />
+                        <FaSpinner className="animate-spin text-rose-500 text-4xl" />
                     </div>
                 ) : (
                     activeUsers &&

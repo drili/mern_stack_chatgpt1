@@ -10,8 +10,8 @@ const DashboardTeamEffortsDoughnutChart = ({ data }) => {
         datasets: [
             {
                 data: [data.clientTime, data.internTime, data.restTime],
-                backgroundColor: ['#6366f1', '#fbbf24', '#yourOtherColor'],
-                hoverBackgroundColor: ['#6b6bff', '#fbd75e', '#yourOtherHoverColor'],
+                backgroundColor: ['#f43f5e', '#fbbf24', 'black'],
+                hoverBackgroundColor: ['#9f1239', '#fbd75e', 'black'],
             },
         ],
     };

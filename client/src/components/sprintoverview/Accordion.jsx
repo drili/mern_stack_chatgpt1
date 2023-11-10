@@ -117,7 +117,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
         <>
             <Accordion collapseAll >
                 <Accordion.Panel>
-                    <Accordion.Title id={`taskId_${userObject._id}`} className={user.id === userObject._id ? "bg-indigo-50 rounded-none" : ""}>
+                    <Accordion.Title id={`taskId_${userObject._id}`} className={user.id === userObject._id ? "bg-rose-50 rounded-none" : ""}>
                         <span className='flex gap-5 items-center'>
                             <div className='flex gap-5 items-center'>
                                 <img
@@ -127,7 +127,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                 <span>
                                     <span className='flex gap-3'>
                                         <h2 className='text-lg font-bold text-gray-900'>{userObject.username}</h2>
-                                        <label className='bg-indigo-100 text-indigo-800 rounded-md py-1 px-2 text-xs font-bold h-fit'>{userObject.userTitle}</label>
+                                        <label className='bg-rose-100 text-rose-800 rounded-md py-1 px-2 text-xs font-bold h-fit'>{userObject.userTitle}</label>
                                     </span>
                                     <h2 className='text-sm font-light text-zinc-500'>{userObject.email}</h2>
                                 </span>
@@ -139,7 +139,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                     <span className='text-center'>
                                         <label htmlFor="" className='text-sm'>Low</label>
                                         {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[userObject._id].low}</p>
+                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[userObject._id].low}</p>
                                         ) : (
                                             <></>
                                         )}
@@ -148,7 +148,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                     <span className='text-center'>
                                         <label htmlFor="" className='text-sm'>High</label>
                                         {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[userObject._id].high}</p>
+                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[userObject._id].high}</p>
                                         ) : (
                                             <></>
                                         )}
@@ -157,7 +157,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                     <span className='text-center'>
                                         <label htmlFor="" className='text-sm'>Median</label>
                                         {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{(accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2}</p>
+                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{(accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2}</p>
                                         ) : (
                                             <></>
                                         )}

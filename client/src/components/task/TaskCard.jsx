@@ -72,7 +72,7 @@ const TaskCard = ({taskId, taskName, taskDescription, taskPersons, customerName,
                                     />
                                     {taskPersons.length > 2 && index < 1 && (
                                         <span
-                                            className='absolute w-[30px] h-[30px] object-cover object-center rounded-full bg-indigo-500 flex items-center justify-center text-white font-medium text-xs'
+                                            className='absolute w-[30px] h-[30px] object-cover object-center rounded-full bg-rose-500 flex items-center justify-center text-white font-medium text-xs'
                                             style={{
                                                 left: `40px`,
                                                 zIndex: "1"

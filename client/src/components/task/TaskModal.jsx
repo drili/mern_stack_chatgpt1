@@ -110,7 +110,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     
                                     <div className='flex items-start justify-between px-10 pt-5 pb-0 rounded-t'>
-                                        <span className="taskLabel bg-indigo-100 text-sm px-2 py-1 rounded text-indigo-800 font-bold">
+                                        <span className="taskLabel bg-rose-100 text-sm px-2 py-1 rounded text-rose-800 font-bold">
                                             {task[0]?.taskSprints[0]?.sprintName}
                                         </span>
                                     </div>
@@ -145,7 +145,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
                                                     ></TaskTimeRegistration>
                                                 </section>
 
-                                                <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-indigo-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
+                                                <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-rose-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
                                                     <div>
                                                         <h2 className='font-semibold mb-5'>Update Task</h2>
                                                     </div>
@@ -177,7 +177,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
                                                         onChange={(e) => handleInputChange(e)}/>
                                                     </div>
 
-                                                    <button type="submit" className='button text-white mt-5 bg-indigo-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task</button>
+                                                    <button type="submit" className='button text-white mt-5 bg-rose-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task</button>
                                                 </form>
                                             </section>
 

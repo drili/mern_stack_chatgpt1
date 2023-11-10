@@ -11,10 +11,10 @@ import WorkflowFilters from '../components/workflow/WorkflowFilters'
 
 const workflowColumnsData = {
     col0: [
-        { id: "col0", col: "0", name: "Todo(s)" }
+        { id: "col0", col: "0", name: "Tasks Backlog" }
     ],
     col1: [
-        { id: "col1", col: "1", name: "To do this week" }
+        { id: "col1", col: "1", name: "This Week" }
     ],
     col2: [
         { id: "col2", col: "2", name: "In Progress" }

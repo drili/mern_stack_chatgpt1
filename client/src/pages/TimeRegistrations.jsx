@@ -111,7 +111,7 @@ const TimeRegistrations = () => {
                             eventPropGetter={
                                 (event, start, end, isSelected) => {
                                     let newStyle = {
-                                        backgroundColor: "#c7d2fe",
+                                        backgroundColor: "#fecdd3",
                                         color: 'white',
                                         // borderRadius: "0px",
                                         border: "none"
@@ -119,7 +119,7 @@ const TimeRegistrations = () => {
 
                                     const numericPart = parseFloat(event.title.match(/\d+(\.\d+)?/)[0]);
                                     if (numericPart >= 7.5) {
-                                        newStyle.backgroundColor = "#312e81"
+                                        newStyle.backgroundColor = "#9f1239"
                                     }
 
                                     return {

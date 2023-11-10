@@ -219,7 +219,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                         </span>
 
                         <span>
-                            <button type="submit" className='mb-4 button text-black mt-1 bg-white border-indigo-500 hover:bg-indigo-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task Sprint</button>
+                            <button type="submit" className='mb-4 button text-black mt-1 bg-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task Sprint</button>
                         </span>
                     </form>
                 </span>
@@ -259,7 +259,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                             {taskPersons.length > 1 && (
                                                 <form onSubmit={(e) => handleRemoveUser(e)}>
                                                     <input type="hidden" name='taskPersonId' value={user.user._id}  />
-                                                    <button type="submit" className='border-red-500 px-2 py-0 text-sm'>Remove</button>
+                                                    <button type="submit" className='border-rose-950 px-2 py-0 text-sm'>Remove</button>
                                                 </form>
                                             )}
                                         </section>
@@ -285,7 +285,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                                             />
                                                             <label className='text-xs font-normal whitespace-nowrap' htmlFor="personPercentage">% alloc</label>
                                                         </span>
-                                                        <button type="submit" className='border-indigo-500 px-2 py-0 text-sm'>Update</button>
+                                                        <button type="submit" className='border-rose-500 px-2 py-0 text-sm'>Update</button>
 
                                                     </form>
                                                 </>
@@ -298,7 +298,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
 
                         {errorPercentage && (
                             <div className='flex flex-col gap-1 text-right justify-end'>
-                                <p className='text-xs text-red-500'>There was an error, total percent allocation is not equal 100%</p>
+                                <p className='text-xs text-rose-950'>There was an error, total percent allocation is not equal 100%</p>
                                 <p className='text-xs underline'>Current total allocation percentage: {totalPercentage}%</p>
                             </div>
                         )}
@@ -310,7 +310,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                         <form onSubmit={(e) => handleArchiveTask(e)}>
                             <label className={labelClasses} htmlFor="archiveTaskId">Archive Task</label>
                             <input type="hidden" name='archiveTaskId' value={taskID} />
-                            <button type="submit" className='bg-red-500 text-white px-5 py-2 text-sm'>Archive Task</button>
+                            <button type="submit" className='bg-rose-950 text-white px-5 py-2 text-sm'>Archive Task</button>
                         </form>
                     </span>
                 </span>

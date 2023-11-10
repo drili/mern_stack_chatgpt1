@@ -156,7 +156,7 @@ const Dashboard = () => {
 
             <section id="timeRegsWeekly" className="grid grid-cols-2 gap-10 mb-10">
                 <span>
-                    <Card className="h-full bg-indigo-50">
+                    <Card className="h-full bg-rose-50">
                         <div>
                             <span className="flex flex-col gap-2 mb-5">
                                 <h3 className="font-bold">Your time registrations this week</h3>

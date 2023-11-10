@@ -50,11 +50,11 @@ const Navbar = () => {
                     <div className="flex md:order-2">
                         <span id="navbarButtons" className='flex gap-4 items-center mr-4'>
                             <Link to="/register-offtime">
-                                <button type="submit" className='h-fit whitespace-nowrap button text-black bg-white border-indigo-500 hover:bg-indigo-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Register Off- & Sicktime</button>
+                                <button type="submit" className='h-fit whitespace-nowrap button text-black bg-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Register Off- & Sicktime</button>
                             </Link>
 
                             <Link to="/create-task">
-                            <button type="submit" className='bg-indigo-500 h-fit whitespace-nowrap button text-white border-indigo-500 hover:bg-indigo-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Create Task</button>
+                            <button type="submit" className='bg-rose-500 h-fit whitespace-nowrap button text-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Create Task</button>
                             </Link>
                         </span>
 

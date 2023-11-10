@@ -118,7 +118,7 @@ const CustomerAccordion = ({ customerObject, selectedSprint }) => {
                                             <span className='text-center'>
                                                 <label htmlFor="" className='text-sm'>Low</label>
                                                 {accumulatedValues[customerObject._id] ? (
-                                                    <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[customerObject._id].low}</p>
+                                                    <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[customerObject._id].low}</p>
                                                 ) : (
                                                     <></>
                                                 )}
@@ -127,7 +127,7 @@ const CustomerAccordion = ({ customerObject, selectedSprint }) => {
                                             <span className='text-center'>
                                                 <label htmlFor="" className='text-sm'>High</label>
                                                 {accumulatedValues[customerObject._id] ? (
-                                                    <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[customerObject._id].high}</p>
+                                                    <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[customerObject._id].high}</p>
                                                 ) : (
                                                     <></>
                                                 )}
@@ -136,7 +136,7 @@ const CustomerAccordion = ({ customerObject, selectedSprint }) => {
                                             <span className='text-center'>
                                                 <label htmlFor="" className='text-sm'>Median</label>
                                                 {accumulatedValues[customerObject._id] ? (
-                                                    <p className='bg-indigo-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{(accumulatedValues[customerObject._id].low + accumulatedValues[customerObject._id].high) / 2}</p>
+                                                    <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{(accumulatedValues[customerObject._id].low + accumulatedValues[customerObject._id].high) / 2}</p>
                                                 ) : (
                                                     <></>
                                                 )}

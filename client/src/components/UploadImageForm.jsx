@@ -60,7 +60,7 @@ const UploadImageForm = () => {
                     className="w-[100px] h-[100px] object-cover rounded-full text-center m-auto mb-5"
                 />
                 <h3 className='font-bold mb-5'><b>{user.username} - </b>{user.email}</h3>
-                <span className='bg-indigo-100 text-indigo-800 rounded-md py-1 px-2 text-xs font-bold'>{user.user_title}</span>
+                <span className='bg-rose-100 text-rose-800 rounded-md py-1 px-2 text-xs font-bold'>{user.user_title}</span>
                 <hr className='mt-10'/>
             </span>
 
@@ -69,7 +69,7 @@ const UploadImageForm = () => {
                 <input type="file" accept="image/*" onChange={handleImageUpload} />
                 <input
                     required 
-                    className='my-button button text-white mt-10 bg-indigo-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'
+                    className='my-button button text-white mt-10 bg-rose-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'
                     type="submit"
                     value="Upload New Image"
                     />

@@ -134,7 +134,7 @@ const Layout = ({ children }) => {
 
                 {isMobile && (
                     <button
-                        className='fixed bottom-4 left-4 bg-indigo-500 text-white px-3 py-1 rounded-md z-10'
+                        className='fixed bottom-4 left-4 bg-rose-500 text-white px-3 py-1 rounded-md z-10'
                         onClick={toggleSidebar}
                     >
                         {showSidebar && isMobile ? <AiOutlineMenu /> : <AiOutlineMenu />}

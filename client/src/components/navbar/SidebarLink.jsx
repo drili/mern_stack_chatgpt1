@@ -7,7 +7,7 @@ const SidebarLink = ({ menuLink, linkText, currentPath, iconComponent, wip }) =>
             to={menuLink}
             className={`gap-4 flex items-center py-3 px-4 rounded text-[14px] relative
                 ${currentPath === menuLink ? 
-                    'bg-indigo-500 font-bold text-white hover:text-white' : 
+                    'bg-rose-500 font-bold text-white hover:text-white' : 
                     'font-medoum text-zinc-600'}`}>
             {React.createElement(iconComponent, { style: { fontSize: "18px" } })}{linkText}
             

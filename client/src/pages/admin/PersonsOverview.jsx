@@ -154,7 +154,7 @@ const PersonsOverview = () => {
                                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                                 <Table.Cell>
                                                     <div className="absolute top-5 left-0 w-full h-full flex items-center justify-center">
-                                                        <FaSpinner className="animate-spin text-indigo-500 text-4xl" />
+                                                        <FaSpinner className="animate-spin text-rose-500 text-4xl" />
                                                     </div>
                                                 </Table.Cell>
                                             </Table.Row>
