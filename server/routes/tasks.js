@@ -271,13 +271,19 @@ router.route("/assign-user/:taskId").put(async (req, res) => {
         const task = await Task.findById(taskId)
 
         if (!task) {
-            return res.status(404).json({ error: 'Task not found' });
+            return res.status(404).json({ error: 'Task not found' })
         }
+
+        const numbersOfUsers = task.taskPersons.length + 1
 
         const newTaskPerson = {
             user: assignedUserId,
-            percentage: 100
+            percentage: 100 / numbersOfUsers
         }
+
+        task.taskPersons.forEach((person) => {
+            person.percentage = 100 / numbersOfUsers;
+        })
 
         task.taskPersons.push(newTaskPerson)
         const updatedTask = await task.save()
@@ -289,11 +295,24 @@ router.route("/assign-user/:taskId").put(async (req, res) => {
     }
 })
 
-// FIXME: When user is removed, reset the percentage on each user to 100
 router.route("/remove-user/:taskId/:taskPersonId").put(async (req, res) => {
     const { taskId, taskPersonId } = req.params
 
     try {
+        const task = await Task.findById(taskId);
+
+        if (!task) {
+            return res.status(404).json({ error: 'Task not found' });
+        }
+
+        const numberOfUsers = task.taskPersons.length - 1
+        task.taskPersons = task.taskPersons.filter(person => person.user !== taskPersonId)
+        task.taskPersons.forEach(person => {
+            person.percentage = 100 / numberOfUsers;
+        })
+
+        const savedTask = await task.save();
+
         const updatedTask = await Task.findByIdAndUpdate(
             taskId,
             { $pull: {
