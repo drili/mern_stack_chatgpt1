@@ -83,6 +83,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
     }
 
     const sprintOverviewFetch = () => {
+        console.log(`sprintOverviewFetch()`);
         if (!selectedSprint) {
             fetchSprintData(currentSprint)
         } else {
@@ -139,7 +140,9 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                     <span className='text-center'>
                                         <label htmlFor="" className='text-sm'>Low</label>
                                         {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[userObject._id].low}</p>
+                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
+                                                {(accumulatedValues[userObject._id].low).toFixed(2)}
+                                            </p>
                                         ) : (
                                             <></>
                                         )}
@@ -148,7 +151,9 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                     <span className='text-center'>
                                         <label htmlFor="" className='text-sm'>High</label>
                                         {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{accumulatedValues[userObject._id].high}</p>
+                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
+                                                {(accumulatedValues[userObject._id].high).toFixed(2)}
+                                                </p>
                                         ) : (
                                             <></>
                                         )}
@@ -157,7 +162,9 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                     <span className='text-center'>
                                         <label htmlFor="" className='text-sm'>Median</label>
                                         {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>{(accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2}</p>
+                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
+                                                {((accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2).toFixed(2)}
+                                            </p>
                                         ) : (
                                             <></>
                                         )}
@@ -259,7 +266,8 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                 showModalState={showModal}
                 onCloseModal={onCloseModal}
                 fetchTasks={fetchTasks}
-                sprintOverviewFetch={sprintOverviewFetch}
+                // sprintOverviewFetch={sprintOverviewFetch}
+                updateFunc={sprintOverviewFetch}
             />
         </>
     )

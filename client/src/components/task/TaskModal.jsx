@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import TaskModalSettings from './TaskModalSettings'
 import TaskTimeRegistration from './TaskTimeRegistration'
 
-const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOverviewFetch }) => {
+const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFunc, sprintOverviewFetch, fetchWorkflow }) => {
     const [showModal, setShowModal] = useState(false)
     const [task, setTask] = useState([])
     const [taskSprint, setTaskSprint] = useState([])
@@ -27,15 +27,17 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
     }
 
     const fetchTaskData = async (taskID) => {
-        const response = await axios.get(`http://localhost:5000/tasks/fetch-by-id/${taskID}`)
-        setTask(response.data)
-        setFormData((formData) => ({
-            ...formData,
-            taskName: response.data[0]["taskName"],
-            taskTimeLow: response.data[0]["taskTimeLow"],
-            taskTimeHigh: response.data[0]["taskTimeHigh"],
-            taskDescription: response.data[0]["taskDescription"],
-        }))
+        if (taskID) {
+            const response = await axios.get(`http://localhost:5000/tasks/fetch-by-id/${taskID}`)
+            setTask(response.data)
+            setFormData((formData) => ({
+                ...formData,
+                taskName: response.data[0]["taskName"],
+                taskTimeLow: response.data[0]["taskTimeLow"],
+                taskTimeHigh: response.data[0]["taskTimeHigh"],
+                taskDescription: response.data[0]["taskDescription"],
+            }))
+        }   
     }
 
     const closeModal = () => {
@@ -81,7 +83,8 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
                 })
             }
             fetchTasks()
-            sprintOverviewFetch()
+            updateFunc()
+            // sprintOverviewFetch()
         } catch (error) {
             console.error('Failed to update task', error)
             toast('There was an error updating task', {
@@ -191,6 +194,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, sprintOve
                                                     task={task}
                                                     closeModal={closeModal}
                                                     sprintOverviewFetch={sprintOverviewFetch}
+                                                    updateFunc={updateFunc}
                                                 />
                                             </section>
                                         </div>

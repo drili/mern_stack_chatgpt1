@@ -39,7 +39,7 @@ const Workflow = () => {
             // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
             const activeSprintCheck = activeSprintArray ? activeSprintArray : newSprintArray
             
-            if (activeSprintCheck) {
+            if (activeSprintCheck && activeSprintCheck.sprintMonth && activeSprintCheck.sprintYear) {
                 const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
 
                 if (response.data.length == 0) {
@@ -82,6 +82,14 @@ const Workflow = () => {
         )
 
         setFilteredTasks(filtered)
+    }
+
+    const fetchWorkflow = () => {
+        if (!newSprintArray) {
+            fetchTasksByUserAndSprint(activeSprint)
+        } else {
+            fetchTasksByUserAndSprint(newSprintArray)
+        }
     }
 
     useEffect(() => {
@@ -210,6 +218,7 @@ const Workflow = () => {
                     // onCloseModal={() => setShowModal(false)}
                     onCloseModal={onCloseModal}
                     fetchTasks={fetchTasksByUserAndSprint}
+                    updateFunc={fetchWorkflow}
                     // fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
                 />
             )}

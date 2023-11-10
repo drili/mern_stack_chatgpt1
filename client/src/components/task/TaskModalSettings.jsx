@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
-const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task, closeModal, sprintOverviewFetch }) => {
+const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task, closeModal, updateFunc, sprintOverviewFetch, fetchWorkflow }) => {
     const [sprints, setSprints] = useState([])
     const [usersNot, setUsersNot] = useState([])
     const [taskPersons, setTaskPersons] = useState([])
@@ -50,7 +50,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
 
                 fetchTaskData(taskID)
                 fetchTasks()
-                sprintOverviewFetch()
+                updateFunc()
             }
         } catch (error) {
             console.error('Failed to update task', error)
@@ -79,6 +79,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 if (response.status === 200) {
                     fetchTaskData(taskID)
                     fetchTasks()
+                    updateFunc()
                 }
             } catch (error) {
                 console.error('Failed to assign user to task:', error);
@@ -99,6 +100,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
             if (response.status === 200) {
                 fetchTaskData(taskID)
                 fetchTasks()
+                updateFunc()
             }
         } catch (error) {
             console.error('Failed to remove user from task:', error)
@@ -137,7 +139,9 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                         }
                     })
 
-                    sprintOverviewFetch()
+                    // sprintOverviewFetch()
+                    updateFunc()
+                    // fetchWorkflow()
                 }
             } catch (error) {
                 console.error("Error updating task percentage:", error)
