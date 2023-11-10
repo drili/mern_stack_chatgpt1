@@ -227,7 +227,8 @@ const CustomerAccordion = ({ customerObject, selectedSprint }) => {
                     showModalState={showModal}
                     onCloseModal={onCloseModal}
                     fetchTasks={fetchTasks}
-                    sprintOverviewFetch={sprintOverviewFetch}
+                    // sprintOverviewFetch={sprintOverviewFetch}
+                    updateFunc={sprintOverviewFetch}
                 />
             </>
         </div>
