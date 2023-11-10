@@ -136,6 +136,8 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                             color: "#fff"
                         }
                     })
+
+                    sprintOverviewFetch()
                 }
             } catch (error) {
                 console.error("Error updating task percentage:", error)
