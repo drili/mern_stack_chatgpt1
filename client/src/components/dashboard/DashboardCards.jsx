@@ -71,7 +71,7 @@ const DashboardCards = ({
                     </span>
 
                     <span className="flex flex-col gap-2">
-                        <p className="text-sm">Allocated Low: <b>{totalAllocatedTimeLow.toFixed(2)}</b> • Allocated High: <b>{totalAllocatedTimeHigh.toFixed(2)}</b></p>
+                        <p className="text-sm">Allocated Low: <b>{parseFloat(totalAllocatedTimeLow).toFixed(2)}</b> • Allocated High: <b>{parseFloat(totalAllocatedTimeHigh).toFixed(2)}</b></p>
                     </span>
                 </Card>
             </span>
