@@ -84,8 +84,8 @@ function Register() {
                     </div>
                 </form>
 
-                <div className='flex gap-2 mt-10 text-center m-auto align-center justify-center'>
-                    <Link to="/admin/persons-overview">View User(s)</Link>
+                <div className='flex gap-2 mt-5 text-center m-auto align-center justify-center'>
+                    <Link to="/admin/persons-overview" className="text-sm">View User(s)</Link>
                 </div>
             </section>
 
