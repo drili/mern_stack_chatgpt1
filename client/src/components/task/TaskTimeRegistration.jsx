@@ -3,7 +3,7 @@ import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 import { UserContext } from '../../context/UserContext'
 
-const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, customerId }) => {
+const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, customerId, verticalId }) => {
     const { user } = useContext(UserContext)
     const [timeRegistrations, setTimeRegistrations] = useState([])
     const [formRegisterTime, setFormRegisterTime] = useState({
@@ -13,7 +13,8 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, cu
         description: "",
         sprintId: "",
         currentTime: "",
-        customerId: ""
+        customerId: "",
+        verticalId: verticalId
     })
 
     const fetchTimeRegistrations = async (taskId) => {

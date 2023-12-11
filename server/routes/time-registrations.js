@@ -126,7 +126,7 @@ router.route("/time-registered-by-user").post(async (req, res) => {
 })
 
 router.route("/register-time").post(async (req,res) => {
-    const { userId, taskId, timeRegistered, description, sprintId, currentTime, registrationType, customerId } = req.body
+    const { userId, taskId, timeRegistered, description, sprintId, currentTime, registrationType, customerId, verticalId } = req.body
     
     function formatDateForDisplay(inputDate) {
         const dateParts = inputDate.split('-')
@@ -164,7 +164,8 @@ router.route("/register-time").post(async (req,res) => {
             description,
             sprintId,
             currentTime: formattedDate,
-            registrationType: registrationTypeValue
+            registrationType: registrationTypeValue,
+            verticalId
         })
         
         return res.status(201).json(timeRegistration)

@@ -16,6 +16,10 @@ const timeRegistrationSchema = new mongoose.Schema({
         ref: "Sprints",
         required: true
     },
+    verticalId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Vertical",
+    },
     timeRegistered: {
         type: Number,
         required: true

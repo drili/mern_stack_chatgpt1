@@ -52,7 +52,6 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
             setTimeout(() => {
                 const taskElement = document.querySelector(`.taskModalComponent`)
                 if (taskElement) {
-                    console.log({taskElement});
                     const offset = -0
                     window.scroll({
                         top: taskElement.getBoundingClientRect().top + window.scrollY + offset,
@@ -145,6 +144,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                                         taskId={taskID}
                                                         sprintId={task[0]?.taskSprints[0]?._id}
                                                         customerId={task[0]?.taskCustomer?._id}
+                                                        verticalId={task[0]?.taskVertical}
                                                     ></TaskTimeRegistration>
                                                 </section>
 
