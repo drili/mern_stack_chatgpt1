@@ -67,13 +67,13 @@ router.route("/register").post((req, res) => {
 })
 
 router.route("/login").post((req, res) => {
-    const { username, password } = req.body
+    const { email, password } = req.body
 
-    if(!username || !password) {
+    if(!email || !password) {
         return res.status(400).json({ msg: '::: Please enter all fields' });
     }
 
-    User.findOne({ username })
+    User.findOne({ email })
         .then(user => {
             if (!user) return res.status(400).json({ msg: '::: User does not exist' });
 

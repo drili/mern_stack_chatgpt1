@@ -122,7 +122,7 @@ const Layout = ({ children }) => {
                             />
                             <div>
                                 <p className='font-bold text-gray-900'>@{username}</p>
-                                <p className='font-light text-gray-600'>{email}</p>
+                                <p className='font-light text-gray-600 text-sm'>{email}</p>
                             </div>
                         </div>
                     </div>

@@ -5,7 +5,7 @@ import backgroundImage from "../assets/pexels-feyza-yıldırım-15795337.jpg"
 import { UserContext } from '../context/UserContext';
 
 function Login() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { setUser } = useContext(UserContext)
 
@@ -15,15 +15,15 @@ function Login() {
         e.preventDefault()
 
         const user = {
-            username,
-            password
+            email,
+            password,
         }
 
         axios.post('http://localhost:5000/users/login', user)
             .then(res => {
                 console.log(res.data);
                 localStorage.setItem('token', res.data.token)
-                localStorage.setItem("username", username)
+                localStorage.setItem("username", res.data.username)
                 localStorage.setItem("email", res.data.user.email)
                 localStorage.setItem("is_activated", res.data.user.is_activated)
                 localStorage.setItem("profile_image", res.data.user.profile_image)
@@ -38,7 +38,7 @@ function Login() {
             })
             .catch(err => console.error(err));
 
-        setUsername('');
+        setEmail('');
         setPassword('');
     }
 
@@ -50,14 +50,14 @@ function Login() {
                 </div>
                 <form onSubmit={onSubmit}>
                     <div className='mb-6'>
-                        <label htmlFor="email" className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>Username</label>
+                        <label htmlFor="email" className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>Email Address</label>
                         <input
                             placeholder='Enter your username'
                             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500'
                             type="text"
                             required
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                         />
                     </div>
                     <div>

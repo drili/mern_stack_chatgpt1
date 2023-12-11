@@ -6,6 +6,7 @@ import { FiUsers } from "react-icons/fi"
 import { BsListTask } from "react-icons/bs"
 import { Link } from 'react-router-dom'
 import { HiOutlineArrowSmRight, HiOutlineCog } from "react-icons/hi"
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const Admin = () => {
     return (
@@ -95,6 +96,22 @@ const Admin = () => {
                         <span>
                             <h2 class="text-lg font-bold text-gray-900">Groups</h2>
                             <h2 class="text-sm font-light text-zinc-500">Admin Panel View</h2>
+                        </span>
+                    </div>
+
+                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
+                        View <HiOutlineArrowSmRight/>
+                    </Link>
+                </Card>
+
+                <Card className="h-full">
+                    <div className='flex gap-4 items-center'>
+                        <span>
+                            <FaRegTrashAlt size={40}/>
+                        </span>
+                        <span>
+                            <h2 class="text-lg font-bold text-gray-900">Archived Tasks</h2>
+                            <h2 class="text-sm font-light text-zinc-500">View and restore archived tasks</h2>
                         </span>
                     </div>
 
