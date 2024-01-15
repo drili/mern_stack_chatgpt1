@@ -1,6 +1,17 @@
 const express = require("express")
 const router = express.Router()
 const Sprints = require("../models/Sprints")
+const SprintYear = require("../models/SprintYear")
+
+router.route("/fetch-sprint-years").get(async (req, res) => {
+    try {
+        const sprintYears = await SprintYear.find().sort({ _id: -1 })
+        res.json(sprintYears)
+    } catch (error) {
+        console.error('Failed to fetch sprintYears', error)
+        res.status(500).json({ error: "Failed to fetch sprintYears" })
+    }
+})
 
 router.route("/fetch").get(async (req, res) => {
     try {

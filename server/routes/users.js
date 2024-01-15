@@ -5,6 +5,23 @@ const jwt = require("jsonwebtoken")
 const jwtMiddleware = require("../jwtMiddleware")
 const multer = require("multer")
 
+router.route("/update-sprint-year").put(async (req, res) => {
+    const { activeYear, userId } = req.body
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { activeYear },
+            { new: true }
+        )
+
+        res.status(200).json(updatedUser)
+    } catch (error) {
+        console.error('Failed to update sprint year:', error);
+        res.status(500).json({ error: 'Failed to update sprint year' });
+    }
+})
+
 router.route("/register").post((req, res) => {
     const { 
         username, 
@@ -97,7 +114,8 @@ router.route("/login").post((req, res) => {
                                     is_activated: user.isActivated,
                                     profile_image: user.profileImage,
                                     user_role: user.userRole,
-                                    user_title: user.userTitle
+                                    user_title: user.userTitle,
+                                    active_year: user.activeYear,
                                 }
                             });
                         }

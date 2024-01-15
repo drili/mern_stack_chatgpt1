@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import userImage from "../assets/profile-pics/default-image.jpg"
+import axios from 'axios';
 
 const Navbar = () => {
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
@@ -14,6 +15,39 @@ const Navbar = () => {
     const [imageSrc, setImageSrc] = useState(null)
     const navigate = useNavigate()
     const { user } = useContext(UserContext)
+    const [activeYear, setActiveYear] = useState("")
+    const [sprintYears, setSprintYears] = useState([])
+
+    const handleSprintYearChange = async (e) => {
+        const newActiveYear = e
+
+        try {
+            const response = await axios.put(`http://localhost:5000/users/update-sprint-year`, { activeYear: newActiveYear, userId: user.id })
+            setActiveYear(response.data.activeYear)
+        } catch (error) {
+            console.error('Failed to update sprint year:', error);
+        }
+    }
+
+    const fetchSprintYears = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/sprints/fetch-sprint-years`)
+            if (response.status === 200) {
+                setSprintYears(response.data)
+            }
+        } catch (error) {
+            console.error('Failed to fetch all sprint years', error)
+        }
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        localStorage.clear();
+        setUsername('');
+
+        navigate("/login")
+    }
 
     useEffect(() => {
         if (user) {
@@ -21,7 +55,10 @@ const Navbar = () => {
             setEmail(user?.email)
             setUserImg(user?.profile_image)
             setImageSrc("http://localhost:5000/uploads/")
+            setActiveYear(user?.active_year)
+            fetchSprintYears();
         }
+
 
         // if (!user.profile_image) {
         //     setProfileImage(userImage)
@@ -32,15 +69,6 @@ const Navbar = () => {
         //     setImageSrc("http://localhost:5000/uploads/")
         // }
     }, [user])
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        localStorage.clear();
-        setUsername('');
-
-        navigate("/login")
-    }
 
     return (
         <>
@@ -56,13 +84,16 @@ const Navbar = () => {
                             {/* // 1. Or save in user DB for storage <--  */}
                             <div>
                                 <select
-                                    className={`${inputClasses} min-w-[100px]`}
+                                    className={`${inputClasses} min-w-[100px] bg-white`}
                                     defaultValue=""
-                                    // onChange={(e) => handleSprintChange(e.target.value)}
-                                    // onChange={handleSprintChange}
+                                    onChange={(e) => handleSprintYearChange(e.target.value)}
                                 >
-                                    <option disabled value="">2024</option>
-                                    <option value="">2023</option>
+                                    <option value={activeYear}>{activeYear}</option>
+                                    {sprintYears
+                                        .filter((year) => year.sprintYear !== activeYear)
+                                        .map((year) => (
+                                        <option key={year._id} value={year.sprintYear}>{year.sprintYear}</option>
+                                    ))}
                                 </select>
                             </div>
 
