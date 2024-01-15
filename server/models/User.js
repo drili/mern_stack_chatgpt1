@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "employee",
         },
+        activeYear: {
+            type: Number,
+            default: 2024
+        },
     },
     {
         timestamps: true,

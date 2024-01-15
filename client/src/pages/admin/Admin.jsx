@@ -30,7 +30,7 @@ const Admin = () => {
                     </div>
 
                     <Link
-                        to="" 
+                        to="general-features" 
                         className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>

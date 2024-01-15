@@ -22,6 +22,7 @@ import TimeRegistrationsOverview from './pages/admin/TimeRegistrationsOverview';
 import PersonsOverview from './pages/admin/PersonsOverview';
 import CannotAccess from './pages/CannotAccess';
 import UserNotActivated from './pages/functionalities/UserNotActivated';
+import GeneralFeatures from './pages/admin/GeneralFeatures';
 
 function AppRoutes() {
     return (
@@ -69,6 +70,11 @@ function AppRoutes() {
                                 <Route path="admin/register" element={<ProtectedRoute>
                                     <AdminRoute>
                                         <Register/>
+                                    </AdminRoute>
+                                </ProtectedRoute>} />
+                                <Route path="admin/general-features" element={<ProtectedRoute>
+                                    <AdminRoute>
+                                        <GeneralFeatures/>
                                     </AdminRoute>
                                 </ProtectedRoute>} />
                                 

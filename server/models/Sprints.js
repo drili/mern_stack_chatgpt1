@@ -3,7 +3,8 @@ const mongoose = require("mongoose")
 const sprintSchema = mongoose.Schema({
     sprintName: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
     },
     sprintMonth: {
         type: String,
