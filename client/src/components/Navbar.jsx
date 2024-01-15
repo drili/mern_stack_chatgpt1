@@ -4,6 +4,9 @@ import { UserContext } from '../context/UserContext';
 import userImage from "../assets/profile-pics/default-image.jpg"
 
 const Navbar = () => {
+    const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
+    const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [userImg, setUserImg] = useState("")
@@ -51,9 +54,17 @@ const Navbar = () => {
                         <span id="navbarButtons" className='flex gap-4 items-center mr-4'>
                             {/* // TODO: Add "year picker" that is active/available through the entire app (useContext?) */}
                             {/* // 1. Or save in user DB for storage <--  */}
-                            <Link to="#">
-                                <button type="submit" className='h-fit whitespace-nowrap button text-black bg-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>2024</button>
-                            </Link>
+                            <div>
+                                <select
+                                    className={`${inputClasses} min-w-[100px]`}
+                                    defaultValue=""
+                                    // onChange={(e) => handleSprintChange(e.target.value)}
+                                    // onChange={handleSprintChange}
+                                >
+                                    <option disabled value="">2024</option>
+                                    <option value="">2023</option>
+                                </select>
+                            </div>
 
                             <Link to="/register-offtime">
                                 <button type="submit" className='h-fit whitespace-nowrap button text-black bg-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Register Off- & Sicktime</button>
