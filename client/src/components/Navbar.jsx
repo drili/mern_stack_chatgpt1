@@ -31,6 +31,7 @@ const Navbar = () => {
                 setUser(updatedUser)
 
                 localStorage.setItem("user", JSON.stringify(updatedUser))
+                window.location.reload()
             }
         } catch (error) {
             console.error('Failed to update sprint year:', error);

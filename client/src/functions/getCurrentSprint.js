@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
+import { UserContext } from '../context/UserContext'
 
 const getCurrentSprint = () => {
     const [activeSprint, setActiveSprint] = useState({ month: '', year: '' })
 
+    const { user } = useContext(UserContext)
+
     const currentDate = new Date()
     const currentMonth = currentDate.toLocaleString('en-US', { month: 'long' })
-    const currentYear = currentDate.getFullYear().toString()
+    // const currentYear = currentDate.getFullYear().toString()
+    const currentYear = user.active_year
 
     const fetchSprintData = async () => {
         try {

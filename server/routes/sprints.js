@@ -14,8 +14,15 @@ router.route("/fetch-sprint-years").get(async (req, res) => {
 })
 
 router.route("/fetch").get(async (req, res) => {
+    let { activeYear } = req.query
+
+    if (!activeYear) {
+        activeYear = new Date().getFullYear()
+    }
+
     try {
-        const sprints = await Sprints.find().sort({ _id: -1 })
+        const sprints = await Sprints.find({ sprintYear: activeYear }).sort({ _id: -1 })
+        console.log({activeYear});
         res.json(sprints)
     } catch (error) {
         console.error('Failed to fetch sprints', error)

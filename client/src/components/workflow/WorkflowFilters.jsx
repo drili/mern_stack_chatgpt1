@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BsSearch, BsCalendarFill } from "react-icons/bs"
 import { BiUser } from "react-icons/bi"
 import axios from 'axios'
+import { UserContext } from '../../context/UserContext'
 
 
 const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilteredTasks, updatedFilteredTasksCustomer, setNewSprintArray }) => {
@@ -10,12 +11,14 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
     const [currentSprint, setCurrentSprint] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
 
+    const { user } = useContext(UserContext)
+
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 
     const fetchSprints = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/sprints/fetch")
+            const response = await axios.get(`http://localhost:5000/sprints/fetch?activeYear=${user.active_year}`)
             setSprints(response.data)
         } catch (error) {
             console.error('Failed to fetch sprints', error);
@@ -69,7 +72,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
             <section className='flex justify-end gap-8'>
                 
                 <div id='WorkflowFilters-activeSprint'>
-                    <span className='h-full flex flex-col justify-center inline-block bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
+                    <span className='h-full flex flex-col justify-center bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
                         {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
                     </span>
                 </div>
