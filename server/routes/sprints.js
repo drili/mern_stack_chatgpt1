@@ -22,7 +22,6 @@ router.route("/fetch").get(async (req, res) => {
 
     try {
         const sprints = await Sprints.find({ sprintYear: activeYear }).sort({ _id: -1 })
-        console.log({activeYear});
         res.json(sprints)
     } catch (error) {
         console.error('Failed to fetch sprints', error)
