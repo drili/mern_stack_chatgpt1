@@ -14,9 +14,10 @@ const Navbar = () => {
     const [profileImage, setProfileImage] = useState(null)
     const [imageSrc, setImageSrc] = useState(null)
     const navigate = useNavigate()
-    const { user } = useContext(UserContext)
     const [activeYear, setActiveYear] = useState("")
     const [sprintYears, setSprintYears] = useState([])
+
+    const { user, setUser } = useContext(UserContext)
 
     const handleSprintYearChange = async (e) => {
         const newActiveYear = e
@@ -24,6 +25,12 @@ const Navbar = () => {
         try {
             const response = await axios.put(`http://localhost:5000/users/update-sprint-year`, { activeYear: newActiveYear, userId: user.id })
             setActiveYear(response.data.activeYear)
+
+            if (user) {
+                setUser({ ...user, active_year: response.data.activeYear })
+
+                console.log({user});
+            }
         } catch (error) {
             console.error('Failed to update sprint year:', error);
         }
