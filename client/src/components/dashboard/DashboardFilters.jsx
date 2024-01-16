@@ -46,7 +46,7 @@ const DashboardFilters = ({ onSelectedSprint }) => {
             <section className='flex justify-end gap-8'>
                 
                 <div id='WorkflowFilters-activeSprint'>
-                    <span className='h-full flex flex-col justify-center inline-block bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
+                    <span className='h-full flex flex-col justify-center bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
                         {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
                     </span>
                 </div>
