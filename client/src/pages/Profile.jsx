@@ -9,7 +9,7 @@ import UploadImageForm from '../components/UploadImageForm';
 
 const Profile = () => {
     const { user, setUser } = useContext(UserContext)
-    console.log(user);
+    // console.log(user);
 
     const handleEditProfileForm = (data) => {
         // console.log(data);

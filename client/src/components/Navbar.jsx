@@ -27,9 +27,10 @@ const Navbar = () => {
             setActiveYear(response.data.activeYear)
 
             if (user) {
-                setUser({ ...user, active_year: response.data.activeYear })
+                const updatedUser = { ...user, active_year: response.data.activeYear }
+                setUser(updatedUser)
 
-                console.log({user});
+                localStorage.setItem("user", JSON.stringify(updatedUser))
             }
         } catch (error) {
             console.error('Failed to update sprint year:', error);
