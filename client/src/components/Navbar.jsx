@@ -89,8 +89,6 @@ const Navbar = () => {
 
                     <div className="flex md:order-2">
                         <span id="navbarButtons" className='flex gap-4 items-center mr-4'>
-                            {/* // TODO: Add "year picker" that is active/available through the entire app (useContext?) */}
-                            {/* // 1. Or save in user DB for storage <--  */}
                             <div>
                                 <select
                                     className={`${inputClasses} min-w-[100px] bg-white`}
