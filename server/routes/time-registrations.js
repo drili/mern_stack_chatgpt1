@@ -164,7 +164,7 @@ router.route("/register-time").post(async (req,res) => {
             description,
             // TODO: Add the sprintId based on the "currentTime" value.
             // Example: If user registeres time registrations in 11-12-2023 (december), but on a November sprint task, the sprintId so be december, not november.
-            // ...
+            // ....
             sprintId,
             currentTime: formattedDate,
             registrationType: registrationTypeValue,
