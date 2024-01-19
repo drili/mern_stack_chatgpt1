@@ -143,7 +143,7 @@ const Dashboard = () => {
             ></DashboardFilters>
             
 
-            <section id="topCards" className='grid grid-cols-3 gap-10 mb-10'>
+            <section id="topCards" className='grid grid-cols-1 gap-10 mb-10 md:grid-cols-3'>
                 <DashboardCards
                     totalAccumulatedTime={totalAccumulatedTime}
                     workDays={workDays}
@@ -154,7 +154,7 @@ const Dashboard = () => {
                 ></DashboardCards>
             </section>
 
-            <section id="timeRegsWeekly" className="grid grid-cols-2 gap-10 mb-10">
+            <section id="timeRegsWeekly" className="grid grid-cols-1 gap-10 mb-10 md:grid-cols-2">
                 <span>
                     <Card className="h-full bg-rose-50">
                         <div>
@@ -206,7 +206,6 @@ const Dashboard = () => {
                     registrationData={timeRegisteredAll}
                     activeSprint={activeSprintState}
                 />
-                {/* // TODO: Table overview over time registrations of team/users */}
             </section>
         </div>
     )
