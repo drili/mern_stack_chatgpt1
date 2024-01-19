@@ -86,7 +86,7 @@ const Navbar = () => {
 
     const menuItems = (
         <>
-            <span id="navbarButtons" className='flex gap-4 mt-10 flex-col w-full md:flex-row md:mr-4 md:items-center md:mt-0'>
+            <span id="navbarButtons" className='flex gap-4 mt-10 flex-col w-full md:flex-row md:mr-4 md:items-center md:mt-0 md:w-auto'>
                 <div>
                     <select
                         className={`${inputClasses} min-w-[100px] bg-white`}
