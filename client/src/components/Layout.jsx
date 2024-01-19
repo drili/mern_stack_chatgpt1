@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Navbar from './Navbar'
 import { Link, useLocation } from 'react-router-dom'
-import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear, BsCurrencyDollar, BsFillHeartPulseFill } from 'react-icons/bs'
+import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear, BsCurrencyDollar, BsFillHeartPulseFill, BsThreeDots } from 'react-icons/bs'
+import { AiOutlineMenu } from "react-icons/ai"
 import SidebarLink from './navbar/SidebarLink'
 import { UserContext } from '../context/UserContext'
 
@@ -21,7 +22,7 @@ const Layout = ({ children }) => {
     const toggleSidebar = () => {
         setShowSidebar(!showSidebar)
     }
-    
+
     useEffect(() => {
         if (user) {
             setImageSrc("http://localhost:5000/uploads/")
@@ -29,12 +30,30 @@ const Layout = ({ children }) => {
             setEmail(user.email)
             setUserImg(user.profile_image)
         }
+
+        const checkScreenWidth = () => {
+            const screenWidth = window.innerWidth
+            if (screenWidth <= 990) {
+                setShowSidebar(false)
+            } else {
+                setShowSidebar(true)
+            }
+            
+            setIsMobile(screenWidth <= 990)
+        }
+
+        checkScreenWidth()
+
+        window.addEventListener("resize", checkScreenWidth)
+        return () => window.removeEventListener('resize', checkScreenWidth)
     }, [user])
 
     return (
         <div className='layout flex'>
             {showSidebar && (
-                <aside className='relative bg-slate-50 w-1/6 min-h-screen p-6'>
+                // <aside className='relative bg-slate-50 w-1/6 min-h-screen p-6'>
+                // <aside className={`bg-slate-50 p-6 ${isMobile ? 'fixed inset-0 z-40' : 'relative w-1/6 min-h-screen'}`}>
+                <aside className={`bg-slate-50 p-6 transition-transform duration-300 ease-in-out ${isMobile ? (showSidebar ? 'fixed inset-0 z-10 translate-x-0' : 'fixed inset-0 z-10 -translate-x-full') : 'relative w-1/6 min-h-screen'}`}>
                     <div className='sidebar-content top-40 left-0 sticky'>
                         <span>
                             <h3 className='mb-3 font-thin text-zinc-300'>Main Menu</h3>
@@ -134,10 +153,10 @@ const Layout = ({ children }) => {
 
                 {isMobile && (
                     <button
-                        className='fixed bottom-4 left-4 bg-rose-500 text-white px-3 py-1 rounded-md z-10'
+                        className='fixed bottom-4 left-4 bg-slate-800 text-white p-2 rounded-full flex items-center justify-center z-40'
                         onClick={toggleSidebar}
                     >
-                        {showSidebar && isMobile ? <AiOutlineMenu /> : <AiOutlineMenu />}
+                        {showSidebar && isMobile ? <BsThreeDots /> : <BsThreeDots />}
                     </button>
                 )}
 
