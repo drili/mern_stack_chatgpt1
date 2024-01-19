@@ -69,10 +69,10 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
 
     return (
         <div id='WorkflowFilters' className='py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none mb-10'>
-            <section className='flex justify-end gap-8'>
+            <section className='flex justify-end gap-8 flex-col md:flex-row'>
                 
                 <div id='WorkflowFilters-activeSprint'>
-                    <span className='h-full flex flex-col justify-center bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
+                    <span className='h-full flex flex-col justify-center bg-slate-500 text-white border rounded-md text-xs font-medium p-3'>
                         {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
                     </span>
                 </div>

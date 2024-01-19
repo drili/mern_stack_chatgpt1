@@ -162,7 +162,7 @@ const Workflow = () => {
             ></WorkflowFilters>
 
             <DragDropContext onDragEnd={onDragEnd}>
-                <section className='flex gap-5'>
+                <section className='flex gap-5 flex-col md:flex-row'>
                     {Object.entries(workflowColumnsData).map(([key, value]) => (
                         <span className='flex-1' key={key}>
                             <h3 className='font-bold mb-5 border-b pb-2'>{value[0].name}</h3>
