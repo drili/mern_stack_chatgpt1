@@ -119,7 +119,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
             <Accordion collapseAll >
                 <Accordion.Panel>
                     <Accordion.Title id={`taskId_${userObject._id}`} className={user.id === userObject._id ? "bg-rose-50 rounded-none" : ""}>
-                        <span className='flex gap-5 items-center'>
+                        <span className='flex gap-5 flex-col items-start md:flex-row md:items-center'>
                             <div className='flex gap-5 items-center'>
                                 <img
                                     className='w-[60px] h-[60px] rounded-full object-cover'
@@ -134,7 +134,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                 </span>
                             </div>
 
-                            <div className='absolute right-[100px]'>
+                            <div className='relative right-0 md:absolute md:right-[100px]'>
                                 {accumulatedValues[userObject._id] ? (
                                 <div id="taskInfoLabels" className='flex gap-4'>
                                     <span className='text-center'>
@@ -178,8 +178,8 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                     </Accordion.Title>
                     <Accordion.Content>
                         {isOpen ? (
-                            <>
-                                <Table className='relative'>
+                            <div className='overflow-x-auto'>
+                                <Table className='relative min-w-full'>
                                     <Table.Head>
                                         <Table.HeadCell className='text-left'>
                                             Task Name
@@ -253,7 +253,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                     ))}
                                     </Table.Body>
                                 </Table>
-                            </>
+                            </div>
                         ) : (
                             null
                         )}

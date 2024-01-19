@@ -42,8 +42,8 @@ const SprintOverviewFilters = ({ onSelectedSprint }) => {
     }, [activeSprint])
 
     return (
-        <div id='WorkflowFilters' className='items-center py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-row justify-between w-full outline-none focus:outline-none mb-10'>
-            <section className='flex gap-4'>
+        <div id='WorkflowFilters' className='items-center py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex justify-between w-full outline-none focus:outline-none mb-10 flex-col md:flex-row'>
+            <section className='gap-4 hidden md:flex'>
                 <button className='bg-white px-4 py-2 rounded-lg border-1 border-zinc-300'>
                     Persons
                 </button>
@@ -53,10 +53,10 @@ const SprintOverviewFilters = ({ onSelectedSprint }) => {
                 </button> */}
             </section>
 
-            <section className='flex justify-end gap-8'>
+            <section className='flex justify-end gap-8 flex-col w-full md:flex-row'>
                 
                 <div id='WorkflowFilters-activeSprint'>
-                    <span className='h-full flex flex-col justify-center bg-slate-500 text-white border rounded-md px-4 py-1 text-xs font-medium'>
+                    <span className='h-full flex flex-col justify-center bg-slate-500 text-white border rounded-md text-xs font-medium p-3'>
                         {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
                     </span>
                 </div>
