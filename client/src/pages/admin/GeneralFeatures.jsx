@@ -9,6 +9,10 @@ const GeneralFeatures = () => {
                 subHeading={`Create new sprint(s)/sprint-years, view archived tasks and more`}
                 suffix=""
             />
+
+            {/* // TODO: Add the following options:
+                1. Ability to create new sprints
+                3. ... figure out what else */}
         </div>
     )
 }

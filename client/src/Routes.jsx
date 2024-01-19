@@ -23,6 +23,7 @@ import PersonsOverview from './pages/admin/PersonsOverview';
 import CannotAccess from './pages/CannotAccess';
 import UserNotActivated from './pages/functionalities/UserNotActivated';
 import GeneralFeatures from './pages/admin/GeneralFeatures';
+import TaskVerticalsOverview from './pages/admin/TaskVerticalsOverview';
 
 function AppRoutes() {
     return (
@@ -75,6 +76,11 @@ function AppRoutes() {
                                 <Route path="admin/general-features" element={<ProtectedRoute>
                                     <AdminRoute>
                                         <GeneralFeatures/>
+                                    </AdminRoute>
+                                </ProtectedRoute>} />
+                                <Route path="admin/task-verticals-overview" element={<ProtectedRoute>
+                                    <AdminRoute>
+                                        <TaskVerticalsOverview/>
                                     </AdminRoute>
                                 </ProtectedRoute>} />
                                 
