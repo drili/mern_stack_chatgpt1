@@ -2,6 +2,9 @@ const express = require("express")
 const router = express.Router()
 const TimeRegistration = require("../models/TimeRegistration")
 const User = require("../models/User")
+const Sprints = require("../models/Sprints")
+
+const formatDateToMonthYear = require("../functions/formatDateToMonthYear")
 
 router.route("/fetch-users-time-regs-by-sprint/:sprintId").get(async (req, res) => {
     try {
@@ -156,6 +159,19 @@ router.route("/register-time").post(async (req,res) => {
     const year = date.getFullYear()
     // currentTimeStr = `${day}-${month}-${year}`
     
+    const formattedMonthYear = formatDateToMonthYear(formattedDate)
+
+    // *** Find sprintId
+    const sprint = await Sprints.findOne({
+        sprintName: formattedMonthYear
+    })
+
+    if (!sprint) {
+        return res.status(500).json({ error: 'Failed to find sprint' })
+    }
+
+    const newSprintId = sprint._id
+
     try {
         const timeRegistration = await TimeRegistration.create({
             userId,
@@ -165,7 +181,7 @@ router.route("/register-time").post(async (req,res) => {
             // TODO: Add the sprintId based on the "currentTime" value.
             // Example: If user registeres time registrations in 11-12-2023 (december), but on a November sprint task, the sprintId so be december, not november.
             // ....
-            sprintId,
+            sprintId: newSprintId,
             currentTime: formattedDate,
             registrationType: registrationTypeValue,
             verticalId
