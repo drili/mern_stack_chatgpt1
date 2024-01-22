@@ -35,7 +35,7 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, cu
 
     const handleRegisterTime = async (e) => {
         e.preventDefault()
-    
+        
         if (formRegisterTime.timeRegistered > 0) {
             try {
                 const response = await axios.post(`http://localhost:5000/time-registrations/register-time`, formRegisterTime)
@@ -70,9 +70,10 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, cu
         setFormRegisterTime((formData) => ({
             ...formData,
             sprintId: sprintId,
-            customerId: customerId
+            customerId: customerId,
+            verticalId: verticalId,
         }))
-    }, [taskId, sprintId])
+    }, [taskId, sprintId, verticalId])
 
     return (
         <div id='TaskTimeRegistration' className='mt-5 py-5 px-5 border-0 rounded-lg bg-rose-50 relative flex flex-col w-full outline-none focus:outline-none'>

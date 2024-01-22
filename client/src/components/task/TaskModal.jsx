@@ -29,6 +29,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
     const fetchTaskData = async (taskID) => {
         if (taskID) {
             const response = await axios.get(`http://localhost:5000/tasks/fetch-by-id/${taskID}`)
+            
             setTask(response.data)
             setFormData((formData) => ({
                 ...formData,
@@ -37,7 +38,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                 taskTimeHigh: response.data[0]["taskTimeHigh"],
                 taskDescription: response.data[0]["taskDescription"],
             }))
-        }   
+        }
     }
 
     const closeModal = () => {
@@ -46,7 +47,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
         onCloseModal()
         toast.dismiss()
     }
-    
+
     useEffect(() => {
         if (showModalState) {
             setTimeout(() => {
@@ -58,7 +59,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                         behavior: 'smooth',
                     })
                 }
-            }, 250)    
+            }, 250)
         }
 
         setShowModal(showModalState)
@@ -70,7 +71,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
 
         try {
             const response = await axios.put(`http://localhost:5000/tasks/update/${taskID}`, formData)
-            
+
             if (response.status === 200) {
                 toast('Task updated successfully', {
                     duration: 4000,
@@ -108,9 +109,9 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                             className='absolute z-50 top-0 w-full translate-x-[-50%] left-[50%]'
                         >
                             <div className="relative my-6 mx-auto max-w-screen-xl w-full taskModalComponent">
-                                
+
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                                    
+
                                     <div className='flex items-start justify-between px-4 pt-5 pb-0 rounded-t md:px-10'>
                                         <span className="taskLabel bg-rose-100 text-sm px-2 py-1 rounded text-rose-800 font-bold">
                                             {task[0]?.taskSprints[0]?.sprintName}
@@ -131,21 +132,23 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                             <h4><FaWindowClose></FaWindowClose></h4>
                                         </button>
                                     </div>
-                                    
+
                                     <div className="relative p-4 pt-0 flex-auto md:p-10">
                                         <hr />
-                                        
+
                                         <div className='grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-10'>
                                             <section className='mt-5'>
                                                 <section>
-                                                    <TaskTimeRegistration
-                                                        labelClasses={labelClasses}
-                                                        inputClasses={inputClasses}
-                                                        taskId={taskID}
-                                                        sprintId={task[0]?.taskSprints[0]?._id}
-                                                        customerId={task[0]?.taskCustomer?._id}
-                                                        verticalId={task[0]?.taskVertical}
-                                                    ></TaskTimeRegistration>
+                                                    {task && (
+                                                        <TaskTimeRegistration
+                                                            labelClasses={labelClasses}
+                                                            inputClasses={inputClasses}
+                                                            taskId={taskID}
+                                                            sprintId={task[0]?.taskSprints[0]?._id}
+                                                            customerId={task[0]?.taskCustomer?._id}
+                                                            verticalId={task[0]?.taskVertical}
+                                                        ></TaskTimeRegistration>
+                                                    )}
                                                 </section>
 
                                                 <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-rose-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
@@ -154,30 +157,30 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                                     </div>
                                                     <div>
                                                         <label htmlFor="taskName" className={labelClasses}>Task Name</label>
-                                                        <input type="text" name="taskName" placeholder="Task Name" required value={formData["taskName"]} 
-                                                        className={inputClasses} 
-                                                        onChange={(e) => handleInputChange(e)}/>
+                                                        <input type="text" name="taskName" placeholder="Task Name" required value={formData["taskName"]}
+                                                            className={inputClasses}
+                                                            onChange={(e) => handleInputChange(e)} />
                                                     </div>
                                                     <span className='grid grid-cols-2 gap-4'>
                                                         <div>
                                                             <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
-                                                            <input type="number" name="taskTimeLow" placeholder="Task Time Low" required value={formData["taskTimeLow"]}   
-                                                            className={inputClasses} 
-                                                            onChange={(e) => handleInputChange(e)}/>
+                                                            <input type="number" name="taskTimeLow" placeholder="Task Time Low" required value={formData["taskTimeLow"]}
+                                                                className={inputClasses}
+                                                                onChange={(e) => handleInputChange(e)} />
                                                         </div>
                                                         <div>
                                                             <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
-                                                            <input type="number" name="taskTimeHigh" placeholder="Task Time High" required value={formData["taskTimeHigh"]}  
-                                                            className={inputClasses} 
-                                                            onChange={(e) => handleInputChange(e)}/>
+                                                            <input type="number" name="taskTimeHigh" placeholder="Task Time High" required value={formData["taskTimeHigh"]}
+                                                                className={inputClasses}
+                                                                onChange={(e) => handleInputChange(e)} />
                                                         </div>
                                                     </span>
                                                     <div>
                                                         <label className={labelClasses} htmlFor="taskDescription">Task Description</label>
 
-                                                        <textarea name="taskDescription" placeholder="Task Description" required value={formData["taskDescription"]} 
-                                                        className={inputClasses} 
-                                                        onChange={(e) => handleInputChange(e)}/>
+                                                        <textarea name="taskDescription" placeholder="Task Description" required value={formData["taskDescription"]}
+                                                            className={inputClasses}
+                                                            onChange={(e) => handleInputChange(e)} />
                                                     </div>
 
                                                     <button type="submit" className='button text-white mt-5 bg-rose-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task</button>

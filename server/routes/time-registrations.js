@@ -3,8 +3,58 @@ const router = express.Router()
 const TimeRegistration = require("../models/TimeRegistration")
 const User = require("../models/User")
 const Sprints = require("../models/Sprints")
+const mongoose = require("mongoose")
 
 const formatDateToMonthYear = require("../functions/formatDateToMonthYear")
+
+router.route("/time-registrations-verticals-aggregated/:sprintId").get(async (req, res) => {
+    const { sprintId } = req.params
+
+    try {
+        const objectIdSprintId = new mongoose.Types.ObjectId(sprintId)
+
+        const aggregatedData = await TimeRegistration.aggregate([
+            {
+                $match: {
+                    sprintId: objectIdSprintId
+                }
+            },
+            {
+                $lookup: {
+                    from: "verticals",
+                    localField: "verticalId",
+                    foreignField: "_id",
+                    as: "verticalInfo"
+                }
+            },
+            {
+                $unwind: "$verticalInfo"
+            },
+            {
+                $group: {
+                    _id: {
+                        verticalName: "$verticalInfo.verticalName",
+                        sprintId: "$sprintId"
+                    },
+                    totalHours: { $sum: "$timeRegistered" }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    vertical: "$_id.verticalName",
+                    hoursRegistered: "$totalHours",
+                    sprint: "$_id.sprintId"
+                }
+            }
+        ]);
+
+        res.status(200).json(aggregatedData)
+    } catch (error) {
+        console.error('Aggregation error:', error);
+        res.status(500).send({ message: 'Error fetching aggregated verticals data', error: error });
+    }
+})
 
 router.route("/fetch-users-time-regs-by-sprint/:sprintId").get(async (req, res) => {
     try {
@@ -14,19 +64,19 @@ router.route("/fetch-users-time-regs-by-sprint/:sprintId").get(async (req, res) 
 
         if (sprintId && activeUsers) {
             for (const user of activeUsers) {
-                const timeRegistrations = await TimeRegistration.find({ 
+                const timeRegistrations = await TimeRegistration.find({
                     userId: user._id,
                     sprintId: sprintId
                 })
-    
+
                 let totalTime = 0
                 let clientTime = 0
                 let internTime = 0
                 let restTime = 0
-    
+
                 for (const registration of timeRegistrations) {
                     totalTime += registration.timeRegistered
-    
+
                     if (registration.registrationType === "client") {
                         clientTime += registration.timeRegistered
                     } else if (registration.registrationType === "intern") {
@@ -35,7 +85,7 @@ router.route("/fetch-users-time-regs-by-sprint/:sprintId").get(async (req, res) 
                         restTime += registration.timeRegistered
                     }
                 }
-    
+
                 const userData = {
                     _id: user._id,
                     username: user.username,
@@ -46,11 +96,11 @@ router.route("/fetch-users-time-regs-by-sprint/:sprintId").get(async (req, res) 
                     restTime,
                     profileImage: user.profileImage
                 }
-    
+
                 activeUsersData.push(userData)
             }
         }
-        
+
         res.status(200).json(activeUsersData)
     } catch (error) {
         console.error('Failed to fetch data:', error)
@@ -102,7 +152,7 @@ router.route("/time-registrations-by-date/:date/:userId").get(async (req, res) =
 
 router.route("/time-registered-by-user").post(async (req, res) => {
     const { userId } = req.body
-    
+
     try {
         const timeRegistrations = await TimeRegistration.find({ userId });
 
@@ -128,9 +178,9 @@ router.route("/time-registered-by-user").post(async (req, res) => {
     }
 })
 
-router.route("/register-time").post(async (req,res) => {
+router.route("/register-time").post(async (req, res) => {
     const { userId, taskId, timeRegistered, description, sprintId, currentTime, registrationType, customerId, verticalId } = req.body
-    
+
     function formatDateForDisplay(inputDate) {
         const dateParts = inputDate.split('-')
         if (dateParts.length === 3) {
@@ -155,10 +205,10 @@ router.route("/register-time").post(async (req,res) => {
 
     const date = new Date()
     const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0') 
+    const month = String(date.getMonth() + 1).padStart(2, '0')
     const year = date.getFullYear()
     // currentTimeStr = `${day}-${month}-${year}`
-    
+
     const formattedMonthYear = formatDateToMonthYear(formattedDate)
 
     // *** Find sprintId
@@ -183,7 +233,7 @@ router.route("/register-time").post(async (req,res) => {
             registrationType: registrationTypeValue,
             verticalId
         })
-        
+
         return res.status(201).json(timeRegistration)
     } catch (error) {
         console.error('Failed to register time', error)
@@ -191,9 +241,9 @@ router.route("/register-time").post(async (req,res) => {
     }
 })
 
-router.route("/time-registered/:taskId").get(async (req,res) => {
+router.route("/time-registered/:taskId").get(async (req, res) => {
     const { taskId } = req.params
-    
+
     try {
         const timeRegistrations = await TimeRegistration.find({
             taskId
@@ -210,13 +260,13 @@ router.route("/time-registered-user/:sprintId/:userId").get(async (req, res) => 
     const { sprintId } = req.params
     const { userId } = req.params
 
-    if(sprintId && userId) {
+    if (sprintId && userId) {
         try {
             const timeRegistered = await TimeRegistration.find({
                 sprintId,
                 userId
             })
-    
+
             return res.status(200).json(timeRegistered)
         } catch (error) {
             console.error("There was an error fetching time registration by user & sprint", error)

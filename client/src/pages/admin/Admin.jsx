@@ -24,8 +24,8 @@ const Admin = () => {
                             <HiOutlineCog size={40} color=''/>
                         </span>
                         <span>
-                            <h2 class="text-lg font-bold text-gray-900">General Features</h2>
-                            <h2 class="text-sm font-light text-zinc-500">Create new <b className='font-bold'>Sprints</b>, and more. (new features TBA)</h2>
+                            <h2 className="text-lg font-bold text-gray-900">General Features</h2>
+                            <h2 className="text-sm font-light text-zinc-500">Create new <b className='font-bold'>Sprints</b>, and more. (new features TBA)</h2>
                         </span>
                     </div>
 
@@ -42,8 +42,8 @@ const Admin = () => {
                             <AiOutlineClockCircle size={40} color=''/>
                         </span>
                         <span>
-                            <h2 class="text-lg font-bold text-gray-900">Time Registrations Overview</h2>
-                            <h2 class="text-sm font-light text-zinc-500">Admin Panel View</h2>
+                            <h2 className="text-lg font-bold text-gray-900">Time Registrations Overview</h2>
+                            <h2 className="text-sm font-light text-zinc-500">Admin Panel View</h2>
                         </span>
                     </div>
 
@@ -60,8 +60,8 @@ const Admin = () => {
                             <FiUsers size={40}/>
                         </span>
                         <span>
-                            <h2 class="text-lg font-bold text-gray-900">Users Overview</h2>
-                            <h2 class="text-sm font-light text-zinc-500">Admin Panel View</h2>
+                            <h2 className="text-lg font-bold text-gray-900">Users Overview</h2>
+                            <h2 className="text-sm font-light text-zinc-500">Admin Panel View</h2>
                         </span>
                     </div>
 
@@ -78,8 +78,8 @@ const Admin = () => {
                             <BsListTask size={40}/>
                         </span>
                         <span>
-                            <h2 class="text-lg font-bold text-gray-900">Task Vertical Overview</h2>
-                            <h2 class="text-sm font-light text-zinc-500">Admin Panel View</h2>
+                            <h2 className="text-lg font-bold text-gray-900">Task Vertical Overview</h2>
+                            <h2 className="text-sm font-light text-zinc-500">Admin Panel View</h2>
                         </span>
                     </div>
 
@@ -96,8 +96,8 @@ const Admin = () => {
                             <AiOutlineUsergroupAdd size={40}/>
                         </span>
                         <span>
-                            <h2 class="text-lg font-bold text-gray-900">Groups</h2>
-                            <h2 class="text-sm font-light text-zinc-500">Admin Panel View</h2>
+                            <h2 className="text-lg font-bold text-gray-900">Groups</h2>
+                            <h2 className="text-sm font-light text-zinc-500">Admin Panel View</h2>
                         </span>
                     </div>
 
@@ -112,8 +112,8 @@ const Admin = () => {
                             <FaRegTrashAlt size={40}/>
                         </span>
                         <span>
-                            <h2 class="text-lg font-bold text-gray-900">Archived Tasks</h2>
-                            <h2 class="text-sm font-light text-zinc-500">View and restore archived tasks</h2>
+                            <h2 className="text-lg font-bold text-gray-900">Archived Tasks</h2>
+                            <h2 className="text-sm font-light text-zinc-500">View and restore archived tasks</h2>
                         </span>
                     </div>
 

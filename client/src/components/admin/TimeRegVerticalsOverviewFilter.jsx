@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { BsSearch, BsCalendarFill } from "react-icons/bs"
 import getCurrentSprint from '../../functions/getCurrentSprint'
 
-const TimeRegOverviewFilter = ({ onSelectedSprint }) => {
+const TimeRegVerticalsOverviewFilter = ({ onSelectedSprint }) => {
     const [sprints, setSprints] = useState([])
     const [currentSprint, setCurrentSprint] = useState([])
     const activeSprint = getCurrentSprint()
@@ -38,7 +38,7 @@ const TimeRegOverviewFilter = ({ onSelectedSprint }) => {
     }, [activeSprint])
 
     return (
-        <div id='TimeRegOverviewFilter' className='items-center py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-row justify-between w-full outline-none focus:outline-none mb-10'>
+        <div id='TimeRegVerticalsOverviewFilter' className='items-center py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-row justify-between w-full outline-none focus:outline-none mb-10'>
             <section className='flex gap-4'>
 
             </section>
@@ -79,4 +79,4 @@ const TimeRegOverviewFilter = ({ onSelectedSprint }) => {
     )
 }
 
-export default TimeRegOverviewFilter
+export default TimeRegVerticalsOverviewFilter
