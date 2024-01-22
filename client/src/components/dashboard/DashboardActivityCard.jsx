@@ -26,19 +26,19 @@ const DashboardActivityCard = ({ data }) => {
             <h3 className="font-bold">Your recent activity this sprint</h3>
             <div id="recentActivity" className="grid grid-cols-2 place-items-center text-center">
                 <div className="w-full py-5 px-2 border-r border-b border-solid border-gray-100">
-                    <h2 className="text-amber-400 font-bold">{accumulatedTime.intern} hours</h2>
+                    <h2 className={`${accumulatedTime.intern > 0 ? "text-amber-400" : "text-slate-500"} font-bold`}>{accumulatedTime.intern} hours</h2>
                     <p>Intern time</p>
                 </div>
                 <div className="w-full py-5 px-2 border-l border-b border-solid border-gray-100">
-                    <h2 className="text-amber-400 font-bold">{accumulatedTime.client} hours</h2>
+                    <h2 className={`${accumulatedTime.client > 0 ? "text-amber-400 font-bold" : "text-slate-500"} font-bold`}>{accumulatedTime.client} hours</h2>
                     <p>Client time</p>
                 </div>
                 <div className="w-full py-5 px-2 border-r border-t border-solid border-gray-100">
-                    <h2 className="text-amber-400 font-bold">{accumulatedTime.offtime} hours</h2>
+                    <h2 className={`${accumulatedTime.offtime > 0 ? "text-amber-400 font-bold" : "text-slate-500"} font-bold`}>{accumulatedTime.offtime} hours</h2>
                     <p>Off time</p>
                 </div>
                 <div className="w-full py-5 px-2 border-l border-t border-solid border-gray-100">
-                    <h2 className="text-amber-400 font-bold">{accumulatedTime.sicktime} hours</h2>
+                    <h2 className={`${accumulatedTime.sicktime > 0 ? "text-amber-400 font-bold" : "text-slate-500"} font-bold`}>{accumulatedTime.sicktime} hours</h2>
                     <p>Sick time</p>
                 </div>
             </div>
