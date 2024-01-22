@@ -45,6 +45,10 @@ router.route("/fetch-sprint-by-month-year/:sprintMonth/:sprintYear").get(async (
     const { sprintMonth } = req.params
     const { sprintYear } = req.params
 
+    if (!sprintMonth || !sprintYear) {
+        return
+    }
+
     try {
         const sprint = await Sprints.find({
             sprintMonth,
