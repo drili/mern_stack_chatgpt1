@@ -111,12 +111,12 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                 
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     
-                                    <div className='flex items-start justify-between px-10 pt-5 pb-0 rounded-t'>
+                                    <div className='flex items-start justify-between px-4 pt-5 pb-0 rounded-t md:px-10'>
                                         <span className="taskLabel bg-rose-100 text-sm px-2 py-1 rounded text-rose-800 font-bold">
                                             {task[0]?.taskSprints[0]?.sprintName}
                                         </span>
                                     </div>
-                                    <div className="flex items-start justify-between p-10 pb-5 rounded-t">
+                                    <div className="flex items-start justify-between p-4 pb-5 rounded-t md:p-10">
                                         <span>
                                             <h3 className="text-3xl font-semibold">
                                                 {formData["taskName"]}
@@ -132,10 +132,10 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                         </button>
                                     </div>
                                     
-                                    <div className="relative p-10 pt-0 flex-auto">
+                                    <div className="relative p-4 pt-0 flex-auto md:p-10">
                                         <hr />
                                         
-                                        <div className='grid grid-cols-2 gap-10'>
+                                        <div className='grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-10'>
                                             <section className='mt-5'>
                                                 <section>
                                                     <TaskTimeRegistration

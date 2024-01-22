@@ -205,7 +205,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 </h2>
 
                 <span id='sprints'>
-                    <form className='flex items-end gap-4 mb-5' onSubmit={handleUpdateSprint}>
+                    <form className='flex flex-col gap-4 mb-5 md:flex-row md:items-end' onSubmit={handleUpdateSprint}>
                         <span className='w-[50%]'>
                             <label className={labelClasses} htmlFor="taskCustomer">Change Task Sprint</label>
                             <select 
