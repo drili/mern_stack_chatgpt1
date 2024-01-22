@@ -314,6 +314,8 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                     <span id='archiveTask'>
                         <hr className='mb-5' />
                         <form onSubmit={(e) => handleArchiveTask(e)}>
+                            {/* TODO: Make some kind of prompt, e.g. "Are you sure?"
+                            - Idea: On "archive task" click, replace "Yes / No" buttons with "Are you sure?" text. */}
                             <label className={labelClasses} htmlFor="archiveTaskId">Archive Task</label>
                             <input type="hidden" name='archiveTaskId' value={taskID} />
                             <button type="submit" className='bg-rose-950 text-white px-5 py-2 text-sm'>Archive Task</button>
