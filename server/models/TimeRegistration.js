@@ -35,6 +35,7 @@ const timeRegistrationSchema = new mongoose.Schema({
         type: String,
         default: null
     }
+    // TODO: Add "registrationVertical", which holds the id of the vertical coming from task.
 }, {
     timestamps: true
 })
