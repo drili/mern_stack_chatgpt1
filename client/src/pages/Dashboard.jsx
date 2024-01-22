@@ -11,6 +11,7 @@ import monthWorkdays from "../functions/monthWorkdays"
 import { Card } from "flowbite-react"
 import DashboardWeeklyChart from "../components/dashboard/DashboardWeeklyChart"
 import DashboardTeamEfforts from "../components/dashboard/DashboardTeamEfforts"
+import DashboardActivityCard from "../components/dashboard/DashboardActivityCard"
 
 const Dashboard = () => {
     const { user } = useContext(UserContext)
@@ -174,29 +175,7 @@ const Dashboard = () => {
                 <span>
                     {/* // TODO: Finish this card */}
                     <Card className="h-full">
-                        <h3 className="font-bold">Your recent activity</h3>
-                        <div id="recentActivity" className="grid grid-cols-2 place-items-center text-center">
-                            <div className="w-full py-5 px-2 border-r border-b border-solid border-gray-100">
-                                <h2 className="text-amber-400 font-bold">99%</h2>
-                                <p>Intern time</p>
-                            </div>
-                            <div className="w-full py-5 px-2 border-l border-b border-solid border-gray-100">
-                                <h2 className="text-amber-400 font-bold">99%</h2>
-                                <p>Client time</p>
-                            </div>
-                            <div className="w-full py-5 px-2 border-r border-t border-solid border-gray-100">
-                                <h2 className="text-amber-400 font-bold">99%</h2>
-                                <p>Off time</p>
-                            </div>
-                            <div className="w-full py-5 px-2 border-l border-t border-solid border-gray-100">
-                                <h2 className="text-amber-400 font-bold">99%</h2>
-                                <p>Sick time</p>
-                            </div>
-                        </div>
-                        
-                        <span>
-                            <p>Percentage allocated from time registrations based on task information.</p>
-                        </span>
+                        <DashboardActivityCard data={timeRegistered} />
                     </Card>
                 </span>
             </section>
