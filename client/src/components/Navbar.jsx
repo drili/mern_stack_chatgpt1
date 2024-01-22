@@ -123,7 +123,7 @@ const Navbar = () => {
                 <button
                     onClick={handleLogout}
                     type="button"
-                    className="h-fit text-black font-medium rounded-md text-sm px-4 mt-5 py-2 text-center mr-3 md:mr-0">Logout</button>
+                    className="h-fit text-black font-medium rounded-md text-sm px-4 mt-5 py-2 text-center mr-3 md:mr-0 md:mt-0">Logout</button>
             </span>
         </>
     )
