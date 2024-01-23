@@ -32,7 +32,7 @@ const TimeRegistrationsOverview = () => {
                 setTimeout(() => {
                     setTimeRegistrations(response.data)
                     setIsLoading(false)
-                }, 250)
+                }, 200)
             }
         } catch (error) {
             console.error('Failed to fetch time registrations', error)
