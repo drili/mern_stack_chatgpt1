@@ -173,7 +173,6 @@ const Dashboard = () => {
                 </span>
 
                 <span>
-                    {/* // TODO: Finish this card */}
                     <Card className="h-full">
                         <DashboardActivityCard data={timeRegistered} />
                     </Card>

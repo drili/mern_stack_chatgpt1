@@ -54,7 +54,6 @@ const TaskVerticalsOverview = () => {
                 suffix=""
             />
 
-            {/* // TODO: Finish this view */}
             <TimeRegVerticalsOverviewFilter
                 onSelectedSprint={handleSprintChange}
             />
