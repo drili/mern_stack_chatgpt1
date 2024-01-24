@@ -29,13 +29,18 @@ const CreateTask = () => {
     const [activeUsers, setActiveUsers] = useState([])
     const { user } = useContext(UserContext)
     const [tasks, setTasks] = useState([])
-    const activeSprint = getCurrentSprint()
-
     const [selectedSprints, setSelectedSprints] = useState([]);
+    const [displayCount, setDisplayCount] = useState(5)
+
+    const activeSprint = getCurrentSprint()
 
     const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
     const imageSrc = "http://localhost:5000/uploads/"
+
+    const handleLoadMore = () => {
+        setDisplayCount(prevCount => prevCount + 5)
+    }
 
     const fetchTasks = async () => {
         try {
@@ -324,7 +329,7 @@ const CreateTask = () => {
                         </span>
                         
                         <span id='tasksList'>
-                            {tasks.map((task) => (
+                            {tasks.slice(0, displayCount).map((task) => (
                                 <span
                                     key={task._id}
                                     onClick={() => handleTaskModal(task._id)}
@@ -342,28 +347,16 @@ const CreateTask = () => {
                                         taskSprintName={task.taskSprints[0].sprintName}
                                     ></TaskCard>
                                 </span>
-
-                                // <div 
-                                //     key={task._id}
-                                //     onClick={() => handleTaskModal(task._id)}
-                                //     className='block p-6 mb-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer'>
-                                //     <h2 className='mb-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{task.taskName}</h2>
-                                //     <hr className='mb-2' />
-                                //     <p className='font-normal text-gray-700 dark:text-gray-400 leading-5'>{task.taskDescription}</p>
-                                //     <p className='flex align-center items-center gap-2 mt-4 font-bold text-sm'><BiSolidTimeFive></BiSolidTimeFive>{task.taskTimeLow} - {task.taskTimeHigh}</p>
-                                //     <div className='flex align-center items-center text-sm'>
-                                //         {task.taskPersons && task.taskPersons.map((person) => (
-                                //             <span key={person._id}>
-                                //                 {person.profileImage ? (
-                                //                     <img className='w-[30px] h-[30px] object-cover object-center rounded-full mr-2 mt-5' src={`${imageSrc}${person.profileImage}`} />
-                                //                     ) : (
-                                //                     <div className='w-[30px] h-[30px] rounded-full bg-gray-300 mr-2 mt-5'></div>
-                                //                 )}                                                
-                                //             </span>
-                                //         ))}
-                                //     </div>
-                                // </div>
                             ))}
+                        </span>
+
+                        <span>
+                            {displayCount < tasks.length && (
+                                <button onClick={handleLoadMore}
+                                className='bg-white text-slate-900 mt-5 h-fit whitespace-nowrap button border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>
+                                    Load More Tasks
+                                </button>
+                            )}
                         </span>
                     </div>
                 </span>
