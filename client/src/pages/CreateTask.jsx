@@ -7,6 +7,7 @@ import { UserContext } from '../context/UserContext'
 import { BiSolidTimeFive } from "react-icons/bi"
 import TaskModal from '../components/task/TaskModal'
 import TaskCard from '../components/task/TaskCard'
+import getCurrentSprint from '../functions/getCurrentSprint'
 
 const CreateTask = () => {
     const [taskData, setTaskData] = useState({
@@ -28,6 +29,9 @@ const CreateTask = () => {
     const [activeUsers, setActiveUsers] = useState([])
     const { user } = useContext(UserContext)
     const [tasks, setTasks] = useState([])
+    const activeSprint = getCurrentSprint()
+
+    const [selectedSprints, setSelectedSprints] = useState([]);
 
     const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -110,10 +114,11 @@ const CreateTask = () => {
     }
 
     const handleFormChangeSprints = (selectedOptions) => {
+        setSelectedSprints(selectedOptions);
         setTaskData((prevData) => ({
             ...prevData,
             taskSprints: selectedOptions.map((option) => option.value)
-        }))
+        }));
     }
 
     const handleFormChangeUsers = (selectedOptions) => {
@@ -174,6 +179,15 @@ const CreateTask = () => {
         setShowModal(false)
         toast.dismiss()
     }
+
+    useEffect(() => {
+        if (activeSprint.sprintId) {
+            const activeSprintOption = sprints.find(sprint => sprint._id === activeSprint.sprintId);
+            if (activeSprintOption) {
+                setSelectedSprints([{ value: activeSprintOption._id, label: activeSprintOption.sprintName }]);
+            }
+        }
+    }, [activeSprint, sprints]);
     
     return (
         <div id='createTaskPage'>
@@ -210,7 +224,7 @@ const CreateTask = () => {
                         </span>
                         <div>
                             <label className={labelClasses} htmlFor="taskDescription">Task Description</label>
-                            <textarea name="taskDescription" value={taskData.taskDescription} onChange={handleFormChange} placeholder="Task Description" required 
+                            <textarea name="taskDescription" value={taskData.taskDescription} onChange={handleFormChange} placeholder="Task Description" 
                             className={inputClasses} />
                         </div>
                         <div>
@@ -281,17 +295,22 @@ const CreateTask = () => {
                         </div>
                         <div>
                             <label className={labelClasses} htmlFor="taskSprints">Task Sprints</label>
-                            <Select
-                                name="taskSprints"
-                                onChange={handleFormChangeSprints}
-                                options={sprints.map((sprint) => ({
-                                    value: sprint._id,
-                                    label: sprint.sprintName
-                                }))}
-                                isMulti
-                                required
-                            ></Select>
+                            {activeSprint && (
+                                <Select
+                                    name="taskSprints"
+                                    onChange={handleFormChangeSprints}
+                                    options={sprints.map((sprint) => ({
+                                        value: sprint._id,
+                                        label: sprint.sprintName
+                                    }))}
+                                    isMulti
+                                    required
+                                    value={selectedSprints}
+                                ></Select>
+                            )}
                         </div>
+
+                        {/* <p>Current sprint: {activeSprint.sprintId}</p> */}
 
                         <button type="submit" className='button text-white mt-10 bg-rose-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Create Task</button>
                     </form>
