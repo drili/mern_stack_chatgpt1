@@ -7,6 +7,7 @@ import { BsListTask } from "react-icons/bs"
 import { Link } from 'react-router-dom'
 import { HiOutlineArrowSmRight, HiOutlineCog } from "react-icons/hi"
 import { FaRegTrashAlt } from "react-icons/fa";
+import { CiMedicalClipboard } from "react-icons/ci";
 
 const Admin = () => {
     return (
@@ -31,7 +32,7 @@ const Admin = () => {
 
                     <Link
                         to="general-features" 
-                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-2 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -49,7 +50,7 @@ const Admin = () => {
 
                     <Link
                         to="time-registrations-overview" 
-                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-2 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -67,7 +68,7 @@ const Admin = () => {
 
                     <Link 
                         to="persons-overview"
-                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-2 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -85,7 +86,7 @@ const Admin = () => {
 
                     <Link 
                         to="task-verticals-overview"
-                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
+                        className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-2 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -101,7 +102,7 @@ const Admin = () => {
                         </span>
                     </div>
 
-                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
+                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-2 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
@@ -117,7 +118,23 @@ const Admin = () => {
                         </span>
                     </div>
 
-                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-5 border-none text-sm hover:bg-rose-800 hover:text-white'>
+                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-2 border-none text-sm hover:bg-rose-800 hover:text-white'>
+                        View <HiOutlineArrowSmRight/>
+                    </Link>
+                </Card>
+
+                <Card className="h-full">
+                    <div className='flex gap-4 items-center'>
+                        <span>
+                            <FaRegTrashAlt size={40}/>
+                        </span>
+                        <span>
+                            <h2 className="text-lg font-bold text-gray-900">Vacation & Sick days</h2>
+                            <h2 className="text-sm font-light text-zinc-500">View time registration for vacations and sick days</h2>
+                        </span>
+                    </div>
+
+                    <Link className='flex items-center align-center justify-center text-center text-black rounded-md border py-1 mt-2 border-none text-sm hover:bg-rose-800 hover:text-white'>
                         View <HiOutlineArrowSmRight/>
                     </Link>
                 </Card>
