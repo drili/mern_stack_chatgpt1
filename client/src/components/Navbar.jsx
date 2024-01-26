@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import userImage from "../assets/profile-pics/default-image.jpg"
 import axios from 'axios';
+import { FaBell } from "react-icons/fa";
 
 const Navbar = () => {
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
@@ -120,6 +121,14 @@ const Navbar = () => {
             </span>
 
             <span className='flex items-center'>
+                <div className='mr-5 ml-1 relative'>
+                    <FaBell className='text-slate-900' size={18}/>
+
+                    <span className='absolute top-[-3px] right-[-1px] bg-red-500 h-[10px] w-[10px] rounded-full'></span>
+                </div>
+            </span>
+
+            <span className='flex items-center'>
                 <button
                     onClick={handleLogout}
                     type="button"
@@ -146,7 +155,7 @@ const Navbar = () => {
                     </button>
 
                     <div className="hidden md:flex md:order-2">
-                        {menuItems} 
+                        {menuItems}
                     </div>
 
                     <div className={`${isMobileMenuOpen ? 'flex flex-col items-end' : 'hidden'} md:hidden w-full`} id="navbar-sticky">
