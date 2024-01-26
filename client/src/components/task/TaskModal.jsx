@@ -117,7 +117,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                             {task[0]?.taskSprints[0]?.sprintName}
                                         </span>
                                     </div>
-                                    <div className="flex items-start justify-between p-4 pb-5 rounded-t md:p-10">
+                                    <div className="flex items-start justify-between p-4 pb-5 rounded-t md:px-10">
                                         <span>
                                             <h3 className="text-3xl font-semibold">
                                                 {formData["taskName"]}
@@ -133,7 +133,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                         </button>
                                     </div>
 
-                                    <div className="relative p-4 pt-0 flex-auto md:p-10">
+                                    <div className="relative p-4 pt-0 flex-auto md:p-10 md:pt-0">
                                         <hr />
 
                                         <div className='grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-10'>
