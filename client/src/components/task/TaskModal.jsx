@@ -151,7 +151,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                                     )}
                                                 </section>
 
-                                                <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-rose-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
+                                                <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
                                                     <div>
                                                         <h2 className='font-semibold mb-5'>Update Task</h2>
                                                     </div>
@@ -183,7 +183,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                                             onChange={(e) => handleInputChange(e)} />
                                                     </div>
 
-                                                    <button type="submit" className='button text-white mt-5 bg-rose-500 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task</button>
+                                                    <button type="submit" className='mb-4 button text-black mt-1 bg-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task</button>
                                                 </form>
                                             </section>
 
