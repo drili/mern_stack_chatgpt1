@@ -4,6 +4,7 @@ import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 import TaskModalSettings from './TaskModalSettings'
 import TaskTimeRegistration from './TaskTimeRegistration'
+import TaskChat from './TaskChat'
 
 const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFunc, sprintOverviewFetch, fetchWorkflow }) => {
     const [showModal, setShowModal] = useState(false)
@@ -15,9 +16,14 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
         taskTimeHigh: "",
         taskDescription: ""
     })
+    const [toggleViewState, setToggleViewState] = useState("task")
 
     const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+
+    const handleViewState = (value) => {
+        setToggleViewState(value)
+    }
 
     const handleInputChange = (event) => {
         setFormData((formData) => ({
@@ -122,7 +128,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                             <h3 className="text-3xl font-semibold">
                                                 {formData["taskName"]}
                                             </h3>
-                                            <p className='text-slate-500 text-sm mt-2'>#{taskID}</p>
+                                            <p className='text-slate-500 text-sm mt-2'>ID: {taskID}</p>
                                         </span>
                                         <button
                                             className="text-white bg-black font-bold uppercase text-sm focus:outline-none ease-linear transition-all duration-150"
@@ -133,75 +139,95 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                         </button>
                                     </div>
 
-                                    <div className="relative p-4 pt-0 flex-auto md:p-10 md:pt-0">
-                                        <hr />
+                                    <div className='flex items-start px-4 pt-5 pb-0 rounded-t md:px-10'>
+                                        <button className={`${toggleViewState === "task" ? "bg-slate-950 text-white font-bold underline border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:outline-none hover:border-slate-100`} onClick={() => handleViewState("task")}>Task</button>
+                                        <button className={`${toggleViewState === "taskChat" ? "bg-slate-950 text-white font-bold underline border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:border-slate-100`} onClick={() => handleViewState("taskChat")}>Task Chat (0)</button>
+                                    </div>
 
-                                        <div className='grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-10'>
-                                            <section className='mt-5'>
-                                                <section>
-                                                    {task && (
-                                                        <TaskTimeRegistration
-                                                            labelClasses={labelClasses}
-                                                            inputClasses={inputClasses}
-                                                            taskId={taskID}
-                                                            sprintId={task[0]?.taskSprints[0]?._id}
-                                                            customerId={task[0]?.taskCustomer?._id}
-                                                            verticalId={task[0]?.taskVertical}
-                                                        ></TaskTimeRegistration>
-                                                    )}
+                                    {toggleViewState === "task" ? (
+                                        <div className="relative p-4 pt-0 flex-auto md:p-10 md:pt-0">
+                                            <hr />
+
+                                            <div className='grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-10'>
+                                                <section className='mt-5'>
+                                                    <section>
+                                                        {task && (
+                                                            <TaskTimeRegistration
+                                                                labelClasses={labelClasses}
+                                                                inputClasses={inputClasses}
+                                                                taskId={taskID}
+                                                                sprintId={task[0]?.taskSprints[0]?._id}
+                                                                customerId={task[0]?.taskCustomer?._id}
+                                                                verticalId={task[0]?.taskVertical}
+                                                            ></TaskTimeRegistration>
+                                                        )}
+                                                    </section>
+
+                                                    <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
+                                                        <div>
+                                                            <h2 className='font-semibold mb-5'>Update Task</h2>
+                                                        </div>
+                                                        <div>
+                                                            <label htmlFor="taskName" className={labelClasses}>Task Name</label>
+                                                            <input type="text" name="taskName" placeholder="Task Name" required value={formData["taskName"]}
+                                                                className={inputClasses}
+                                                                onChange={(e) => handleInputChange(e)} />
+                                                        </div>
+                                                        <span className='grid grid-cols-2 gap-4'>
+                                                            <div>
+                                                                <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
+                                                                <input type="number" name="taskTimeLow" placeholder="Task Time Low" required value={formData["taskTimeLow"]}
+                                                                    className={inputClasses}
+                                                                    onChange={(e) => handleInputChange(e)} />
+                                                            </div>
+                                                            <div>
+                                                                <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
+                                                                <input type="number" name="taskTimeHigh" placeholder="Task Time High" required value={formData["taskTimeHigh"]}
+                                                                    className={inputClasses}
+                                                                    onChange={(e) => handleInputChange(e)} />
+                                                            </div>
+                                                        </span>
+                                                        <div>
+                                                            <label className={labelClasses} htmlFor="taskDescription">Task Description</label>
+
+                                                            <textarea name="taskDescription" placeholder="Task Description" required value={formData["taskDescription"]}
+                                                                className={inputClasses}
+                                                                onChange={(e) => handleInputChange(e)} />
+                                                        </div>
+
+                                                        <button type="submit" className='mb-4 button text-black mt-1 bg-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task</button>
+                                                    </form>
                                                 </section>
 
-                                                <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
-                                                    <div>
-                                                        <h2 className='font-semibold mb-5'>Update Task</h2>
-                                                    </div>
-                                                    <div>
-                                                        <label htmlFor="taskName" className={labelClasses}>Task Name</label>
-                                                        <input type="text" name="taskName" placeholder="Task Name" required value={formData["taskName"]}
-                                                            className={inputClasses}
-                                                            onChange={(e) => handleInputChange(e)} />
-                                                    </div>
-                                                    <span className='grid grid-cols-2 gap-4'>
-                                                        <div>
-                                                            <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
-                                                            <input type="number" name="taskTimeLow" placeholder="Task Time Low" required value={formData["taskTimeLow"]}
-                                                                className={inputClasses}
-                                                                onChange={(e) => handleInputChange(e)} />
-                                                        </div>
-                                                        <div>
-                                                            <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
-                                                            <input type="number" name="taskTimeHigh" placeholder="Task Time High" required value={formData["taskTimeHigh"]}
-                                                                className={inputClasses}
-                                                                onChange={(e) => handleInputChange(e)} />
-                                                        </div>
-                                                    </span>
-                                                    <div>
-                                                        <label className={labelClasses} htmlFor="taskDescription">Task Description</label>
-
-                                                        <textarea name="taskDescription" placeholder="Task Description" required value={formData["taskDescription"]}
-                                                            className={inputClasses}
-                                                            onChange={(e) => handleInputChange(e)} />
-                                                    </div>
-
-                                                    <button type="submit" className='mb-4 button text-black mt-1 bg-white border-rose-500 hover:bg-rose-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'>Update Task</button>
-                                                </form>
-                                            </section>
-
-                                            <section id='taskModalSettings' className='mt-5'>
-                                                <TaskModalSettings
-                                                    inputClasses={inputClasses}
-                                                    labelClasses={labelClasses}
-                                                    taskID={taskID}
-                                                    fetchTaskData={fetchTaskData}
-                                                    fetchTasks={fetchTasks}
-                                                    task={task}
-                                                    closeModal={closeModal}
-                                                    sprintOverviewFetch={sprintOverviewFetch}
-                                                    updateFunc={updateFunc}
-                                                />
-                                            </section>
+                                                <section id='taskModalSettings' className='mt-5'>
+                                                    <TaskModalSettings
+                                                        inputClasses={inputClasses}
+                                                        labelClasses={labelClasses}
+                                                        taskID={taskID}
+                                                        fetchTaskData={fetchTaskData}
+                                                        fetchTasks={fetchTasks}
+                                                        task={task}
+                                                        closeModal={closeModal}
+                                                        sprintOverviewFetch={sprintOverviewFetch}
+                                                        updateFunc={updateFunc}
+                                                    />
+                                                </section>
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <div className="relative p-4 pt-0 flex-auto md:p-10 md:pt-0">
+                                            <hr />
+
+                                            <div className='grid grid-cols-1 gap-5 md:gap-10'>
+                                                <section className='mt-5'>
+                                                    {taskID && (
+                                                        <TaskChat taskID={taskID} />
+                                                    )}
+                                                </section>
+                                            </div>
+                                        </div>
+                                    )}
+                                    
                                 </div>
                             </div>
                         </div>
