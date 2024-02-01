@@ -27,18 +27,16 @@ const DraftEditor = ({ editorState, setEditorState }) => {
     const [open, setOpen] = useState(false);
     const [suggestions, setSuggestions] = useState(mentions);
 
-    const { MentionSuggestions, plugins: mentionPlugins } = useMemo(() => {
-        const mentionPlugin = createMentionPlugin();
-        return { MentionSuggestions: mentionPlugin.MentionSuggestions, plugins: [mentionPlugin] };
-    }, []);
+    // Initialize the mention plugin
+    const mentionPlugin = useMemo(() => createMentionPlugin(), []);
+    const { MentionSuggestions } = mentionPlugin;
 
-    const staticToolbarPlugin = createToolbarPlugin();
-    const Toolbar = staticToolbarPlugin.Toolbar;
-    const plugins = useMemo(() => {
-        const mentionPlugin = createMentionPlugin();
-        const toolbarPlugin = createToolbarPlugin();
-        return [mentionPlugin, toolbarPlugin];
-    }, []);
+    // Initialize the toolbar plugin
+    const toolbarPlugin = useMemo(() => createToolbarPlugin(), []);
+    const { Toolbar } = toolbarPlugin;
+
+    // Combine the plugins
+    const plugins = useMemo(() => [mentionPlugin, toolbarPlugin], [mentionPlugin, toolbarPlugin]);
 
     const onOpenChange = useCallback((open) => {
         setOpen(open);
