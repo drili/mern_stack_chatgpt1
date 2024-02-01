@@ -20,7 +20,7 @@ const TaskChat = ({ taskID }) => {
                             <img className='h-[40px] w-[40px] mt-1 rounded-md mr-4 object-cover' src='https://planningtool.hybridtech.dk/assets/img/persons/db.png'/>
                         </div>
                         <div className='w-full'>
-                            <div className="text-md text-slate-950 font-bold mb-1">Karl Iverson <span className='ml-2 font-light text-xs'>10:57 01-02-2024</span></div>
+                            <div className="text-md text-slate-950 font-bold mb-1">Karl Iverson <span className='ml-2 font-light text-xs'>10:57 • 01-02-2024</span></div>
                             <div className="bg-gray-50 p-2 rounded-md">{message}</div>
                         </div>
                     </div>
