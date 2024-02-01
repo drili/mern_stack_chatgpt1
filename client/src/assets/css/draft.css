@@ -1,0 +1,121 @@
+.mentionEntry {
+    /* Custom styles for each entry */
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* background-color: red; */
+}
+
+.mentionEntry img {
+    max-width: 25px;
+    max-height: 25px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 100%;
+}
+
+.mentionEntry:hover {
+    background-color: #f0f0f0;
+}
+
+.DraftEditor-root {
+    position: relative;
+}
+
+.DraftEditor-root .public-DraftEditorPlaceholder-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.5;
+}
+
+/* *** Rich Utilts */
+.DraftEditor-root {
+    /* Editor container styles */
+}
+
+.public-DraftStyleDefault-bold {
+    font-weight: bold;
+}
+
+.public-DraftStyleDefault-italic {
+    font-style: italic;
+}
+
+.public-DraftStyleDefault-underline {
+    text-decoration: underline;
+}
+
+/* *** Toolbar */
+.toolbar {
+    border: 1px solid #111;
+    background: #333;
+    border-radius: 4px;
+    box-shadow: 0px 1px 3px 0px rgba(220, 220, 220, 1);
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+.toolbar:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #333;
+    border-width: 4px;
+    margin-left: -4px;
+}
+
+.toolbar:before {
+    border-color: rgba(221, 221, 221, 0);
+    border-top-color: #111;
+    border-width: 6px;
+    margin-left: -6px;
+}
+
+.buttonWrapper {
+    display: inline-block;
+}
+
+.button {
+    background: #333;
+    color: #ddd;
+    font-size: 18px;
+    border: 0;
+    padding-top: 5px;
+    vertical-align: bottom;
+    height: 34px;
+    width: 36px;
+    border-radius: 4px;
+}
+
+.button svg {
+    fill: #ddd;
+}
+
+.button:hover,
+.button:focus {
+    background: #444;
+    outline: 0;
+    /* reset for :focus */
+}
+
+.active {
+    color: #6a9cc9;
+}
+
+.active svg {
+    fill: #6a9cc9;
+}
+
+.DraftEditor-root ol,
+.DraftEditor-root menu {
+    list-style: auto;
+    margin-left: 15px;
+}
+
+.DraftEditor-root ul {
+    list-style: disc;
+    margin-left: 20px;
+}
+
