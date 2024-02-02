@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { EditorState } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html"
 
@@ -10,6 +10,12 @@ const TaskChat = ({ taskID }) => {
     const [messages, setMessages] = useState([]);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [isInputEmpty, setIsInputEmpty] = useState(true)
+
+    const messagesEndRef = useRef(null)
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
 
     const contentIsMeaningful = (content) => {
         const plainText = content.getPlainText()
@@ -34,13 +40,17 @@ const TaskChat = ({ taskID }) => {
         if (!contentIsMeaningful(currentContent)) {
             return;
         }
-        
+
         const htmlContent = stateToHTML(currentContent)
         // const messageText = currentContent.getPlainText();
 
         setMessages([...messages, htmlContent]);
         setEditorState(EditorState.createEmpty());
     };
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages])
 
     return (
         <div className="flex flex-col h-full bg-white">
@@ -57,6 +67,8 @@ const TaskChat = ({ taskID }) => {
                         </div>
                     </div>
                 ))}
+
+                <div ref={messagesEndRef} />
             </div>
 
             <div className="border-t border-gray-200 pt-5">
@@ -69,7 +81,7 @@ const TaskChat = ({ taskID }) => {
 
                 <section className='flex justify-end mt-5'>
                     <button
-                        className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:border-green-800"
+                        className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:border-green-800 disabled:bg-green-100"
                         onClick={handleSendMessage}
                         disabled={isInputEmpty}
                     >
