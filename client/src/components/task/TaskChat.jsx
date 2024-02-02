@@ -75,7 +75,6 @@ const TaskChat = ({ taskID }) => {
     return (
         <div className="flex flex-col h-full bg-white">
             <div className="flex flex-col overflow-y-auto max-h-[55vh]" id='TaskChatMentions'>
-                {/* TODO: Include message formatting, e.g. bold, mentions, etc... */}
                 {messages.map((message, index) => (
                     <div key={index} className="mb-4 flex align-top">
                         <div>
