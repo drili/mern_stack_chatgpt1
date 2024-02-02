@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { EditorState } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html"
 
 import { BsFillSendFill } from "react-icons/bs";
 
 import DraftEditor from '../drafteditor/DraftEditor';
+import { UserContext } from '../../context/UserContext'
 
 const options = {
     entityStyleFn: (entity) => {
@@ -31,6 +32,32 @@ const TaskChat = ({ taskID }) => {
 
     const messagesEndRef = useRef(null)
 
+    const { user } = useContext(UserContext)
+
+    // *** Server requests
+    const sendCommentToServer = async (htmlContent) => {
+        try {
+            const response = await fetch("http://localhost:5000/comments/create-comment", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    taskId: taskID,
+                    htmlContent, htmlContent,
+                    createdBy: user.id,
+                })
+            })
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // *** Frontend functionalities
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
@@ -61,9 +88,9 @@ const TaskChat = ({ taskID }) => {
 
         const htmlContent = stateToHTML(currentContent, options)
         // const messageText = currentContent.getPlainText();
-
         setMessages([...messages, htmlContent]);
         setEditorState(EditorState.createEmpty());
+        sendCommentToServer(htmlContent)
     };
 
     useEffect(() => {

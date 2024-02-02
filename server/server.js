@@ -11,6 +11,7 @@ const sprintRouter = require("./routes/sprints")
 const TimeRegistrationRouter = require("./routes/time-registrations")
 const labelRouter = require("./routes/labels")
 const verticalRouter = require("./routes/verticals")
+const commentsRouter = require("./routes/comments")
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.use("/sprints", sprintRouter)
 app.use("/time-registrations", TimeRegistrationRouter)
 app.use("/labels", labelRouter)
 app.use("/verticals", verticalRouter)
+app.use("/comments", commentsRouter)
 
 const uri = 'mongodb+srv://dbkynetic:Kynetic123123@cluster0.f80a2n8.mongodb.net/'
 mongoose.connect(uri, { 
