@@ -6,6 +6,26 @@ import { BsFillSendFill } from "react-icons/bs";
 
 import DraftEditor from '../drafteditor/DraftEditor';
 
+const options = {
+    entityStyleFn: (entity) => {
+        const entityType = entity.get('type').toLowerCase();
+        if (entityType === 'mention') {
+            const data = entity.getData();
+            // Customize how you want the mention to be rendered in HTML
+            return {
+                element: 'span',
+                attributes: {
+                    className: 'mention',
+                },
+                style: {
+                    // Any specific styles you want to apply
+                },
+                text: `@${data.mention.name}`, // Prepend the "@" symbol
+            };
+        }
+    },
+};
+
 const TaskChat = ({ taskID }) => {
     const [messages, setMessages] = useState([]);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -41,7 +61,7 @@ const TaskChat = ({ taskID }) => {
             return;
         }
 
-        const htmlContent = stateToHTML(currentContent)
+        const htmlContent = stateToHTML(currentContent, options)
         // const messageText = currentContent.getPlainText();
 
         setMessages([...messages, htmlContent]);
@@ -54,7 +74,7 @@ const TaskChat = ({ taskID }) => {
 
     return (
         <div className="flex flex-col h-full bg-white">
-            <div className="flex flex-col overflow-y-auto max-h-[55vh]">
+            <div className="flex flex-col overflow-y-auto max-h-[55vh]" id='TaskChatMentions'>
                 {/* TODO: Include message formatting, e.g. bold, mentions, etc... */}
                 {messages.map((message, index) => (
                     <div key={index} className="mb-4 flex align-top">

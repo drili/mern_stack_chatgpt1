@@ -80,13 +80,19 @@
 }
 
 .DraftEditor-root ol,
-.DraftEditor-root menu {
+.DraftEditor-root menu,
+#TaskChatMentions ol {
     list-style: auto;
     margin-left: 15px;
 }
 
-.DraftEditor-root ul {
+.DraftEditor-root ul, 
+#TaskChatMentions ul {
     list-style: disc;
     margin-left: 20px;
 }
 
+.mention {
+    color: #f43f5e;;
+    font-weight: bold;
+}
