@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { EditorState } from 'draft-js';
+import { stateToHTML } from "draft-js-export-html"
+
 import { BsFillSendFill } from "react-icons/bs";
 
 import DraftEditor from '../drafteditor/DraftEditor';
@@ -7,14 +9,36 @@ import DraftEditor from '../drafteditor/DraftEditor';
 const TaskChat = ({ taskID }) => {
     const [messages, setMessages] = useState([]);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [isInputEmpty, setIsInputEmpty] = useState(true)
+
+    const contentIsMeaningful = (content) => {
+        const plainText = content.getPlainText()
+        return /\S/.test(plainText);
+    }
+
+    const handleEditorStateChange = (newState) => {
+        setEditorState(newState)
+        const currentContent = newState.getCurrentContent()
+        setIsInputEmpty(!contentIsMeaningful(currentContent))
+    }
+
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter" && !event.shiftKey && !event.ctrlKey) {
+            event.preventDefault()
+            handleSendMessage()
+        }
+    }
 
     const handleSendMessage = () => {
-        // setMessages([...messages, newMessage]);
-        // setNewMessage("");
         const currentContent = editorState.getCurrentContent();
-        const messageText = currentContent.getPlainText();
+        if (!contentIsMeaningful(currentContent)) {
+            return;
+        }
+        
+        const htmlContent = stateToHTML(currentContent)
+        // const messageText = currentContent.getPlainText();
 
-        setMessages([...messages, messageText]);
+        setMessages([...messages, htmlContent]);
         setEditorState(EditorState.createEmpty());
     };
 
@@ -29,17 +53,17 @@ const TaskChat = ({ taskID }) => {
                         </div>
                         <div className='w-full'>
                             <div className="text-md text-slate-950 font-bold mb-1">Karl Iverson <span className='ml-2 font-light text-xs'>10:57 • 01-02-2024</span></div>
-                            <div className="bg-gray-50 p-2 rounded-md">{message}</div>
+                            <div className="rounded-md" dangerouslySetInnerHTML={{ __html: message }}></div>
                         </div>
                     </div>
                 ))}
             </div>
 
             <div className="border-t border-gray-200 pt-5">
-                <section>
+                <section onKeyDown={handleKeyDown}>
                     <DraftEditor
                         editorState={editorState}
-                        setEditorState={setEditorState}
+                        setEditorState={handleEditorStateChange}
                     />
                 </section>
 
@@ -47,18 +71,11 @@ const TaskChat = ({ taskID }) => {
                     <button
                         className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:border-green-800"
                         onClick={handleSendMessage}
+                        disabled={isInputEmpty}
                     >
                         <BsFillSendFill /> Comment
                     </button>
                 </section>
-
-                {/* <input
-                        type="text"
-                        className="flex-1 p-2 border border-gray-300 rounded-md"
-                        placeholder="Type a message..."
-                        // value={newMessage}
-                        // onChange={(e) => setNewMessage(e.target.value)}
-                    /> */}
             </div>
         </div>
     );
