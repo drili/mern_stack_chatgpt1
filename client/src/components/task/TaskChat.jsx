@@ -11,16 +11,14 @@ const options = {
         const entityType = entity.get('type').toLowerCase();
         if (entityType === 'mention') {
             const data = entity.getData();
-            // Customize how you want the mention to be rendered in HTML
             return {
                 element: 'span',
                 attributes: {
                     className: 'mention',
                 },
                 style: {
-                    // Any specific styles you want to apply
                 },
-                text: `@${data.mention.name}`, // Prepend the "@" symbol
+                text: `@${data.mention.name}`,
             };
         }
     },
