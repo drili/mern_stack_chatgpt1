@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useLayoutEffect } from 'react';
 import { EditorState } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html"
 
@@ -82,7 +82,6 @@ const TaskChat = ({ taskID }) => {
 
             const data = await response.json()
             setComments(data)
-            scrollToBottom()
         } catch (error) {
             console.error('Error:', error);
         }
@@ -114,7 +113,7 @@ const TaskChat = ({ taskID }) => {
 
     // *** Frontend functionalities
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+        messagesEndRef.current?.scrollIntoView({ behavior: "instant" })
     }
 
     const contentIsMeaningful = (content) => {
@@ -149,9 +148,9 @@ const TaskChat = ({ taskID }) => {
 
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         scrollToBottom()
-    }, [messages])
+    }, [comments])
 
     useEffect(() => {
         fetchComments(taskID)

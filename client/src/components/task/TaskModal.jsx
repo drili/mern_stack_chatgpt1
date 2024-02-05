@@ -141,7 +141,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
 
                                     <div className='flex items-start px-4 pt-5 pb-0 rounded-t md:px-10'>
                                         <button className={`${toggleViewState === "task" ? "bg-slate-950 text-white font-bold underline border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:outline-none hover:border-slate-100`} onClick={() => handleViewState("task")}>Task</button>
-                                        <button className={`${toggleViewState === "taskChat" ? "bg-slate-950 text-white font-bold underline border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:border-slate-100`} onClick={() => handleViewState("taskChat")}>Task Chat (0)</button>
+                                        <button className={`${toggleViewState === "taskChat" ? "bg-slate-950 text-white font-bold underline border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:border-slate-100`} onClick={() => handleViewState("taskChat")}>Task Chat</button>
                                     </div>
 
                                     {toggleViewState === "task" ? (
