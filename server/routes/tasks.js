@@ -51,8 +51,6 @@ router.route("/create").post(async (req, res) => {
         taskType,
     } = req.body
 
-    console.log({taskSprints});
-
     try {
         taskSprints.forEach(async (sprintId) => {
             const task = new Task({
@@ -72,7 +70,6 @@ router.route("/create").post(async (req, res) => {
             })
 
             const taskSaved = await task.save()
-            console.log({taskSaved});
         });
 
         res.json({ message: "Tasks created successfully" });
