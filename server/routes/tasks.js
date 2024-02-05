@@ -45,8 +45,13 @@ router.route("/create").post(async (req, res) => {
         taskVertical,
         taskPersons,
         taskSprints,
-        createdBy
+        createdBy,
+        taskDeadline,
+        estimatedTime,
+        taskType,
     } = req.body
+
+    console.log({taskSprints});
 
     try {
         taskSprints.forEach(async (sprintId) => {
@@ -60,10 +65,14 @@ router.route("/create").post(async (req, res) => {
                 taskVertical,
                 taskPersons,
                 taskSprints: [sprintId],
-                createdBy
+                createdBy,
+                taskDeadline,
+                estimatedTime,
+                taskType,
             })
 
-            await task.save()
+            const taskSaved = await task.save()
+            console.log({taskSaved});
         });
 
         res.json({ message: "Tasks created successfully" });

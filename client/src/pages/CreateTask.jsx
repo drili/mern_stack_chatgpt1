@@ -3,8 +3,12 @@ import PageHeading from '../components/PageHeading'
 import axios from "axios"
 import Select from "react-select"
 import toast, { Toaster } from 'react-hot-toast'
-import { UserContext } from '../context/UserContext'
+
 import { BiSolidTimeFive } from "react-icons/bi"
+import { AiOutlineClockCircle } from "react-icons/ai"
+import { BsFillLightningChargeFill } from "react-icons/bs";
+
+import { UserContext } from '../context/UserContext'
 import TaskModal from '../components/task/TaskModal'
 import TaskCard from '../components/task/TaskCard'
 import getCurrentSprint from '../functions/getCurrentSprint'
@@ -20,7 +24,10 @@ const CreateTask = () => {
         taskVertical: '',
         taskPersons: [],
         taskSprints: [],
-        createdBy: ''
+        createdBy: '',
+        taskDeadline: '',
+        estimatedTime: 0,
+        taskType: "timedTask",
     });
     const [customers, setCustomers] = useState([])
     const [sprints, setSprints] = useState([])
@@ -31,12 +38,42 @@ const CreateTask = () => {
     const [tasks, setTasks] = useState([])
     const [selectedSprints, setSelectedSprints] = useState([]);
     const [displayCount, setDisplayCount] = useState(5)
+    const [toggleViewState, setToggleViewState] = useState("timedTask")
 
     const activeSprint = getCurrentSprint()
 
     const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
     const imageSrc = "http://localhost:5000/uploads/"
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setTaskData({
+            ...taskData,
+            [name]: value
+        })
+    }
+
+    const handleViewState = (value) => {
+        setTaskData((taskData) => ({
+            ...taskData,
+            taskDeadline: "",
+            estimatedTime: 0,
+            taskTimeLow: '',
+            taskTimeHigh: '',
+            taskType: value,
+        }))
+
+        if (value === "quickTask") {
+            setTaskData((taskData) => ({
+                ...taskData,
+                taskTimeLow: 0,
+                taskTimeHigh: 0,
+            }))
+        }
+
+        setToggleViewState(value)
+    }
 
     const handleLoadMore = () => {
         setDisplayCount(prevCount => prevCount + 5)
@@ -143,6 +180,8 @@ const CreateTask = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        console.log({taskData});
+
         try {
             const response = await axios.post("http://localhost:5000/tasks/create", taskData)
             setTasks([])
@@ -159,6 +198,8 @@ const CreateTask = () => {
 
                 fetchTasks()
             }
+
+            console.log(response.data);
         } catch (error) {
             console.error('Failed to create task', error)
             toast('There was an error creating task', {
@@ -191,6 +232,11 @@ const CreateTask = () => {
             if (activeSprintOption) {
                 setSelectedSprints([{ value: activeSprintOption._id, label: activeSprintOption.sprintName }]);
             }
+
+            setTaskData((prevData) => ({
+                ...prevData,
+                taskSprints: [activeSprintOption?._id]
+            }));
         }
     }, [activeSprint, sprints]);
     
@@ -206,7 +252,29 @@ const CreateTask = () => {
                 <span className='shadow-md p-10 rounded-lg mb-10 col-span-3'>
                     <form onSubmit={handleSubmit}>
                         <span>
-                            <h2 className='font-bold mb-5'>Create new task</h2>
+                            <section className='flex w-full justify-between'>
+                                <div>
+                                    <h2 className='font-bold mb-0'>Create new <span className='text-rose-500'>{toggleViewState === "timedTask" ? "timed" : "quick"}</span> task</h2>
+                                </div>
+
+                                <div className='flex items-start pb-0 rounded-t'>
+                                    <button 
+                                        className={`${toggleViewState === "timedTask" ? "bg-slate-950 text-white font-bold border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:outline-none hover:border-slate-100 flex gap-2 items-center`} 
+                                        onClick={() => handleViewState("timedTask")}
+                                        type='button'
+                                        >
+                                        Timed Task <AiOutlineClockCircle />
+                                    </button>
+                                    <button 
+                                        className={`${toggleViewState === "quickTask" ? "bg-slate-950 text-white font-bold border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:border-slate-100 flex gap-2 items-center`} 
+                                        onClick={() => handleViewState("quickTask")}
+                                        type='button'
+                                        >
+                                        Quick Task <BsFillLightningChargeFill />
+                                    </button>
+                                </div>
+                            </section>
+
                             <hr className='mb-5'/>
                         </span>
 
@@ -215,21 +283,51 @@ const CreateTask = () => {
                             <input type="text" name="taskName" value={taskData.taskName} onChange={handleFormChange} placeholder="Task Name" required 
                             className={inputClasses} />
                         </div>
-                        <span className='grid grid-cols-2 gap-4'>
-                            <div>
-                                <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
-                                <input type="number" name="taskTimeLow" value={taskData.taskTimeLow} onChange={handleFormChange} placeholder="Task Time Low" required 
-                                className={inputClasses} />
-                            </div>
-                            <div>
-                                <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
-                                <input type="number" name="taskTimeHigh" value={taskData.taskTimeHigh} onChange={handleFormChange} placeholder="Task Time High" required 
-                                className={inputClasses} />
-                            </div>
-                        </span>
+
+                        {toggleViewState === "timedTask" ? (
+                            <span className='grid grid-cols-2 gap-4'>
+                                <div>
+                                    <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
+                                    <input type="number" name="taskTimeLow" value={taskData.taskTimeLow} onChange={handleFormChange} placeholder="Task Time Low" required 
+                                    className={inputClasses} />
+                                </div>
+                                <div>
+                                    <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
+                                    <input type="number" name="taskTimeHigh" value={taskData.taskTimeHigh} onChange={handleFormChange} placeholder="Task Time High" required 
+                                    className={inputClasses} />
+                                </div>
+
+                                <span className='hidden'>
+                                    <input type='hidden' value={taskData.taskType} name='taskType' />
+                                </span>
+                            </span>
+                        ) : (
+                            <span className='grid grid-cols-2 gap-4'>
+                                <span>
+                                    <label className={labelClasses} htmlFor="taskDeadline">Deadline</label>
+                                    <input
+                                        className={inputClasses}
+                                        type="date"
+                                        name='taskDeadline'
+                                        required
+                                        onChange={handleInputChange}
+                                    />
+                                </span>
+                                <div>
+                                    <label className={labelClasses} htmlFor="estimatedTime">Estimated Time <span className='text-slate-300'>optional</span></label>
+                                    <input type="number" name="estimatedTime" value={taskData.estimatedTime} onChange={handleFormChange} placeholder="Estimated Task Time" 
+                                    className={inputClasses} />
+                                </div>
+
+                                <span className='hidden'>
+                                    <input type='hidden' value={taskData.taskType} name='taskType' />
+                                </span>
+                            </span>
+                        )}
+
                         <div>
                             <label className={labelClasses} htmlFor="taskDescription">Task Description</label>
-                            <textarea name="taskDescription" value={taskData.taskDescription} onChange={handleFormChange} placeholder="Task Description" 
+                            <textarea required={false} name="taskDescription" value={taskData.taskDescription} onChange={handleFormChange} placeholder="Task Description" 
                             className={inputClasses} />
                         </div>
                         <div>
@@ -300,7 +398,7 @@ const CreateTask = () => {
                         </div>
                         <div>
                             <label className={labelClasses} htmlFor="taskSprints">Task Sprints</label>
-                            {activeSprint && (
+                            {activeSprint && selectedSprints && sprints && (
                                 <Select
                                     name="taskSprints"
                                     onChange={handleFormChangeSprints}

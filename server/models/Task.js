@@ -63,6 +63,17 @@ const taskSchema = new mongoose.Schema({
     workflowStatus: {
         type: Number,
         default: 0
+    },
+    taskDeadline: {
+        type: String,
+    },
+    estimatedTime: {
+        type: Number,
+        default: 0,
+    },
+    taskType: {
+        type: String,
+        default: null,
     }
 },
 {
