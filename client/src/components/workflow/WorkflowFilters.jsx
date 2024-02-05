@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
+import axios from 'axios'
 import { BsSearch, BsCalendarFill } from "react-icons/bs"
 import { BiUser } from "react-icons/bi"
-import axios from 'axios'
-import { UserContext } from '../../context/UserContext'
+import { FaUserGroup } from "react-icons/fa6";
 
+import { UserContext } from '../../context/UserContext'
 
 const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilteredTasks, updatedFilteredTasksCustomer, setNewSprintArray }) => {
     const [sprints, setSprints] = useState([])
     const [customers, setCustomers] = useState([])
+    const [users, setUsers] = useState([])
     const [currentSprint, setCurrentSprint] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
 
@@ -34,6 +36,20 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
         }
     }
 
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/users/fetch-active-users")
+            setUsers(response.data)
+        } catch (error) {
+            console.error('Failed to fetch users', error);
+        }
+    }
+
+    const handleUserChange = async (event) => {
+        const userId = event
+        fetchTasksByUserAndSprint(activeSprint, userId)
+    }
+
     const handleSprintChange = async (selectedValue) => {
         const [id, sprintName, sprintYear, sprintMonth] = selectedValue.split('|');
         const newSprintArray = { ...currentSprint }
@@ -43,7 +59,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
         newSprintArray.sprintYear = sprintYear
 
         setNewSprintArray(newSprintArray);
-        
+
         setCurrentSprint(newSprintArray)
         fetchTasksByUserAndSprint(newSprintArray)
     }
@@ -63,6 +79,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
     useEffect(() => {
         fetchSprints()
         fetchCustomers()
+        fetchUsers()
         setCurrentSprint(activeSprint)
 
     }, [activeSprint])
@@ -70,7 +87,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
     return (
         <div id='WorkflowFilters' className='py-4 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none mb-10'>
             <section className='flex justify-end gap-8 flex-col md:flex-row'>
-                
+
                 <div id='WorkflowFilters-activeSprint'>
                     <span className='h-full flex flex-col justify-center bg-slate-500 text-white border rounded-md text-xs font-medium p-3'>
                         {currentSprint && currentSprint?.sprintMonth} {currentSprint && currentSprint?.sprintYear}
@@ -79,7 +96,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
 
                 <div id='WorkflowFilters-searchField'>
                     <span className='flex gap-2 items-center'>
-                        <input 
+                        <input
                             type="text"
                             className={`${inputClasses} min-w-[200px]`}
                             placeholder='Search task(s)'
@@ -91,11 +108,11 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
 
                 <div id='WorkflowFilters-filterSprint'>
                     <span className='flex gap-2 items-center'>
-                        <select 
-                            className={`${inputClasses} min-w-[200px]`} 
+                        <select
+                            className={`${inputClasses} min-w-[200px]`}
                             defaultValue=""
                             onChange={(e) => handleSprintChange(e.target.value)}
-                            >
+                        >
                             <option disabled value="">Select sprint</option>
                             {sprints && sprints.map((sprint) => (
                                 <option key={sprint?._id} value={`${sprint?._id}|${sprint?.sprintName}|${sprint?.sprintYear}|${sprint.sprintMonth}`}>
@@ -107,22 +124,37 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
                     </span>
                 </div>
 
-                 <div id='WorkflowFilters-filterCustomer'>
+                <div id='WorkflowFilters-filterCustomer'>
                     <span className='flex gap-2 items-center'>
-                        <select 
-                            className={`${inputClasses} min-w-[200px]`} 
+                        <select
+                            className={`${inputClasses} min-w-[200px]`}
                             defaultValue=""
                             onChange={(e) => handleCustomerChange(e.target.value)}
-                            >
+                        >
                             <option disabled value="">Select customer</option>
                             {customers.map((customer) => (
                                 <option key={customer?._id} value={`${customer?._id}|${customer?.customerName}`}>{customer?.customerName}</option>
                             ))}
                         </select>
-                        <BiUser size={20}></BiUser>
+                        <FaUserGroup size={20}/>
                     </span>
                 </div>
 
+                <div id='WorkflowFilters-filterUsers'>
+                    <span className='flex gap-2 items-center'>
+                        <select
+                            className={`${inputClasses} min-w-[200px]`}
+                            defaultValue=""
+                            onChange={(e) => handleUserChange(e.target.value)}
+                        >
+                            <option disabled value="">Select user</option>
+                            {users.map((user) => (
+                                <option key={user?._id} value={`${user?._id}`}>{user?.username}</option>
+                            ))}
+                        </select>
+                        <BiUser size={20}></BiUser>
+                    </span>
+                </div>
             </section>
         </div>
     )

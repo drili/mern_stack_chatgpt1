@@ -37,13 +37,14 @@ const Workflow = () => {
     const activeSprint  = getCurrentSprint()
     const [newSprintArray, setNewSprintArray] = useState(null)
 
-    const fetchTasksByUserAndSprint = async (activeSprintArray) => {
+    const fetchTasksByUserAndSprint = async (activeSprintArray, userId) => {
         try {
             // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
             const activeSprintCheck = activeSprintArray ? activeSprintArray : newSprintArray
-            
+            const activeUserId = userId ? userId : user.id
+
             if (activeSprintCheck && activeSprintCheck.sprintMonth && activeSprintCheck.sprintYear) {
-                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
+                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${activeUserId}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
 
                 if (response.data.length == 0) {
                     setTasks([])
