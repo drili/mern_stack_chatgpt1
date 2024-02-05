@@ -22,9 +22,9 @@ const workflowColumnsData = {
     col3: [
         { id: "col3", col: "3", name: "Done" }
     ],
-    col4: [
-        { id: "col4", col: "4", name: "Deadlines next 7 days" }
-    ]
+    // col4: [
+    //     { id: "col4", col: "4", name: "Deadlines next 7 days" }
+    // ]
 }
 
 const Workflow = () => {
