@@ -1,13 +1,34 @@
 const express = require("express")
-const Comment = require("../models/Comments")
 const sanitizeHtml = require("sanitize-html")
+
+const Comment = require("../models/Comments")
+const User = require("../models/User")
 
 const router = express.Router()
 
+router.route("/fetch-comments-by-task").post(async (req, res) => {
+    const { taskId } = req.body
+
+    if (!taskId) {
+        return res.status(400).send({ error: "Task ID is required" })
+    }
+
+    try {
+        const comments = await Comment.find({ taskId: taskId })
+            .sort({ createdAt: 0 })
+            .populate({
+                path: "createdBy",
+                model: User,
+                select: "username email profileImage"
+            })
+        res.status(200).send(comments)
+    } catch (error) {
+        res.status(500).send({ error: "Error fetchings comments by task ID" })
+    }
+})
+
 router.route("/create-comment").post(async (req, res) => {
     const { taskId, htmlContent, createdBy } = req.body
-
-    console.log({htmlContent});
 
     try {
         const sanitizedHtml = sanitizeHtml(htmlContent, {

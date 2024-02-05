@@ -25,16 +25,48 @@ const options = {
     },
 };
 
+const formatDate = (dateString) => {
+    const options = { hour: '2-digit', minute: '2-digit', year: 'numeric', month: '2-digit', day: '2-digit' };
+    const date = new Date(dateString);
+
+    return date.toLocaleTimeString('en-US', options).replace(',', ' •');
+};
+
 const TaskChat = ({ taskID }) => {
     const [messages, setMessages] = useState([]);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [isInputEmpty, setIsInputEmpty] = useState(true)
+    const [comments, setComments] = useState([])
 
     const messagesEndRef = useRef(null)
 
     const { user } = useContext(UserContext)
 
     // *** Server requests
+    const fetchComments = async (taskId) => {
+        try {
+            const response = await fetch("http://localhost:5000/comments/fetch-comments-by-task", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    taskId: taskId
+                })
+            })
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json()
+            setComments(data)
+            scrollToBottom()
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     const sendCommentToServer = async (htmlContent) => {
         try {
             const response = await fetch("http://localhost:5000/comments/create-comment", {
@@ -91,23 +123,36 @@ const TaskChat = ({ taskID }) => {
         setMessages([...messages, htmlContent]);
         setEditorState(EditorState.createEmpty());
         sendCommentToServer(htmlContent)
+        
+        fetchComments(taskID)
     };
 
     useEffect(() => {
         scrollToBottom()
     }, [messages])
 
+    useEffect(() => {
+        fetchComments(taskID)
+        scrollToBottom()
+    }, [taskID])
+
     return (
         <div className="flex flex-col h-full bg-white">
             <div className="flex flex-col overflow-y-auto max-h-[55vh]" id='TaskChatMentions'>
-                {messages.map((message, index) => (
+                {comments.map((message, index) => (
                     <div key={index} className="mb-4 flex align-top">
                         <div>
-                            <img className='h-[40px] w-[40px] mt-1 rounded-md mr-4 object-cover' src='https://planningtool.hybridtech.dk/assets/img/persons/db.png' />
+                            <img 
+                                className='h-[40px] w-[40px] mt-1 rounded-md mr-4 object-cover' 
+                                src={`http://localhost:5000/uploads/${message.createdBy.profileImage}`}
+                            />
                         </div>
+
                         <div className='w-full'>
-                            <div className="text-md text-slate-950 font-bold mb-1">Karl Iverson <span className='ml-2 font-light text-xs'>10:57 • 01-02-2024</span></div>
-                            <div className="rounded-md" dangerouslySetInnerHTML={{ __html: message }}></div>
+                            <div className="text-md text-slate-950 font-bold mb-1">{message.createdBy.username} 
+                                <span className='ml-2 font-light text-xs'>{formatDate(message.createdAt)}</span>
+                            </div>
+                            <div className="rounded-md" dangerouslySetInnerHTML={{ __html: message.htmlContent }}></div>
                         </div>
                     </div>
                 ))}
