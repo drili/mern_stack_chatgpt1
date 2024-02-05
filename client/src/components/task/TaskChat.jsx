@@ -3,6 +3,7 @@ import { EditorState } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html"
 
 import { BsFillSendFill } from "react-icons/bs";
+import { BsFillTrashFill } from "react-icons/bs"
 
 import DraftEditor from '../drafteditor/DraftEditor';
 import { UserContext } from '../../context/UserContext'
@@ -43,6 +44,27 @@ const TaskChat = ({ taskID }) => {
     const { user } = useContext(UserContext)
 
     // *** Server requests
+    const handleDeleteComment = async (commentId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/comments/delete-comment-by-id/${commentId}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error("Could not delete comment")
+            }
+
+            setComments(prevComments => prevComments.filter(comment => comment._id !== commentId))
+            const data = await response.json()
+            console.log({data});
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     const fetchComments = async (taskId) => {
         try {
             const response = await fetch("http://localhost:5000/comments/fetch-comments-by-task", {
@@ -140,7 +162,7 @@ const TaskChat = ({ taskID }) => {
         <div className="flex flex-col h-full bg-white">
             <div className="flex flex-col overflow-y-auto max-h-[55vh]" id='TaskChatMentions'>
                 {comments.map((message, index) => (
-                    <div key={index} className="mb-4 flex align-top">
+                    <div key={index} className="mb-4 flex align-top group relative hover:bg-slate-50">
                         <div>
                             <img 
                                 className='h-[40px] w-[40px] mt-1 rounded-md mr-4 object-cover' 
@@ -154,6 +176,16 @@ const TaskChat = ({ taskID }) => {
                             </div>
                             <div className="rounded-md" dangerouslySetInnerHTML={{ __html: message.htmlContent }}></div>
                         </div>
+
+                        {message.createdBy._id === user.id && (
+                            <button
+                                className='delete-button hidden group-hover:block absolute right-0 top-0 py-2 px-3'
+                                onClick={() => handleDeleteComment(message._id)}
+                                id={message._id}
+                            >
+                                <BsFillTrashFill className='text-xs text-rose-950' />
+                            </button>
+                        )}
                     </div>
                 ))}
 

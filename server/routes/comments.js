@@ -6,6 +6,22 @@ const User = require("../models/User")
 
 const router = express.Router()
 
+router.route("/delete-comment-by-id/:commentId").delete(async (req, res) => {
+    const { commentId } = req.params
+    
+    try {
+        const comment = await Comment.findByIdAndDelete(commentId)
+        
+        if (!comment) {
+            return res.status(404).send({ error: "Comment not found" })
+        }
+
+        res.status(200).send({ message: "Comment deleted" })
+    } catch (error) {
+        res.status(500).send({ error: 'Internal server error `/delete-comment-by-id/:commentId`' });
+    }
+})
+
 router.route("/fetch-comments-by-task").post(async (req, res) => {
     const { taskId } = req.body
 
