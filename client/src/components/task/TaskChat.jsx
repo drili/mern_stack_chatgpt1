@@ -59,7 +59,6 @@ const TaskChat = ({ taskID }) => {
 
             setComments(prevComments => prevComments.filter(comment => comment._id !== commentId))
             const data = await response.json()
-            console.log({data});
         } catch (error) {
             console.error('Error:', error);
         }
@@ -108,6 +107,8 @@ const TaskChat = ({ taskID }) => {
             }
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            fetchComments(taskID)
         }
     }
 
@@ -145,8 +146,7 @@ const TaskChat = ({ taskID }) => {
         setMessages([...messages, htmlContent]);
         setEditorState(EditorState.createEmpty());
         sendCommentToServer(htmlContent)
-        
-        fetchComments(taskID)
+
     };
 
     useEffect(() => {
