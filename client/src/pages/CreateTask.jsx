@@ -443,6 +443,7 @@ const CreateTask = () => {
                                         taskLow={task.taskTimeLow}
                                         taskHigh={task.taskTimeHigh}
                                         taskSprintName={task.taskSprints[0].sprintName}
+                                        taskType={task.taskType}
                                     ></TaskCard>
                                 </span>
                             ))}
