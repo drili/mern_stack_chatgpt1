@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { AiOutlineClockCircle } from "react-icons/ai"
+import { FaCalendar, FaClock } from "react-icons/fa";
 
 import TaskModal from './TaskModal'
 
@@ -49,19 +50,21 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
                 <p className='text-sm mt-3 leading-4'>{truncatedTaskDescription}</p>
             </span>
 
-            {taskType !== "quickTask" && (
-                <span className='flex gap-1 mt-2 items-center'>
-                    <p className='text-xs'><AiOutlineClockCircle /></p>
-                    <p className='text-xs'>{taskLow}</p>
-                    <p className='text-xs'>•</p>
-                    <p className='text-xs'>{taskHigh}</p>
+                {taskType !== "quickTask" && (
+                <span className='flex gap-1 mt-3 items-center'>
+                    <p className='text-xs font-bold text-slate-500'><FaClock className='font-bold' /></p>
+                    {/* <p className='text-xs'>Low {taskLow}</p>
+                    <p className='text-xs'>/</p>
+                    <p className='text-xs'>High {taskHigh}</p> */}
+                    <p className='text-xs font-bold text-slate-500'>{((taskLow + taskHigh) / 2).toFixed(2)} hours</p>
+
                 </span>
             )}
 
             {taskType === "quickTask" && estimatedTime > 0 && (
-                <span className='flex gap-1 mt-2 items-center'>
-                    <p className='text-xs'><AiOutlineClockCircle /></p>
-                    <p className='text-xs'>{estimatedTime}</p>
+                <span className='flex gap-1 mt-3 items-center'>
+                    <p className='text-xs font-bold text-slate-500'><FaClock /></p>
+                    <p className='text-xs font-bold text-slate-500'>{estimatedTime} est. hours</p>
                 </span>
             )}
 
@@ -76,15 +79,15 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
                                 <span key={index}>
                                     <img
                                         id={index}
-                                        className='absolute w-[30px] h-[30px] object-cover object-center rounded-full'
+                                        className='absolute w-[25px] h-[25px] object-cover object-center rounded-full'
                                         src={`http://localhost:5000/uploads/${person.user.profileImage}`}
                                         style={{
-                                            left: `${index * 20}px`
+                                            left: `${index * 15}px`
                                         }}
                                     />
                                     {taskPersons.length > 2 && index < 1 && (
                                         <span
-                                            className='absolute w-[30px] h-[30px] object-cover object-center rounded-full bg-rose-400 flex items-center justify-center text-white font-medium text-xs'
+                                            className='absolute w-[25px] h-[25px] object-cover object-center rounded-full bg-rose-400 flex items-center justify-center text-white font-medium text-xs'
                                             style={{
                                                 left: `40px`,
                                                 zIndex: "1"
