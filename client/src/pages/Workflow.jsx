@@ -168,6 +168,7 @@ const Workflow = () => {
                 setNewSprintArray={setNewSprintArray}
             ></WorkflowFilters>
 
+            {/* FIXME: When a task card gets dropped into the same column, it duplicates the taskcard in the frontend (not a backend issue though) */}
             <DragDropContext onDragEnd={onDragEnd}>
                 <section className='flex gap-3 flex-col md:flex-row'>
                     {Object.entries(workflowColumnsData).map(([key, value]) => (
