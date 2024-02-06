@@ -89,7 +89,7 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
                                         <span
                                             className='absolute w-[25px] h-[25px] object-cover object-center rounded-full bg-rose-400 flex items-center justify-center text-white font-medium text-xs'
                                             style={{
-                                                left: `40px`,
+                                                left: `30px`,
                                                 zIndex: "1"
                                             }}
                                         >
