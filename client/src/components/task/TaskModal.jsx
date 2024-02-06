@@ -82,8 +82,6 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
     const handleUpdateTask = async (event) => {
         event.preventDefault()
 
-        console.log({formData});
-
         try {
             const response = await axios.put(`http://localhost:5000/tasks/update/${taskID}`, formData)
 
@@ -262,6 +260,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                                         closeModal={closeModal}
                                                         sprintOverviewFetch={sprintOverviewFetch}
                                                         updateFunc={updateFunc}
+                                                        taskType={task[0].taskType}
                                                     />
                                                 </section>
                                             </div>
