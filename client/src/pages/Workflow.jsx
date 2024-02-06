@@ -203,6 +203,8 @@ const Workflow = () => {
                                                             taskSprintId={task.taskSprints[0]._id}
                                                             taskSprintName={task.taskSprints[0].sprintName}
                                                             taskType={task.taskType}
+                                                            estimatedTime={task?.estimatedTime}
+                                                            taskDeadline={task?.taskDeadline}
                                                             // customer={task.taskCustomer}
                                                         ></TaskCard>
                                                     </span>

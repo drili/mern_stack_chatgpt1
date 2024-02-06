@@ -444,6 +444,8 @@ const CreateTask = () => {
                                         taskHigh={task.taskTimeHigh}
                                         taskSprintName={task.taskSprints[0].sprintName}
                                         taskType={task.taskType}
+                                        estimatedTime={task?.estimatedTime}
+                                        taskDeadline={task?.taskDeadline}
                                     ></TaskCard>
                                 </span>
                             ))}

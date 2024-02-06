@@ -4,7 +4,7 @@ import { AiOutlineClockCircle } from "react-icons/ai"
 
 import TaskModal from './TaskModal'
 
-const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName, customerColor, taskLow, taskHigh, taskSprintId, taskSprintName, taskType }) => {
+const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName, customerColor, taskLow, taskHigh, taskSprintId, taskSprintName, taskType, estimatedTime, taskDeadline }) => {
     const [selectedTaskId, setSelectedTaskId] = useState(null)
     const [showModal, setShowModal] = useState(false)
 
@@ -58,6 +58,13 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
                 </span>
             )}
 
+            {taskType === "quickTask" && estimatedTime > 0 && (
+                <span className='flex gap-1 mt-2 items-center'>
+                    <p className='text-xs'><AiOutlineClockCircle /></p>
+                    <p className='text-xs'>{estimatedTime}</p>
+                </span>
+            )}
+
             <span className=''>
                 <section className='relative h-[45px] mt-2.5 overflow-hidden'>
                     <hr className='mb-3' />
@@ -92,8 +99,11 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
                     })}
 
                     {taskType === "quickTask" && (
-                        <span className='absolute right-0 bottom-[8px]'>
-                            <BsFillLightningChargeFill className='text-amber-500' />
+                        <span className='absolute right-0 bottom-[10px]'>
+                            <span className='flex items-center gap-2'>
+                                <p className='font-bold text-xs'>{taskDeadline}</p>
+                                <BsFillLightningChargeFill className='text-amber-500' />
+                            </span>
                         </span>
                     )}
                 </section>
