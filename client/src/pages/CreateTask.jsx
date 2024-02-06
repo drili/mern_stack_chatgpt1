@@ -254,19 +254,21 @@ const CreateTask = () => {
                         <span>
                             <section className='flex w-full justify-between'>
                                 <div>
-                                    <h2 className='font-bold mb-0'>Create new <span className='text-rose-500'>{toggleViewState === "timedTask" ? "timed" : "quick"}</span> task</h2>
+                                    <h2 className='font-bold mb-0'>Create new <span className={`${toggleViewState === "timedTask" ? "text-slate-500" : "text-amber-500"}`}>
+                                        {toggleViewState === "timedTask" ? "timed" : "quick"}</span> task
+                                        </h2>
                                 </div>
 
                                 <div className='flex items-start pb-0 rounded-t'>
                                     <button 
-                                        className={`${toggleViewState === "timedTask" ? "bg-slate-950 text-white font-bold border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:outline-none hover:border-slate-100 flex gap-2 items-center`} 
+                                        className={`${toggleViewState === "timedTask" ? "bg-slate-500 text-white font-bold border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:outline-none hover:border-slate-100 flex gap-2 items-center`} 
                                         onClick={() => handleViewState("timedTask")}
                                         type='button'
                                         >
                                         Timed Task <AiOutlineClockCircle />
                                     </button>
                                     <button 
-                                        className={`${toggleViewState === "quickTask" ? "bg-slate-950 text-white font-bold border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:border-slate-100 flex gap-2 items-center`} 
+                                        className={`${toggleViewState === "quickTask" ? "bg-amber-500 text-white font-bold border-amber-200" : "" } rounded-none border-amber-100 focus:outline-none hover:border-amber-100 flex gap-2 items-center`} 
                                         onClick={() => handleViewState("quickTask")}
                                         type='button'
                                         >
