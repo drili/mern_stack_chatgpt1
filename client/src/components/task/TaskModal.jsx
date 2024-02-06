@@ -260,7 +260,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                                         closeModal={closeModal}
                                                         sprintOverviewFetch={sprintOverviewFetch}
                                                         updateFunc={updateFunc}
-                                                        taskType={task[0].taskType}
+                                                        taskType={task[0]?.taskType}
                                                     />
                                                 </section>
                                             </div>
