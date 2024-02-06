@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaWindowClose } from "react-icons/fa"
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { AiOutlineClockCircle } from "react-icons/ai"
+import { FaCalendar, FaClock } from "react-icons/fa";
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -126,18 +127,18 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
 
                                     <div className='flex items-center gap-2 px-4 pt-5 pb-0 rounded-t md:px-10'>
-                                        <span className="taskLabel bg-rose-100 text-sm px-2 py-1 rounded text-rose-800 font-bold">
-                                            {task[0]?.taskSprints[0]?.sprintName}
+                                        <span className="taskLabel flex items-center gap-2 bg-rose-100 text-sm px-2 py-1 rounded text-rose-800 font-bold">
+                                            {task[0]?.taskSprints[0]?.sprintName} <FaCalendar />
                                         </span>
 
                                         {task[0]?.taskType === "quickTask" && (
                                             <>
-                                                <span className="flex items-center gap-2 taskLabel bg-amber-500 text-sm px-2 py-1 rounded text-white font-bold">
-                                                    Quick Task <BsFillLightningChargeFill className='text-white' />
+                                                <span className="flex items-center gap-2 taskLabel bg-amber-100 text-sm px-2 py-1 rounded text-amber-500 font-bold">
+                                                    Quick Task <BsFillLightningChargeFill className='text-amber-500' />
                                                 </span>
 
-                                                <span className="flex items-center gap-2 taskLabel bg-amber-500 text-sm px-2 py-1 rounded text-white font-bold">
-                                                    <p className='font-bold text-sm'>{task[0]?.taskDeadline}</p><AiOutlineClockCircle />
+                                                <span className="flex items-center gap-2 taskLabel bg-amber-100 text-sm px-2 py-1 rounded text-amber-500 font-bold">
+                                                    <p className='font-bold text-sm text-amber-500'>{task[0]?.taskDeadline}</p><FaClock />
                                                 </span>
                                             </>
                                         )}

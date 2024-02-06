@@ -40,6 +40,7 @@ const TaskChat = ({ taskID }) => {
     const [comments, setComments] = useState([])
 
     const messagesEndRef = useRef(null)
+    const chatContainerRef = useRef(null)
 
     const { user } = useContext(UserContext)
 
@@ -113,7 +114,9 @@ const TaskChat = ({ taskID }) => {
 
     // *** Frontend functionalities
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "instant" })
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
     }
 
     const contentIsMeaningful = (content) => {
@@ -159,7 +162,7 @@ const TaskChat = ({ taskID }) => {
 
     return (
         <div className="flex flex-col h-full bg-white">
-            <div className="flex flex-col overflow-y-auto max-h-[55vh]" id='TaskChatMentions'>
+            <div className="flex flex-col overflow-y-auto max-h-[55vh]" id='TaskChatMentions' ref={chatContainerRef}>
                 {comments.map((message, index) => (
                     <div key={index} className="mb-4 flex align-top group relative hover:bg-slate-50">
                         <div>
