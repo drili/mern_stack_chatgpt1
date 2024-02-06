@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FaWindowClose } from "react-icons/fa"
+import { BsFillLightningChargeFill } from "react-icons/bs";
+import { AiOutlineClockCircle } from "react-icons/ai"
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
+
 import TaskModalSettings from './TaskModalSettings'
 import TaskTimeRegistration from './TaskTimeRegistration'
 import TaskChat from './TaskChat'
@@ -14,7 +17,9 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
         taskName: "",
         taskTimeLow: "",
         taskTimeHigh: "",
-        taskDescription: ""
+        taskDescription: "",
+        taskDeadline: "",
+        estimatedTime: 0,
     })
     const [toggleViewState, setToggleViewState] = useState("task")
 
@@ -35,7 +40,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
     const fetchTaskData = async (taskID) => {
         if (taskID) {
             const response = await axios.get(`http://localhost:5000/tasks/fetch-by-id/${taskID}`)
-            
+
             setTask(response.data)
             setFormData((formData) => ({
                 ...formData,
@@ -43,6 +48,8 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                 taskTimeLow: response.data[0]["taskTimeLow"],
                 taskTimeHigh: response.data[0]["taskTimeHigh"],
                 taskDescription: response.data[0]["taskDescription"],
+                taskDeadline: response.data[0]["taskDeadline"],
+                estimatedTime: response.data[0]["estimatedTime"],
             }))
         }
     }
@@ -74,6 +81,8 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
 
     const handleUpdateTask = async (event) => {
         event.preventDefault()
+
+        console.log({formData});
 
         try {
             const response = await axios.put(`http://localhost:5000/tasks/update/${taskID}`, formData)
@@ -118,10 +127,23 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
 
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
 
-                                    <div className='flex items-start justify-between px-4 pt-5 pb-0 rounded-t md:px-10'>
+                                    <div className='flex items-center gap-2 px-4 pt-5 pb-0 rounded-t md:px-10'>
                                         <span className="taskLabel bg-rose-100 text-sm px-2 py-1 rounded text-rose-800 font-bold">
                                             {task[0]?.taskSprints[0]?.sprintName}
                                         </span>
+
+                                        {task[0]?.taskType === "quickTask" && (
+                                            <>
+                                                <span className="flex items-center gap-2 taskLabel bg-amber-500 text-sm px-2 py-1 rounded text-white font-bold">
+                                                    Quick Task <BsFillLightningChargeFill className='text-white' />
+                                                </span>
+
+                                                <span className="flex items-center gap-2 taskLabel bg-amber-500 text-sm px-2 py-1 rounded text-white font-bold">
+                                                    <p className='font-bold text-sm'>{task[0]?.taskDeadline}</p><AiOutlineClockCircle />
+                                                </span>
+                                            </>
+                                        )}
+
                                     </div>
                                     <div className="flex items-start justify-between p-4 pb-5 rounded-t md:px-10">
                                         <span>
@@ -140,8 +162,8 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                     </div>
 
                                     <div className='flex items-start px-4 pt-5 pb-0 rounded-t md:px-10'>
-                                        <button className={`${toggleViewState === "task" ? "bg-slate-950 text-white font-bold underline border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:outline-none hover:border-slate-100`} onClick={() => handleViewState("task")}>Task</button>
-                                        <button className={`${toggleViewState === "taskChat" ? "bg-slate-950 text-white font-bold underline border-slate-200" : "" } rounded-none border-slate-100 focus:outline-none hover:border-slate-100`} onClick={() => handleViewState("taskChat")}>Task Chat</button>
+                                        <button className={`${toggleViewState === "task" ? "bg-slate-950 text-white font-bold underline border-slate-200" : ""} rounded-none border-slate-100 focus:outline-none hover:outline-none hover:border-slate-100`} onClick={() => handleViewState("task")}>Task</button>
+                                        <button className={`${toggleViewState === "taskChat" ? "bg-slate-950 text-white font-bold underline border-slate-200" : ""} rounded-none border-slate-100 focus:outline-none hover:border-slate-100`} onClick={() => handleViewState("taskChat")}>Task Chat</button>
                                     </div>
 
                                     {toggleViewState === "task" ? (
@@ -150,18 +172,20 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
 
                                             <div className='grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-10'>
                                                 <section className='mt-5'>
-                                                    <section>
-                                                        {task && (
-                                                            <TaskTimeRegistration
-                                                                labelClasses={labelClasses}
-                                                                inputClasses={inputClasses}
-                                                                taskId={taskID}
-                                                                sprintId={task[0]?.taskSprints[0]?._id}
-                                                                customerId={task[0]?.taskCustomer?._id}
-                                                                verticalId={task[0]?.taskVertical}
-                                                            ></TaskTimeRegistration>
-                                                        )}
-                                                    </section>
+                                                    {task[0]?.taskType !== "quickTask" && (
+                                                        <section>
+                                                            {task && (
+                                                                <TaskTimeRegistration
+                                                                    labelClasses={labelClasses}
+                                                                    inputClasses={inputClasses}
+                                                                    taskId={taskID}
+                                                                    sprintId={task[0]?.taskSprints[0]?._id}
+                                                                    customerId={task[0]?.taskCustomer?._id}
+                                                                    verticalId={task[0]?.taskVertical}
+                                                                ></TaskTimeRegistration>
+                                                            )}
+                                                        </section>
+                                                    )}
 
                                                     <form className='mt-5 py-5 px-5 border-0 rounded-lg bg-slate-50 relative flex flex-col w-full outline-none focus:outline-none' onSubmit={handleUpdateTask}>
                                                         <div>
@@ -174,23 +198,51 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                                                 onChange={(e) => handleInputChange(e)} />
                                                         </div>
                                                         <span className='grid grid-cols-2 gap-4'>
-                                                            <div>
-                                                                <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
-                                                                <input type="number" name="taskTimeLow" placeholder="Task Time Low" required value={formData["taskTimeLow"]}
-                                                                    className={inputClasses}
-                                                                    onChange={(e) => handleInputChange(e)} />
-                                                            </div>
-                                                            <div>
-                                                                <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
-                                                                <input type="number" name="taskTimeHigh" placeholder="Task Time High" required value={formData["taskTimeHigh"]}
-                                                                    className={inputClasses}
-                                                                    onChange={(e) => handleInputChange(e)} />
-                                                            </div>
+                                                            {task[0]?.taskType !== "quickTask" && (
+                                                                <>
+                                                                    <div>
+                                                                        <label className={labelClasses} htmlFor="taskTimeLow">Task Time Low</label>
+                                                                        <input type="number" name="taskTimeLow" placeholder="Task Time Low" required value={formData["taskTimeLow"]}
+                                                                            className={inputClasses}
+                                                                            onChange={(e) => handleInputChange(e)} />
+                                                                    </div>
+                                                                    <div>
+                                                                        <label className={labelClasses} htmlFor="taskTimeHigh">Task Time High</label>
+                                                                        <input type="number" name="taskTimeHigh" placeholder="Task Time High" required value={formData["taskTimeHigh"]}
+                                                                            className={inputClasses}
+                                                                            onChange={(e) => handleInputChange(e)} />
+                                                                    </div>
+                                                                </>
+                                                            )}
+
+                                                            {task[0]?.taskType === "quickTask" && (
+                                                                <>
+                                                                    <span>
+                                                                        <label className={labelClasses} htmlFor="taskDeadline">Deadline</label>
+                                                                        <input
+                                                                            className={inputClasses}
+                                                                            type="date"
+                                                                            name='taskDeadline'
+                                                                            required
+                                                                            onChange={(e) => handleInputChange(e)}
+                                                                            value={formData["taskDeadline"]}
+                                                                        />
+                                                                    </span>
+                                                                    <div>
+                                                                        <label className={labelClasses} htmlFor="estimatedTime">Estimated Time <span className='text-slate-300'>optional</span></label>
+                                                                        <input 
+                                                                            type="number" name="estimatedTime" value={formData["estimatedTime"]} placeholder="Estimated Task Time"
+                                                                            onChange={(e) => handleInputChange(e)}
+                                                                            className={inputClasses} 
+                                                                        />
+                                                                    </div>
+                                                                </>
+                                                            )}
                                                         </span>
                                                         <div>
                                                             <label className={labelClasses} htmlFor="taskDescription">Task Description</label>
 
-                                                            <textarea name="taskDescription" placeholder="Task Description" required value={formData["taskDescription"]}
+                                                            <textarea name="taskDescription" placeholder="Task Description" value={formData["taskDescription"]}
                                                                 className={inputClasses}
                                                                 onChange={(e) => handleInputChange(e)} />
                                                         </div>
@@ -227,7 +279,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                             </div>
                                         </div>
                                     )}
-                                    
+
                                 </div>
                             </div>
                         </div>

@@ -230,7 +230,7 @@ router.route("/fetch-by-id/:taskId").get(async (req, res) => {
 
 router.route("/update/:taskId").put(async (req, res) => {
     const { taskId } = req.params
-    const { taskName, taskTimeLow, taskTimeHigh, taskDescription } = req.body;
+    const { taskName, taskTimeLow, taskTimeHigh, taskDescription, taskDeadline, estimatedTime } = req.body;
 
     try {
         const updatedTask = await Task.findByIdAndUpdate(
@@ -240,6 +240,8 @@ router.route("/update/:taskId").put(async (req, res) => {
                 taskTimeLow,
                 taskTimeHigh,
                 taskDescription,
+                taskDeadline,
+                estimatedTime,
             },
             { new: true }
         )
