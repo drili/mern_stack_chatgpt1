@@ -12,8 +12,10 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
     const [users, setUsers] = useState([])
     const [currentSprint, setCurrentSprint] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
+    const [activeFilterUser, setActiveFilterUser] = useState("")
 
     const { user } = useContext(UserContext)
+
 
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -48,6 +50,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
     const handleUserChange = async (event) => {
         const userId = event
         fetchTasksByUserAndSprint(activeSprint, userId)
+        setActiveFilterUser(userId)
     }
 
     const handleSprintChange = async (selectedValue) => {
@@ -61,7 +64,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
         setNewSprintArray(newSprintArray);
 
         setCurrentSprint(newSprintArray)
-        fetchTasksByUserAndSprint(newSprintArray)
+        fetchTasksByUserAndSprint(newSprintArray, activeFilterUser)
     }
 
     const handleSearchTerm = async (e) => {
@@ -81,6 +84,8 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
         fetchCustomers()
         fetchUsers()
         setCurrentSprint(activeSprint)
+
+        setActiveFilterUser(user._id)
 
     }, [activeSprint])
 
