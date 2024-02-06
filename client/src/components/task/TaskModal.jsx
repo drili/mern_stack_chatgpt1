@@ -138,7 +138,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                                 </span>
 
                                                 <span className="flex items-center gap-2 taskLabel bg-amber-100 text-xs px-2 py-1 rounded text-amber-500 font-bold">
-                                                    <p className='font-bold text-sm text-amber-500'>{task[0]?.taskDeadline}</p><FaClock />
+                                                    <p className='font-bold text-xs text-amber-500'>{task[0]?.taskDeadline}</p><FaClock />
                                                 </span>
                                             </>
                                         )}
