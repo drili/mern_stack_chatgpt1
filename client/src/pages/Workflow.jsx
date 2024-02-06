@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import PageHeading from '../components/PageHeading'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { UserContext } from '../context/UserContext'
 import axios from 'axios'
+
+import { UserContext } from '../context/UserContext'
+
+import PageHeading from '../components/PageHeading'
 import TaskModal from '../components/task/TaskModal'
 import TaskCard from '../components/task/TaskCard'
 import useTaskModal from '../functions/useTaskModal'
@@ -22,9 +24,9 @@ const workflowColumnsData = {
     col3: [
         { id: "col3", col: "3", name: "Done" }
     ],
-    // col4: [
-    //     { id: "col4", col: "4", name: "Deadlines next 7 days" }
-    // ]
+    col4: [
+        { id: "col4", col: "4", name: "Deadlines next 7 days" }
+    ]
 }
 
 const Workflow = () => {
@@ -125,7 +127,7 @@ const Workflow = () => {
             return
         }
 
-        console.log(filteredTasksByColumn[source.droppableId])
+        // console.log(filteredTasksByColumn[source.droppableId])
 
          // *** Remove the task from the source column
         const sourceColumnId = source.droppableId
@@ -200,6 +202,7 @@ const Workflow = () => {
                                                             taskHigh={task.taskTimeHigh}
                                                             taskSprintId={task.taskSprints[0]._id}
                                                             taskSprintName={task.taskSprints[0].sprintName}
+                                                            taskType={task.taskType}
                                                             // customer={task.taskCustomer}
                                                         ></TaskCard>
                                                     </span>
