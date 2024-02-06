@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import axios from 'axios'
+import { FaInfoCircle } from "react-icons/fa";
 
 import { UserContext } from '../context/UserContext'
 
@@ -13,20 +14,20 @@ import WorkflowFilters from '../components/workflow/WorkflowFilters'
 
 const workflowColumnsData = {
     col0: [
-        { id: "col0", col: "0", name: "Tasks This Month" }
+        { id: "col0", col: "0", name: "Tasks this month" }
     ],
     col1: [
-        { id: "col1", col: "1", name: "Doing Today" }
+        { id: "col1", col: "1", name: "Doing today" }
     ],
     col2: [
-        { id: "col2", col: "2", name: "Doing This Week" }
+        { id: "col2", col: "2", name: "Doing this week" }
     ],
     col3: [
         { id: "col3", col: "3", name: "Done" }
     ],
-    col4: [
-        { id: "col4", col: "4", name: "Deadlines next 7 days" }
-    ]
+    // col4: [
+    //     { id: "col4", col: "4", name: "Deadlines next 7 days" }
+    // ]
 }
 
 const Workflow = () => {
@@ -36,7 +37,7 @@ const Workflow = () => {
     const { user } = useContext(UserContext)
     const [filteredTasksByColumn, setFilteredTasksByColumn] = useState({})
     const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal()
-    const activeSprint  = getCurrentSprint()
+    const activeSprint = getCurrentSprint()
     const [newSprintArray, setNewSprintArray] = useState(null)
 
     const fetchTasksByUserAndSprint = async (activeSprintArray, userId) => {
@@ -57,7 +58,7 @@ const Workflow = () => {
                 setFilteredTasks(response.data)
 
             }
-           
+
         } catch (error) {
             console.error('Failed to fetch tasks', error)
         }
@@ -129,7 +130,7 @@ const Workflow = () => {
 
         // console.log(filteredTasksByColumn[source.droppableId])
 
-         // *** Remove the task from the source column
+        // *** Remove the task from the source column
         const sourceColumnId = source.droppableId
         const sourceColumnTasks = [...filteredTasksByColumn[sourceColumnId]]
         const taskIndexToRemove = source.index
@@ -205,7 +206,7 @@ const Workflow = () => {
                                                             taskType={task.taskType}
                                                             estimatedTime={task?.estimatedTime}
                                                             taskDeadline={task?.taskDeadline}
-                                                            // customer={task.taskCustomer}
+                                                        // customer={task.taskCustomer}
                                                         ></TaskCard>
                                                     </span>
                                                 )}
@@ -217,6 +218,16 @@ const Workflow = () => {
                             </Droppable>
                         </span>
                     ))}
+
+                    <span className='flex-1 border-l pl-4' id='taskDeadlines'>
+                        <h3 className='flex items-center gap-1 font-bold mb-5 border-b pb-2 text-amber-500'>Deadlines next 7 days <FaInfoCircle className='text-xs' /></h3>
+
+                        <span
+                            className='flex flex-col gap-1 bg-white outline-dashed outline-1 outline-offset-0 outline-slate-300 rounded-md py-2 px-2'
+                        >
+                            <p>Task</p>
+                        </span>
+                    </span>
                 </section>
             </DragDropContext>
 
@@ -228,7 +239,7 @@ const Workflow = () => {
                     onCloseModal={onCloseModal}
                     fetchTasks={fetchTasksByUserAndSprint}
                     updateFunc={fetchWorkflow}
-                    // fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
+                // fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
                 />
             )}
         </div>
