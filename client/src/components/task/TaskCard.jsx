@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BsFillLightningChargeFill } from "react-icons/bs";
+import { AiOutlineClockCircle } from "react-icons/ai"
 
 import TaskModal from './TaskModal'
 
@@ -48,11 +49,11 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
                 <p className='text-sm mt-3 leading-4'>{truncatedTaskDescription}</p>
             </span>
 
-            {taskType === "timedTask" && (
-                <span className='flex gap-1 mt-2'>
-                    <p className='text-xs'>Time:</p>
+            {taskType !== "quickTask" && (
+                <span className='flex gap-1 mt-2 items-center'>
+                    <p className='text-xs'><AiOutlineClockCircle /></p>
                     <p className='text-xs'>{taskLow}</p>
-                    <p className='text-xs'>/</p>
+                    <p className='text-xs'>•</p>
                     <p className='text-xs'>{taskHigh}</p>
                 </span>
             )}
