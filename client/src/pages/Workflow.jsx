@@ -40,11 +40,7 @@ const Workflow = () => {
     const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal()
     const activeSprint = getCurrentSprint()
     const [newSprintArray, setNewSprintArray] = useState(null)
-    const [stateDeadlineTasks, setStateDeadlineTasks] = useState([])
-
-    const todayDate = new Date()
-    const sevenDaysFromNow = new Date(todayDate)
-    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
+    const [deadlineTasks, setDeadlineTasks] = useState([]);
 
     const fetchTasksByUserAndSprint = async (activeSprintArray, userId) => {
         try {
@@ -123,7 +119,7 @@ const Workflow = () => {
     }, [tasks, filteredTasks])
 
     useEffect(() => {
-        filterDeadlineTasks(filteredTasksByColumn)
+        filterDeadlineTasks()
     }, [filteredTasksByColumn])
 
     const onDragEnd = (result) => {
@@ -159,22 +155,34 @@ const Workflow = () => {
         }))
 
         updateTaskWorkflow(draggableId, destination.droppableId)
+        filterDeadlineTasks()
     }
 
     // FIXME: Fix state of [stateDeadlineTasks] (e.g. fetch new tasks and handle on server-level)
-    const filterDeadlineTasks = async (newTasks) => {
-        let deadlineTasks = []; // Declare deadlineTasks outside the try block
-    
+    const filterDeadlineTasks = async () => {
+        console.log({filteredTasksByColumn});
         try {
-            deadlineTasks = Object.values(newTasks).flat().filter(task => {
-                if (task.taskType !== "quickTask") return false;
-                const taskDeadline = new Date(task.taskDeadline);
-                return task.workflowStatus !== 3 && taskDeadline >= todayDate && taskDeadline <= sevenDaysFromNow;
+            const todayDate = new Date()
+            const sevenDaysFromNow = new Date(todayDate)
+            sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
+            
+            const arrayTasks = []
+
+            Object.values(filteredTasksByColumn).flat().forEach(task => {
+                console.log({task});
+                if (task.taskType === "quickTask") {
+                    // console.log(task.workflowStatus);
+                    const taskDeadline = new Date(task.taskDeadline);
+                    if (task.workflowStatus === 3 && taskDeadline >= todayDate && taskDeadline <= sevenDaysFromNow) {
+                        arrayTasks.push(task);
+                    }
+                }
             });
+
+            setDeadlineTasks(arrayTasks);
+            console.log({arrayTasks});
         } catch (error) {
             console.log(error);
-        } finally {
-            setStateDeadlineTasks(deadlineTasks); // This will now have the correct scope
         }
     };
 
@@ -252,9 +260,9 @@ const Workflow = () => {
                         {/* <span
                             className='flex flex-col gap-1 bg-white outline-dashed outline-1 outline-offset-0 outline-slate-300 rounded-md py-2 px-2'
                         > */}
-                        {stateDeadlineTasks.length}
+                        {deadlineTasks.length}
                         <span>
-                            {stateDeadlineTasks.map(task => (
+                            {deadlineTasks.map(task => (
                                 <span onClick={() => handleTaskModal(task._id)} key={task._id}>
                                     <TaskCardSmall 
                                         taskId={task._id}
