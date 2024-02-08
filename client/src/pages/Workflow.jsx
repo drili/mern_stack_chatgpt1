@@ -119,7 +119,7 @@ const Workflow = () => {
     }, [tasks, filteredTasks])
 
     useEffect(() => {
-        filterDeadlineTasks()
+        filterDeadlineTasks(filteredTasksByColumn)
     }, [filteredTasksByColumn])
 
     const onDragEnd = (result) => {
@@ -154,13 +154,19 @@ const Workflow = () => {
             [destinationColumnId]: destinationColumnTasks,
         }))
 
+        const updatedFilteredTasks = {
+            ...filteredTasksByColumn,
+            [sourceColumnId]: sourceColumnTasks,
+            [destinationColumnId]: destinationColumnTasks,
+        };
+
         updateTaskWorkflow(draggableId, destination.droppableId)
-        filterDeadlineTasks()
+        filterDeadlineTasks(updatedFilteredTasks)
     }
 
     // FIXME: Fix state of [stateDeadlineTasks] (e.g. fetch new tasks and handle on server-level)
-    const filterDeadlineTasks = async () => {
-        console.log({filteredTasksByColumn});
+    const filterDeadlineTasks = async (newTasks) => {
+        console.log({newTasks});
         try {
             const todayDate = new Date()
             const sevenDaysFromNow = new Date(todayDate)
@@ -168,18 +174,15 @@ const Workflow = () => {
             
             const arrayTasks = []
 
-            Object.values(filteredTasksByColumn).flat().forEach(task => {
-                console.log({task});
+            const filteredTasks = Object.values(newTasks).flat().filter(task => {
                 if (task.taskType === "quickTask") {
-                    // console.log(task.workflowStatus);
                     const taskDeadline = new Date(task.taskDeadline);
-                    if (task.workflowStatus === 3 && taskDeadline >= todayDate && taskDeadline <= sevenDaysFromNow) {
-                        arrayTasks.push(task);
-                    }
-                }
+                    arrayTasks.push(task) 
+                    return task.workflowStatus !== 3 && taskDeadline >= todayDate && taskDeadline <= sevenDaysFromNow;
+                } 
             });
 
-            setDeadlineTasks(arrayTasks);
+            setDeadlineTasks(filteredTasks);
             console.log({arrayTasks});
         } catch (error) {
             console.log(error);
