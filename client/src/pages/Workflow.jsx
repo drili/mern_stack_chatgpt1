@@ -11,6 +11,7 @@ import TaskCard from '../components/task/TaskCard'
 import useTaskModal from '../functions/useTaskModal'
 import getCurrentSprint from '../functions/getCurrentSprint'
 import WorkflowFilters from '../components/workflow/WorkflowFilters'
+import TaskCardSmall from '../components/task/TaskCardSmall';
 
 const workflowColumnsData = {
     col0: [
@@ -39,6 +40,11 @@ const Workflow = () => {
     const { selectedTaskId, showModal, handleTaskModal, onCloseModal } = useTaskModal()
     const activeSprint = getCurrentSprint()
     const [newSprintArray, setNewSprintArray] = useState(null)
+    const [stateDeadlineTasks, setStateDeadlineTasks] = useState([])
+
+    const todayDate = new Date()
+    const sevenDaysFromNow = new Date(todayDate)
+    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
 
     const fetchTasksByUserAndSprint = async (activeSprintArray, userId) => {
         try {
@@ -56,7 +62,6 @@ const Workflow = () => {
                 }
                 setTasks(response.data)
                 setFilteredTasks(response.data)
-
             }
 
         } catch (error) {
@@ -117,6 +122,10 @@ const Workflow = () => {
 
     }, [tasks, filteredTasks])
 
+    useEffect(() => {
+        filterDeadlineTasks(filteredTasksByColumn)
+    }, [filteredTasksByColumn])
+
     const onDragEnd = (result) => {
         const { source, destination, draggableId } = result
 
@@ -151,6 +160,23 @@ const Workflow = () => {
 
         updateTaskWorkflow(draggableId, destination.droppableId)
     }
+
+    // FIXME: Fix state of [stateDeadlineTasks] (e.g. fetch new tasks and handle on server-level)
+    const filterDeadlineTasks = async (newTasks) => {
+        let deadlineTasks = []; // Declare deadlineTasks outside the try block
+    
+        try {
+            deadlineTasks = Object.values(newTasks).flat().filter(task => {
+                if (task.taskType !== "quickTask") return false;
+                const taskDeadline = new Date(task.taskDeadline);
+                return task.workflowStatus !== 3 && taskDeadline >= todayDate && taskDeadline <= sevenDaysFromNow;
+            });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setStateDeadlineTasks(deadlineTasks); // This will now have the correct scope
+        }
+    };
 
     return (
         <div id='workflowPage'>
@@ -221,12 +247,22 @@ const Workflow = () => {
                     ))}
 
                     <span className='flex-1 border-l pl-3' id='taskDeadlines'>
-                        <h3 className='flex items-center gap-1 font-bold mb-5 border-b pb-2 text-amber-500'>Deadlines next 7 days <FaInfoCircle className='text-xs' /></h3>
+                        <h3 className='flex items-center gap-1 font-bold mb-5 border-b pb-2 text-rose-500'>Deadlines next 7 days <FaInfoCircle className='text-xs' /></h3>
 
-                        <span
+                        {/* <span
                             className='flex flex-col gap-1 bg-white outline-dashed outline-1 outline-offset-0 outline-slate-300 rounded-md py-2 px-2'
-                        >
-                            <p>Task</p>
+                        > */}
+                        {stateDeadlineTasks.length}
+                        <span>
+                            {stateDeadlineTasks.map(task => (
+                                <span onClick={() => handleTaskModal(task._id)} key={task._id}>
+                                    <TaskCardSmall 
+                                        taskId={task._id}
+                                        taskName={task.taskName}
+                                        taskDeadline={task.taskDeadline}
+                                    />
+                                </span>
+                            ))}
                         </span>
                     </span>
                 </section>
