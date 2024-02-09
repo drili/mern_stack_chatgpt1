@@ -64,6 +64,9 @@ const Workflow = () => {
             const activeSprintCheck = activeSprintArray ? activeSprintArray : newSprintArray
             const activeUserId = userId ? userId : user.id
 
+            console.log({activeSprintCheck});
+            console.log({activeUserId});
+
             if (activeSprintCheck && activeSprintCheck.sprintMonth && activeSprintCheck.sprintYear) {
                 const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${activeUserId}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
 
@@ -74,6 +77,7 @@ const Workflow = () => {
                 }
                 setTasks(response.data)
                 setFilteredTasks(response.data)
+                console.log(response.data);
             }
 
         } catch (error) {
@@ -87,6 +91,7 @@ const Workflow = () => {
             // console.log(response)
             if (response.status === 200) {
                 fetchDeadlineTasks(user.id, activeSprint.sprintId)
+                fetchTasksByUserAndSprint(activeSprint)
             }
         } catch (error) {
             console.error('Failed to update task workflowStatus', error)
