@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaWindowClose } from "react-icons/fa"
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { AiOutlineClockCircle } from "react-icons/ai"
-import { FaCalendar, FaClock } from "react-icons/fa";
+import { FaCalendar, FaClock, FaPaperclip } from "react-icons/fa";
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -26,6 +26,23 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
 
     const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(taskID)
+            .then(() => {
+                toast(`Task ID "${taskID}" copied to your clipboard`, {
+                    duration: 4000,
+                    position: 'top-center',
+                    style: {
+                        background: '#f8fafc',
+                        color: "#000"
+                    }
+                })
+            })
+            .catch((err) => {
+                console.error("Failed to copy task ID:", err);
+            })
+    }
 
     const handleViewState = (value) => {
         setToggleViewState(value)
@@ -150,7 +167,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                             <h3 className="text-3xl font-semibold">
                                                 {formData["taskName"]}
                                             </h3>
-                                            <p className='text-slate-500 text-sm mt-2'>ID: {taskID}</p>
+                                            <p className='flex gap-2 hover:cursor-pointer items-center text-slate-500 text-sm mt-2' onClick={copyToClipboard}>ID: {taskID} <FaPaperclip /></p>
                                         </span>
                                         <button
                                             className="text-white bg-black font-bold uppercase text-sm focus:outline-none ease-linear transition-all duration-150"
