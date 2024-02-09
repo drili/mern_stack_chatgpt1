@@ -152,7 +152,8 @@ const WorkflowFilters = ({
                         <FaUserGroup size={20}/>
                     </span>
                 </div>
-
+                    
+                {/* FIXME: Pass in user id to deadline tasks */}
                 <div id='WorkflowFilters-filterUsers'>
                     <span className='flex gap-2 items-center'>
                         <select
