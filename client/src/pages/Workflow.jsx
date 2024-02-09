@@ -64,9 +64,6 @@ const Workflow = () => {
             const activeSprintCheck = activeSprintArray ? activeSprintArray : newSprintArray
             const activeUserId = userId ? userId : user.id
 
-            console.log({activeSprintCheck});
-            console.log({activeUserId});
-
             if (activeSprintCheck && activeSprintCheck.sprintMonth && activeSprintCheck.sprintYear) {
                 const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${activeUserId}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
 
@@ -77,7 +74,6 @@ const Workflow = () => {
                 }
                 setTasks(response.data)
                 setFilteredTasks(response.data)
-                console.log(response.data);
             }
 
         } catch (error) {
@@ -198,7 +194,6 @@ const Workflow = () => {
                 fetchDeadlineTasks={fetchDeadlineTasks}
             ></WorkflowFilters>
 
-            {/* FIXME: When a task card gets dropped into the same column, it duplicates the taskcard in the frontend (not a backend issue though) */}
             <DragDropContext onDragEnd={onDragEnd}>
                 <section className='flex gap-3 flex-col md:flex-row'>
                     {Object.entries(workflowColumnsData).map(([key, value]) => (
