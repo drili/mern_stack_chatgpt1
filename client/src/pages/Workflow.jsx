@@ -41,6 +41,7 @@ const Workflow = () => {
     const activeSprint = getCurrentSprint()
     const [newSprintArray, setNewSprintArray] = useState(null)
     const [deadlineTasks, setDeadlineTasks] = useState([]);
+    const [activeFilterUser, setActiveFilterUser] = useState("");
 
     const fetchDeadlineTasks = async (userId) => {
         const activeUserId = userId ? userId : user.id
@@ -87,12 +88,12 @@ const Workflow = () => {
             // console.log(response)
 
             if (response.status === 200) {
-                fetchDeadlineTasks(user.id)
-
+                fetchDeadlineTasks(activeFilterUser)
+                
                 if (!newSprintArray) {
-                    fetchTasksByUserAndSprint(activeSprint)
+                    fetchTasksByUserAndSprint(activeSprint, activeFilterUser)
                 } else {
-                    fetchTasksByUserAndSprint(newSprintArray)
+                    fetchTasksByUserAndSprint(newSprintArray, activeFilterUser)
                 }
             }
         } catch (error) {
@@ -128,6 +129,7 @@ const Workflow = () => {
 
     useEffect(() => {
         fetchTasksByUserAndSprint(activeSprint)
+        setActiveFilterUser(user.id)
     }, [user, activeSprint])
 
     useEffect(() => {
@@ -198,6 +200,8 @@ const Workflow = () => {
                 updatedFilteredTasksCustomer={updatedFilteredTasksCustomer}
                 setNewSprintArray={setNewSprintArray}
                 fetchDeadlineTasks={fetchDeadlineTasks}
+                activeFilterUser={activeFilterUser}
+                setActiveFilterUser={setActiveFilterUser}
             ></WorkflowFilters>
 
             <DragDropContext onDragEnd={onDragEnd}>
