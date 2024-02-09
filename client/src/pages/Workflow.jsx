@@ -42,13 +42,13 @@ const Workflow = () => {
     const [newSprintArray, setNewSprintArray] = useState(null)
     const [deadlineTasks, setDeadlineTasks] = useState([]);
 
-    const fetchDeadlineTasks = async (userId, activeSprintId) => {
+    const fetchDeadlineTasks = async (userId) => {
         const activeUserId = userId ? userId : user.id
         try {
             const response = await axios.get("http://localhost:5000/tasks/fetch-deadlines", {
                 params: {
                     userId: activeUserId,
-                    sprintId: activeSprintId,
+                    // sprintId: activeSprint,
                 }
             })
 
@@ -85,9 +85,15 @@ const Workflow = () => {
         try {
             const response = await axios.put(`http://localhost:5000/tasks/update-taskworkflow/${taskId}`, { workflowStatus })
             // console.log(response)
+
             if (response.status === 200) {
-                fetchDeadlineTasks(user.id, activeSprint.sprintId)
-                fetchTasksByUserAndSprint(activeSprint)
+                fetchDeadlineTasks(user.id)
+
+                if (!newSprintArray) {
+                    fetchTasksByUserAndSprint(activeSprint)
+                } else {
+                    fetchTasksByUserAndSprint(newSprintArray)
+                }
             }
         } catch (error) {
             console.error('Failed to update task workflowStatus', error)
@@ -174,7 +180,7 @@ const Workflow = () => {
     }
 
     useEffect(() => {
-        fetchDeadlineTasks(user.id, activeSprint.sprintId)
+        fetchDeadlineTasks(user.id)
     }, [user, activeSprint])
 
     return (

@@ -6,9 +6,9 @@ const TimeRegistration = require("../models/TimeRegistration")
 const mongoose = require("mongoose")
 
 router.route("/fetch-deadlines").get(async (req, res) => {
-    const { sprintId, userId } = req.query
+    const { userId } = req.query
 
-    const objectIdSprintId = new mongoose.Types.ObjectId(sprintId)
+    // const objectIdSprintId = new mongoose.Types.ObjectId(sprintId)
     const objectIdUserId = new mongoose.Types.ObjectId(userId)
 
     const todayDate = new Date();
@@ -17,7 +17,7 @@ router.route("/fetch-deadlines").get(async (req, res) => {
 
     try {
         const deadlineTasks = await Task.find({
-            taskSprints: objectIdSprintId,
+            // taskSprints: objectIdSprintId,
             'taskPersons.user': objectIdUserId,
             isArchived: false
         })

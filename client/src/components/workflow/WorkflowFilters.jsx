@@ -72,7 +72,7 @@ const WorkflowFilters = ({
 
         setCurrentSprint(newSprintArray)
         fetchTasksByUserAndSprint(newSprintArray, activeFilterUser)
-        fetchDeadlineTasks(activeFilterUser, newSprintArray.sprintId)
+        fetchDeadlineTasks(activeFilterUser)
     }
 
     const handleSearchTerm = async (e) => {
