@@ -256,7 +256,8 @@ const Workflow = () => {
                     ))}
 
                     <span className='flex-1 border-l pl-3' id='taskDeadlines'>
-                        <h3 className='flex items-center gap-1 font-bold mb-5 border-b pb-2 text-rose-500'>Deadlines next 7 days <FaInfoCircle className='text-xs' /></h3>
+                        <h3 
+                            className={`flex items-center gap-1 font-bold mb-5 border-b pb-2 ${deadlineTasks.length > 0 ? "text-rose-500" : ""}`}>Deadlines next 7 days <FaInfoCircle className='text-xs' /></h3>
 
                         {/* <span
                             className='flex flex-col gap-1 bg-white outline-dashed outline-1 outline-offset-0 outline-slate-300 rounded-md py-2 px-2'
