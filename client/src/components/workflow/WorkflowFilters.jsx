@@ -57,6 +57,7 @@ const WorkflowFilters = ({
     const handleUserChange = async (event) => {
         const userId = event
         fetchTasksByUserAndSprint(activeSprint, userId)
+        fetchDeadlineTasks(userId)
         setActiveFilterUser(userId)
     }
 
@@ -153,7 +154,6 @@ const WorkflowFilters = ({
                     </span>
                 </div>
                     
-                {/* FIXME: Pass in user id to deadline tasks */}
                 <div id='WorkflowFilters-filterUsers'>
                     <span className='flex gap-2 items-center'>
                         <select
