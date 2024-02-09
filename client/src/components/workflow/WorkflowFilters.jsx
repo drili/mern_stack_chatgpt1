@@ -6,7 +6,14 @@ import { FaUserGroup } from "react-icons/fa6";
 
 import { UserContext } from '../../context/UserContext'
 
-const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilteredTasks, updatedFilteredTasksCustomer, setNewSprintArray }) => {
+const WorkflowFilters = ({ 
+    activeSprint, 
+    fetchTasksByUserAndSprint, 
+    updateFilteredTasks, 
+    updatedFilteredTasksCustomer, 
+    setNewSprintArray, 
+    fetchDeadlineTasks 
+}) => {
     const [sprints, setSprints] = useState([])
     const [customers, setCustomers] = useState([])
     const [users, setUsers] = useState([])
@@ -65,6 +72,7 @@ const WorkflowFilters = ({ activeSprint, fetchTasksByUserAndSprint, updateFilter
 
         setCurrentSprint(newSprintArray)
         fetchTasksByUserAndSprint(newSprintArray, activeFilterUser)
+        fetchDeadlineTasks(activeFilterUser, newSprintArray.sprintId)
     }
 
     const handleSearchTerm = async (e) => {

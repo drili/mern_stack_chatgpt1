@@ -3,6 +3,41 @@ const router = express.Router()
 const Task = require("../models/Task")
 const Sprint = require("../models/Sprints")
 const TimeRegistration = require("../models/TimeRegistration")
+const mongoose = require("mongoose")
+
+router.route("/fetch-deadlines").get(async (req, res) => {
+    const { sprintId, userId } = req.query
+
+    const objectIdSprintId = new mongoose.Types.ObjectId(sprintId)
+    const objectIdUserId = new mongoose.Types.ObjectId(userId)
+
+    const todayDate = new Date();
+    const sevenDaysFromNow = new Date();
+    sevenDaysFromNow.setDate(todayDate.getDate() + 7);
+
+    try {
+        const deadlineTasks = await Task.find({
+            taskSprints: objectIdSprintId,
+            'taskPersons.user': objectIdUserId,
+            isArchived: false
+        })
+
+        const arrayTasks = [];
+
+        Object.values(deadlineTasks).flat().forEach(task => {
+            if (task.taskType === "quickTask") {
+                const taskDeadline = new Date(task.taskDeadline);
+                if (task.workflowStatus !== 3 && taskDeadline >= todayDate && taskDeadline <= sevenDaysFromNow) {
+                    arrayTasks.push(task);
+                }
+            }
+        });
+
+        res.json(arrayTasks)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
 
 router.route("/update-percentage").post(async (req, res) => {
     const { taskId, percentageValues } = req.body
@@ -83,7 +118,7 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
     const { userId } = req.params
 
     try {
-        const tasks = await Task.find({ 
+        const tasks = await Task.find({
             createdBy: userId,
             isArchived: { $ne: true }
         })
@@ -96,7 +131,7 @@ router.route("/fetch-by-user/:userId").get(async (req, res) => {
             .populate("taskCustomer", ["customerName", "customerColor"])
             .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
             .sort({ _id: -1 })
-            
+
         res.json(tasks)
     } catch (error) {
         console.error("Failed to fetch tasks by user", error)
@@ -117,26 +152,26 @@ router.route("/fetch-by-customer-sprint/:customerId").get(async (req, res) => {
             sprintMonth: month,
             sprintYear: year
         })
-        
+
         const tasks = await Task.find({
             taskCustomer: customerId,
             isArchived: { $ne: true },
             taskSprints: targetTaskSprint._id
         })
-        .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
-        .populate({
-            path: "taskPersons.user",
-            select: ["_id", "username", "email", "profileImage", "userRole", "userTitle"]
-        })
-        .populate("taskCustomer", ["customerName", "customerColor"])
-        .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
-        .sort({ _id: -1 })
+            .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
+            .populate({
+                path: "taskPersons.user",
+                select: ["_id", "username", "email", "profileImage", "userRole", "userTitle"]
+            })
+            .populate("taskCustomer", ["customerName", "customerColor"])
+            .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
+            .sort({ _id: -1 })
 
-        if(time_reg) {
+        if (time_reg) {
             const timeRegistrations = await TimeRegistration.find({
                 taskId: { $in: tasks.map(task => task._id) }
             })
-            .select("_id userId taskId timeRegistered description createdAt updatedAt")
+                .select("_id userId taskId timeRegistered description createdAt updatedAt")
 
             const tasksWithTimeRegistrations = tasks.map(task => {
                 const taskTimeRegistrations = timeRegistrations.filter(reg => reg.taskId.equals(task._id));
@@ -145,7 +180,7 @@ router.route("/fetch-by-customer-sprint/:customerId").get(async (req, res) => {
                     timeRegistrations: taskTimeRegistrations,
                 }
             })
-    
+
             res.json(tasksWithTimeRegistrations)
         } else {
             res.json(tasks)
@@ -175,20 +210,20 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
             isArchived: { $ne: true },
             taskSprints: targetTaskSprint._id
         })
-        .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
-        .populate({
-            path: "taskPersons.user",
-            select: ["_id", "username", "email", "profileImage", "userRole", "userTitle"]
-        })
-        .populate("taskCustomer", ["customerName", "customerColor"])
-        .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
-        .sort({ _id: -1 })
+            .populate("createdBy", ["username", "email", "profileImage", "userRole", "userTitle"])
+            .populate({
+                path: "taskPersons.user",
+                select: ["_id", "username", "email", "profileImage", "userRole", "userTitle"]
+            })
+            .populate("taskCustomer", ["customerName", "customerColor"])
+            .populate("taskSprints", ["_id", "sprintName", "sprintMonth", "sprintYear"])
+            .sort({ _id: -1 })
 
-        if(time_reg) {
+        if (time_reg) {
             const timeRegistrations = await TimeRegistration.find({
                 taskId: { $in: tasks.map(task => task._id) }
             })
-            .select("_id userId taskId timeRegistered description createdAt updatedAt")
+                .select("_id userId taskId timeRegistered description createdAt updatedAt")
 
             const tasksWithTimeRegistrations = tasks.map(task => {
                 const taskTimeRegistrations = timeRegistrations.filter(reg => reg.taskId.equals(task._id));
@@ -197,11 +232,11 @@ router.route("/fetch-by-user-sprint/:userId").get(async (req, res) => {
                     timeRegistrations: taskTimeRegistrations,
                 }
             })
-    
+
             res.json(tasksWithTimeRegistrations)
         } else {
             res.json(tasks)
-        }        
+        }
     } catch (error) {
         console.error("Failed to fetch tasks by user & sprint", error)
         res.status(500).json({ error: "Failed to fetch tasks by user & sprint" })
@@ -253,7 +288,7 @@ router.route("/update/:taskId").put(async (req, res) => {
     }
 })
 
-router.route("/update-sprint/:taskId").put(async (req,res) => {
+router.route("/update-sprint/:taskId").put(async (req, res) => {
     const { taskId } = req.params
     const { taskSprintId } = req.body
 
@@ -323,11 +358,13 @@ router.route("/remove-user/:taskId/:taskPersonId").put(async (req, res) => {
 
         const updatedTask = await Task.findByIdAndUpdate(
             taskId,
-            { $pull: {
-                taskPersons: {
-                    user: taskPersonId,
+            {
+                $pull: {
+                    taskPersons: {
+                        user: taskPersonId,
+                    }
                 }
-            } },
+            },
             { new: true }
         )
 

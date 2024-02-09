@@ -42,6 +42,22 @@ const Workflow = () => {
     const [newSprintArray, setNewSprintArray] = useState(null)
     const [deadlineTasks, setDeadlineTasks] = useState([]);
 
+    const fetchDeadlineTasks = async (userId, activeSprintId) => {
+        const activeUserId = userId ? userId : user.id
+        try {
+            const response = await axios.get("http://localhost:5000/tasks/fetch-deadlines", {
+                params: {
+                    userId: activeUserId,
+                    sprintId: activeSprintId,
+                }
+            })
+
+            setDeadlineTasks(response.data)
+        } catch (error) {
+            console.error("Error fetching deadline tasks:", error)
+        }
+    }
+
     const fetchTasksByUserAndSprint = async (activeSprintArray, userId) => {
         try {
             // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
@@ -69,6 +85,9 @@ const Workflow = () => {
         try {
             const response = await axios.put(`http://localhost:5000/tasks/update-taskworkflow/${taskId}`, { workflowStatus })
             // console.log(response)
+            if (response.status === 200) {
+                fetchDeadlineTasks(user.id, activeSprint.sprintId)
+            }
         } catch (error) {
             console.error('Failed to update task workflowStatus', error)
         }
@@ -118,10 +137,6 @@ const Workflow = () => {
 
     }, [tasks, filteredTasks])
 
-    useEffect(() => {
-        filterDeadlineTasks(filteredTasksByColumn)
-    }, [filteredTasksByColumn])
-
     const onDragEnd = (result) => {
         const { source, destination, draggableId } = result
 
@@ -154,40 +169,12 @@ const Workflow = () => {
             [destinationColumnId]: destinationColumnTasks,
         }))
 
-        const updatedFilteredTasks = {
-            ...filteredTasksByColumn,
-            [sourceColumnId]: sourceColumnTasks,
-            [destinationColumnId]: destinationColumnTasks,
-        };
-
         updateTaskWorkflow(draggableId, destination.droppableId)
-        filterDeadlineTasks(updatedFilteredTasks)
     }
 
-    // FIXME: Fix state of [stateDeadlineTasks] (e.g. fetch new tasks and handle on server-level)
-    const filterDeadlineTasks = async (newTasks) => {
-        console.log({newTasks});
-        try {
-            const todayDate = new Date()
-            const sevenDaysFromNow = new Date(todayDate)
-            sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
-            
-            const arrayTasks = []
-
-            const filteredTasks = Object.values(newTasks).flat().filter(task => {
-                if (task.taskType === "quickTask") {
-                    const taskDeadline = new Date(task.taskDeadline);
-                    arrayTasks.push(task) 
-                    return task.workflowStatus !== 3 && taskDeadline >= todayDate && taskDeadline <= sevenDaysFromNow;
-                } 
-            });
-
-            setDeadlineTasks(filteredTasks);
-            console.log({arrayTasks});
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    useEffect(() => {
+        fetchDeadlineTasks(user.id, activeSprint.sprintId)
+    }, [user, activeSprint])
 
     return (
         <div id='workflowPage'>
@@ -203,6 +190,7 @@ const Workflow = () => {
                 updateFilteredTasks={updateFilteredTasks}
                 updatedFilteredTasksCustomer={updatedFilteredTasksCustomer}
                 setNewSprintArray={setNewSprintArray}
+                fetchDeadlineTasks={fetchDeadlineTasks}
             ></WorkflowFilters>
 
             {/* FIXME: When a task card gets dropped into the same column, it duplicates the taskcard in the frontend (not a backend issue though) */}
@@ -263,17 +251,27 @@ const Workflow = () => {
                         {/* <span
                             className='flex flex-col gap-1 bg-white outline-dashed outline-1 outline-offset-0 outline-slate-300 rounded-md py-2 px-2'
                         > */}
-                        {deadlineTasks.length}
+                        
                         <span>
-                            {deadlineTasks.map(task => (
-                                <span onClick={() => handleTaskModal(task._id)} key={task._id}>
-                                    <TaskCardSmall 
-                                        taskId={task._id}
-                                        taskName={task.taskName}
-                                        taskDeadline={task.taskDeadline}
-                                    />
-                                </span>
-                            ))}
+                            {deadlineTasks.length > 0 && (
+                                <>
+                                    {deadlineTasks.map(task => (
+                                        <span onClick={() => handleTaskModal(task._id)} key={task._id}>
+                                            <TaskCardSmall 
+                                                taskId={task._id}
+                                                taskName={task.taskName}
+                                                taskDeadline={task.taskDeadline}
+                                            />
+                                        </span>
+                                    ))}
+                                </>
+                            )}
+                            
+                            {deadlineTasks.length === 0 && (
+                                <>
+                                    <p className='font-bold text-sm text-slate-500'>No deadlines</p>
+                                </>
+                            )}
                         </span>
                     </span>
                 </section>
@@ -287,6 +285,7 @@ const Workflow = () => {
                     onCloseModal={onCloseModal}
                     fetchTasks={fetchTasksByUserAndSprint}
                     updateFunc={fetchWorkflow}
+                    fetchDeadlineTasks={fetchDeadlineTasks}
                 // fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
                 />
             )}

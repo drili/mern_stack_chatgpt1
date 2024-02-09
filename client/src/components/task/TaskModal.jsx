@@ -10,7 +10,7 @@ import TaskModalSettings from './TaskModalSettings'
 import TaskTimeRegistration from './TaskTimeRegistration'
 import TaskChat from './TaskChat'
 
-const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFunc, sprintOverviewFetch, fetchWorkflow }) => {
+const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFunc, sprintOverviewFetch, fetchDeadlineTasks }) => {
     const [showModal, setShowModal] = useState(false)
     const [task, setTask] = useState([])
     const [taskSprint, setTaskSprint] = useState([])
@@ -98,6 +98,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
             }
             fetchTasks()
             updateFunc()
+            fetchDeadlineTasks("", task[0]?.taskSprints[0]?._id)
             // sprintOverviewFetch()
         } catch (error) {
             console.error('Failed to update task', error)
