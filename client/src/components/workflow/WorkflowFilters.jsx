@@ -56,9 +56,11 @@ const WorkflowFilters = ({
 
     const handleUserChange = async (event) => {
         const userId = event
-        fetchTasksByUserAndSprint(activeSprint, userId)
+        fetchTasksByUserAndSprint(currentSprint, userId)
         fetchDeadlineTasks(userId)
         setActiveFilterUser(userId)
+
+        console.log({currentSprint});
     }
 
     const handleSprintChange = async (selectedValue) => {

@@ -299,6 +299,7 @@ const Workflow = () => {
                     fetchDeadlineTasks={fetchDeadlineTasks}
                     activeSprint={activeSprint}
                     activeFilterUser={activeFilterUser}
+                    newSprintArray={newSprintArray}
                 // fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
                 />
             )}

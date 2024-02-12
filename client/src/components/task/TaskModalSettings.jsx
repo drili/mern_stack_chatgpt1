@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
-const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task, closeModal, updateFunc, sprintOverviewFetch, fetchWorkflow, taskType, activeSprint, activeFilterUser }) => {
+const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task, closeModal, updateFunc, sprintOverviewFetch, fetchWorkflow, taskType, activeSprint, activeFilterUser, newSprintArray }) => {
     const [sprints, setSprints] = useState([])
     const [usersNot, setUsersNot] = useState([])
     const [taskPersons, setTaskPersons] = useState([])
@@ -13,6 +13,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     const [formDataSprint, setFormDataSprint] = useState({
         taskSprintId: ""
     })
+    const [sprintToUse, setSprintToUse] = useState([])
 
     const fetchSprints = async () => {
         try {
@@ -49,8 +50,8 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 })
 
                 fetchTaskData(taskID)
-                fetchTasks(activeSprint, activeFilterUser)
-                updateFunc()
+                fetchTasks(sprintToUse, activeFilterUser)
+                // updateFunc()
             }
         } catch (error) {
             console.error('Failed to update task', error)
@@ -78,8 +79,8 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 const response = await axios.put(`http://localhost:5000/tasks/assign-user/${taskID}`, { assignedUserId })
                 if (response.status === 200) {
                     fetchTaskData(taskID)
-                    fetchTasks(activeSprint, activeFilterUser)
-                    updateFunc()
+                    fetchTasks(sprintToUse, activeFilterUser)
+                    // updateFunc()
                 }
             } catch (error) {
                 console.error('Failed to assign user to task:', error);
@@ -90,6 +91,9 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     const handleRemoveUser = async (e) => {
         e.preventDefault()
 
+        console.log({activeFilterUser});
+        console.log({sprintToUse});
+
         const taskPersonId = e.target.elements.taskPersonId.value
         if (!taskPersonId) {
             console.log('No taskPersonId')
@@ -99,8 +103,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
             const response = await axios.put(`http://localhost:5000/tasks/remove-user/${taskID}/${taskPersonId}`)
             if (response.status === 200) {
                 fetchTaskData(taskID)
-                fetchTasks(activeSprint, activeFilterUser)
-                updateFunc()
+                fetchTasks(sprintToUse, activeFilterUser)
             }
         } catch (error) {
             console.error('Failed to remove user from task:', error)
@@ -159,6 +162,9 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     const handleArchiveTask = async (e) => {
         e.preventDefault()
 
+        console.log({activeFilterUser});
+        console.log({sprintToUse});
+
         if (!confirm("Are you sure you want to archive this task?")) {
             return
         }
@@ -177,8 +183,8 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                     }
                 })
 
-                fetchTasks(activeSprint, activeFilterUser)
-                updateFunc()
+                fetchTasks(sprintToUse, activeFilterUser)
+                // updateFunc()
                 closeModal()
             }
         } catch (error) {
@@ -199,7 +205,12 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 newPercentageValues[person.user._id] = person.percentage
             })
             setPercentageValues(newPercentageValues);
+        }
 
+        if (!newSprintArray) {
+            setSprintToUse(activeSprint)
+        } else {
+            setSprintToUse(newSprintArray)
         }
     }, [task, fetchTaskData, taskID])
 
