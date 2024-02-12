@@ -115,7 +115,10 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
             }
             fetchTasks()
             updateFunc()
-            fetchDeadlineTasks("")
+
+            if (fetchDeadlineTasks) {
+                fetchDeadlineTasks("")
+            }
             // sprintOverviewFetch()
         } catch (error) {
             console.error('Failed to update task', error)
