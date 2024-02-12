@@ -73,15 +73,15 @@ button:focus-visible {
 
 /***
 * Custom CSS
-***/ 
+***/
 .navbar {
-    background-color: #f8f8f8;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+	background-color: #f8f8f8;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
 }
 
 .container {
-    max-width: 1400px;
-    margin: 0 auto;
+	max-width: 1400px;
+	margin: 0 auto;
 }
 
 button,
@@ -90,6 +90,14 @@ input.button {
 }
 
 input[type=color] {
-    height: 42px;
-    padding: 5px 10px;
+	height: 42px;
+	padding: 5px 10px;
+}
+
+.trunateCustom {
+	display: -webkit-box;
+	max-width: 100%;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
