@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
-const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task, closeModal, updateFunc, sprintOverviewFetch, fetchWorkflow, taskType }) => {
+const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task, closeModal, updateFunc, sprintOverviewFetch, fetchWorkflow, taskType, activeSprint, activeFilterUser }) => {
     const [sprints, setSprints] = useState([])
     const [usersNot, setUsersNot] = useState([])
     const [taskPersons, setTaskPersons] = useState([])
@@ -49,7 +49,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 })
 
                 fetchTaskData(taskID)
-                fetchTasks()
+                fetchTasks(activeSprint, activeFilterUser)
                 updateFunc()
             }
         } catch (error) {
@@ -78,7 +78,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 const response = await axios.put(`http://localhost:5000/tasks/assign-user/${taskID}`, { assignedUserId })
                 if (response.status === 200) {
                     fetchTaskData(taskID)
-                    fetchTasks()
+                    fetchTasks(activeSprint, activeFilterUser)
                     updateFunc()
                 }
             } catch (error) {
@@ -99,7 +99,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
             const response = await axios.put(`http://localhost:5000/tasks/remove-user/${taskID}/${taskPersonId}`)
             if (response.status === 200) {
                 fetchTaskData(taskID)
-                fetchTasks()
+                fetchTasks(activeSprint, activeFilterUser)
                 updateFunc()
             }
         } catch (error) {
@@ -177,7 +177,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                     }
                 })
 
-                fetchTasks()
+                fetchTasks(activeSprint, activeFilterUser)
                 updateFunc()
                 closeModal()
             }

@@ -297,6 +297,8 @@ const Workflow = () => {
                     fetchTasks={fetchTasksByUserAndSprint}
                     updateFunc={fetchWorkflow}
                     fetchDeadlineTasks={fetchDeadlineTasks}
+                    activeSprint={activeSprint}
+                    activeFilterUser={activeFilterUser}
                 // fetchTasksByUserAndSprint={fetchTasksByUserAndSprint}
                 />
             )}
