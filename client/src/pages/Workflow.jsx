@@ -204,6 +204,7 @@ const Workflow = () => {
                 setActiveFilterUser={setActiveFilterUser}
             ></WorkflowFilters>
 
+            {/* FIXME: When dropping task into the same column, it duplicates the task in the frontend */}
             <DragDropContext onDragEnd={onDragEnd}>
                 <section className='flex gap-3 flex-col md:flex-row'>
                     {Object.entries(workflowColumnsData).map(([key, value]) => (
