@@ -60,7 +60,6 @@ const WorkflowFilters = ({
         fetchDeadlineTasks(userId)
         setActiveFilterUser(userId)
 
-        console.log({currentSprint});
     }
 
     const handleSprintChange = async (selectedValue) => {
