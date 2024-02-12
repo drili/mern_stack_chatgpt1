@@ -16,6 +16,7 @@ import NotFound from './pages/NotFound';
 import SprintOverview from './pages/SprintOverview';
 import TimeRegistrations from './pages/TimeRegistrations';
 import RegisterOffTimes from './pages/RegisterOffTimes';
+import Notifications from "./pages/Notifications"
 
 import Admin from './pages/admin/Admin';
 import TimeRegistrationsOverview from './pages/admin/TimeRegistrationsOverview';
@@ -52,6 +53,7 @@ function AppRoutes() {
                                 {/* <Route path="create-customer" element={<ProtectedRoute><CreateCustomer /></ProtectedRoute>} /> */}
                                 <Route path="workflow" element={<ProtectedRoute><Workflow /></ProtectedRoute>} />
                                 <Route path="register-offtime" element={<ProtectedRoute><RegisterOffTimes /></ProtectedRoute>} />
+                                <Route path="notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
                                 
                                 <Route path="admin" element={<ProtectedRoute>
                                     <AdminRoute>

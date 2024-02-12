@@ -121,11 +121,13 @@ const Navbar = () => {
             </span>
 
             <span className='flex items-center'>
-                <div className='mr-5 ml-1 relative'>
-                    <FaBell className='text-slate-900' size={18}/>
+                <Link to="/notifications">
+                    <div className='mr-5 ml-1 relative hover:cursor-pointer'>
+                        <FaBell className='text-slate-900' size={18} />
 
-                    <span className='absolute top-[-3px] right-[-1px] bg-red-500 h-[10px] w-[10px] rounded-full'></span>
-                </div>
+                        <span className='absolute top-[-3px] right-[-1px] bg-red-500 h-[10px] w-[10px] rounded-full'></span>
+                    </div>
+                </Link>
             </span>
 
             <span className='flex items-center'>
