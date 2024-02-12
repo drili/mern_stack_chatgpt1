@@ -13,7 +13,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     const [formDataSprint, setFormDataSprint] = useState({
         taskSprintId: ""
     })
-    
+
     const fetchSprints = async () => {
         try {
             const response = await axios.get("http://localhost:5000/sprints/fetch")
@@ -73,7 +73,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     }
 
     const handleAddTaskUser = async (assignedUserId) => {
-        if(assignedUserId) {
+        if (assignedUserId) {
             try {
                 const response = await axios.put(`http://localhost:5000/tasks/assign-user/${taskID}`, { assignedUserId })
                 if (response.status === 200) {
@@ -114,7 +114,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
             (total, value) => total + parseInt(value || 0, 10),
             0
         )
-        
+
         setTotalPercentage(totalPercentageCalc)
         if (totalPercentageCalc != 100) {
             setErrorPercentage(true)
@@ -128,7 +128,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
 
             try {
                 const response = await axios.post(`http://localhost:5000/tasks/update-percentage`, updatedPercentageData)
-                
+
                 if (response.status === 200) {
                     toast('Percentage updated successfully', {
                         duration: 4000,
@@ -158,8 +158,13 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
 
     const handleArchiveTask = async (e) => {
         e.preventDefault()
+
+        if (!confirm("Are you sure you want to archive this task?")) {
+            return
+        }
+
         const archiveTaskId = e.target.elements.archiveTaskId.value
-        
+
         try {
             const response = await axios.put(`http://localhost:5000/tasks/archive-task/${archiveTaskId}`)
             if (response.status === 200) {
@@ -173,6 +178,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                 })
 
                 fetchTasks()
+                updateFunc()
                 closeModal()
             }
         } catch (error) {
@@ -208,18 +214,18 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                     <form className='flex flex-col gap-4 mb-5 md:flex-row md:items-end' onSubmit={handleUpdateSprint}>
                         <span className='w-[50%]'>
                             <label className={labelClasses} htmlFor="taskCustomer">Change Task Sprint</label>
-                            <select 
+                            <select
                                 name="taskSprintId"
-                                placeholder="Select Sprint" 
+                                placeholder="Select Sprint"
                                 required
                                 className={`${inputClasses} min-w-[200px]`}
                                 onChange={(e) => handleInputChange(e)}
-                                >
+                            >
                                 <option>Select Sprint</option>
                                 {sprints
                                     .map((sprint) => (
                                         <option value={sprint._id} key={sprint._id}>{sprint.sprintName}</option>
-                                    ))    
+                                    ))
                                 }
                             </select>
                         </span>
@@ -235,13 +241,13 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                         <span>
                             <label className={labelClasses} htmlFor="taskCustomer">Task user(s)</label>
                             <span>
-                                <select 
+                                <select
                                     name="taskUsersNot"
-                                    placeholder="Add User" 
+                                    placeholder="Add User"
                                     required
                                     className={`${inputClasses} min-w-[200px]`}
                                     onChange={(e) => handleAddTaskUser(e.target.value)}
-                                    >
+                                >
                                     <option>Add User</option>
                                     {usersNot
                                         .map((user) => (
@@ -264,7 +270,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
 
                                             {taskPersons.length > 1 && (
                                                 <form onSubmit={(e) => handleRemoveUser(e)}>
-                                                    <input type="hidden" name='taskPersonId' value={user.user._id}  />
+                                                    <input type="hidden" name='taskPersonId' value={user.user._id} />
                                                     <button type="submit" className='border-rose-950 px-2 py-0 text-sm'>Remove</button>
                                                 </form>
                                             )}
@@ -277,7 +283,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                                         className='flex items-center gap-2'
                                                         onSubmit={(e) => handlePercentageUpdate(e, user.user._id)}
                                                     >
-                                                        <input type="hidden" name='taskPersonId' value={user.user._id}  />
+                                                        <input type="hidden" name='taskPersonId' value={user.user._id} />
 
                                                         {taskType !== "quickTask" && (
                                                             <>
@@ -290,7 +296,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                                                         value={percentageValues[user.user._id] || ''}
                                                                         onChange={(e) => handlePercentageChange(user.user._id, e.target.value)}
                                                                         name="personPercentage"
-                                                                        />
+                                                                    />
                                                                     <label className='text-xs font-normal whitespace-nowrap' htmlFor="personPercentage">% alloc</label>
                                                                 </span>
                                                                 <button type="submit" className='border-rose-500 px-2 py-0 text-sm'>Update</button>
@@ -312,14 +318,12 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
                                 <p className='text-xs underline'>Current total allocation percentage: {totalPercentage}%</p>
                             </div>
                         )}
-                        
+
                     </span>
 
                     <span id='archiveTask'>
                         <hr className='mb-5' />
-                        <form onSubmit={(e) => handleArchiveTask(e)}>
-                            {/* TODO: Make some kind of prompt, e.g. "Are you sure?"
-                            - Idea: On "archive task" click, replace "Yes / No" buttons with "Are you sure?" text. */}
+                        <form onSubmit={handleArchiveTask}>
                             <label className={labelClasses} htmlFor="archiveTaskId">Archive Task</label>
                             <input type="hidden" name='archiveTaskId' value={taskID} />
                             <button type="submit" className='bg-rose-950 text-white px-5 py-2 text-sm'>Archive Task</button>
