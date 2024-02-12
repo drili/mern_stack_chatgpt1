@@ -94,7 +94,6 @@ const TimeRegistrations = () => {
                             defaultDate={new Date()}
                             views={{
                                 month: true,
-                                // FIXME: Fix "day" picker issue/bug
                                 day: false,
                                 week: false,
                                 agenda: true
