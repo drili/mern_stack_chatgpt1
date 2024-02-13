@@ -24,6 +24,11 @@ const Notifications = () => {
     const { user } = useContext(UserContext)
 
     // *** Server requests
+    // TODO: add handleUpdateNotificationIsRead function
+    const handleUpdateNotificationIsRead = async (notificationId) => {
+        
+    }
+
     const fetchNotifications = async (userId) => {
         try {
             const response = await axios.post("http://localhost:5000/notifications/fetch-user-notifications", {
