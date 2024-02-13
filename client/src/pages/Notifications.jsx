@@ -24,9 +24,17 @@ const Notifications = () => {
     const { user } = useContext(UserContext)
 
     // *** Server requests
-    // TODO: add handleUpdateNotificationIsRead function
     const handleUpdateNotificationIsRead = async (notificationId) => {
-        
+        try {
+            const response = await axios.put("http://localhost:5000/notifications/update-user-notification-read", {
+                notificationId
+            })
+
+            console.log({response});
+        } catch (error) {
+            console.error("Error updating notifications", error)
+            
+        }
     }
 
     const fetchNotifications = async (userId) => {
@@ -50,6 +58,7 @@ const Notifications = () => {
     const handleTaskModal = (taskId, notificationId) => {
         setShowModal(true)
         setSelectedTaskId(taskId)
+        handleUpdateNotificationIsRead(notificationId)
 
         setNotificationsArray(prevNotifications => 
             prevNotifications.map(notification =>

@@ -8,6 +8,20 @@ const Task = require("../models/Task")
 
 const notificationType = "user_tagging_task"
 
+router.route("/update-user-notification-read").put(async (req, res) => {
+    const { notificationId } = req.body
+
+    try {
+        const notification = await NotificationChatTask.findByIdAndUpdate(notificationId, { $set: { notificationIsRead: true } })
+        
+        console.log({notification});
+        res.json({ message: "Customer archived & updated successfully" })
+    } catch (error) {
+        console.error("There was an error updating notifcation", error)
+        res.status(500).send("There was an error updating notifcation")
+    }
+})
+
 router.route("/fetch-user-notifications").post(async (req, res) => {
     const { userId } = req.body
 
