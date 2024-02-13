@@ -7,6 +7,7 @@ import { BsFillTrashFill } from "react-icons/bs"
 
 import DraftEditor from '../drafteditor/DraftEditor';
 import { UserContext } from '../../context/UserContext'
+import axios from 'axios';
 
 const options = {
     entityStyleFn: (entity) => {
@@ -33,7 +34,7 @@ const formatDate = (dateString) => {
     return date.toLocaleTimeString('en-US', options).replace(',', ' •');
 };
 
-const TaskChat = ({ taskID }) => {
+const TaskChat = ({ taskID, taskCustomer }) => {
     const [messages, setMessages] = useState([]);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [isInputEmpty, setIsInputEmpty] = useState(true)
@@ -112,6 +113,20 @@ const TaskChat = ({ taskID }) => {
         }
     }
 
+    const sendNotification = async (mentionedUsers, taskId, taskCustomer, mentionedBy, htmlContent) => {
+        try {
+            const response = await axios.post("http://localhost:5000/notifications/create-notification", {
+                mentionedUsers,
+                taskId,
+                taskCustomer,
+                mentionedBy,
+                htmlContent
+            })
+        } catch (error) {
+            console.error("Error sending notification", error);
+        }
+    }
+
     // *** Frontend functionalities
     const scrollToBottom = () => {
         if (chatContainerRef.current) {
@@ -175,6 +190,7 @@ const TaskChat = ({ taskID }) => {
         sendCommentToServer(htmlContent)
 
         const mentionedUsers = extractMentions(editorState)
+        sendNotification(mentionedUsers, taskID, taskCustomer, user.id, htmlContent)
         console.log("Mentioned users:", mentionedUsers);
     };
 

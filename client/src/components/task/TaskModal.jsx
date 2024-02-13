@@ -299,7 +299,10 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                                             <div className='grid grid-cols-1 gap-5 md:gap-10'>
                                                 <section className='mt-5'>
                                                     {taskID && (
-                                                        <TaskChat taskID={taskID} />
+                                                        <TaskChat 
+                                                            taskID={taskID} 
+                                                            taskCustomer={task[0]?.taskCustomer?._id}
+                                                            />
                                                     )}
                                                 </section>
                                             </div>

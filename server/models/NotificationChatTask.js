@@ -13,7 +13,7 @@ const notificationChatTask = mongoose.Schema({
     },
     notificationIsRead: {
         type: Boolean,
-        required: true,
+        required: false,
         default: false,
     },
     notificationLink: {
