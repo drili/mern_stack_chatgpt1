@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import PageHeading from '../components/PageHeading'
 import NotificationsFilter from '../components/notifications/NotificationsFilter'
 import userImageDefault from "../assets/profile-pics/default-image.jpg"
 
 const Notifications = () => {
+    const [searchTerm, setSearchTerm] = useState("")
+
     return (
         <div id='NotificationsPage'>
             <PageHeading
@@ -13,7 +15,10 @@ const Notifications = () => {
                 suffix=""
             />
 
-            <NotificationsFilter />
+            <NotificationsFilter
+                setSearchTerm={setSearchTerm}
+                searchTerm={searchTerm}
+            />
 
             <div className='grid grid-cols-3 gap-10'>
                 <section id='NotificationsSections' className='border rounded-md flex flex-col col-span-2'>
