@@ -30,7 +30,6 @@ const Notifications = () => {
                 notificationId
             })
 
-            console.log({response});
         } catch (error) {
             console.error("Error updating notifications", error)
             
@@ -58,15 +57,19 @@ const Notifications = () => {
     const handleTaskModal = (taskId, notificationId) => {
         setShowModal(true)
         setSelectedTaskId(taskId)
-        handleUpdateNotificationIsRead(notificationId)
 
-        setNotificationsArray(prevNotifications => 
-            prevNotifications.map(notification =>
-                notification._id === notificationId
-                ? { ...notification, notificationIsRead: true }
-                : notification
-            )
-        )
+        setNotificationsArray(prevNotifications =>
+            prevNotifications.map(notification => {
+                if (notification._id === notificationId) {
+                    if (!notification.notificationIsRead) {
+                        handleUpdateNotificationIsRead(notificationId);
+                        return { ...notification, notificationIsRead: true };
+                    }
+                    return notification;
+                }
+                return notification;
+            })
+        );
     }
 
     const onCloseModal = () => {
