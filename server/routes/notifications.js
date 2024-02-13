@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const NotificationChatTask = require("../models/NotificationChatTask")
 
-const notificationType = "user_tagging"
+const notificationType = "user_tagging_task"
 
 router.route("/create-notification").post(async (req, res) => {
     const {
