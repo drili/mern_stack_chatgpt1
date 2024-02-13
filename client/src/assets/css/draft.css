@@ -12,6 +12,8 @@
 }
 
 .mentionEntry img {
+    min-width: 25px;
+    min-width: 25px;
     max-width: 25px;
     max-height: 25px;
     object-fit: cover;
@@ -94,5 +96,6 @@
 
 .mention {
     color: #f43f5e;;
+    background-color: #fff1f2;
     font-weight: bold;
 }

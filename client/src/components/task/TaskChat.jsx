@@ -20,7 +20,7 @@ const options = {
                 },
                 style: {
                 },
-                text: `@${data.mention.name}`,
+                text: `@${data.mention.username}`,
             };
         }
     },
@@ -137,6 +137,31 @@ const TaskChat = ({ taskID }) => {
         }
     }
 
+    // *** User handling from mentions
+    const extractMentions = (editorState) => {
+        const contentState = editorState.getCurrentContent();
+        const mentionedUsers = [];
+
+        contentState.getBlockMap().forEach((block) => {
+            block.findEntityRanges(
+                (character) => {
+                    const entityKey = character.getEntity();
+                    return (
+                        entityKey !== null &&
+                        contentState.getEntity(entityKey).getType() === 'mention'
+                    );
+                },
+                (start, end) => {
+                    const entityKey = block.getEntityAt(start);
+                    const mentionData = contentState.getEntity(entityKey).getData();
+                    mentionedUsers.push(mentionData.mention);
+                }
+            );
+        });
+
+        return mentionedUsers;
+    }
+
     const handleSendMessage = () => {
         const currentContent = editorState.getCurrentContent();
         if (!contentIsMeaningful(currentContent)) {
@@ -149,6 +174,8 @@ const TaskChat = ({ taskID }) => {
         setEditorState(EditorState.createEmpty());
         sendCommentToServer(htmlContent)
 
+        const mentionedUsers = extractMentions(editorState)
+        console.log("Mentioned users:", mentionedUsers);
     };
 
     useLayoutEffect(() => {

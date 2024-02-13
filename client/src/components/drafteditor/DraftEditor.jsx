@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo, useCallback } from 'react';
+import React, { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import Editor from '@draft-js-plugins/editor';
 import createMentionPlugin, { defaultSuggestionsFilter } from '@draft-js-plugins/mention';
 import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
@@ -15,6 +15,7 @@ import {
     BlockquoteButton,
     CodeBlockButton,
 } from '@draft-js-plugins/buttons';
+import axios from 'axios';
 
 import '@draft-js-plugins/static-toolbar/lib/plugin.css';
 
@@ -25,7 +26,22 @@ const DraftEditor = ({ editorState, setEditorState }) => {
     const ref = useRef(null);
     // const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [open, setOpen] = useState(false);
-    const [suggestions, setSuggestions] = useState(mentions);
+    const [suggestions, setSuggestions] = useState([]);
+
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/users/fetch-active-users")
+            const transformedUsers = response.data.map((user) => ({
+                id: user._id,
+                name: user.username,
+                link: `http://localhost:5000/profile?${user._id}`,
+                avatar: user.profileImage,
+            }))
+            setSuggestions(transformedUsers)
+        } catch (error) {
+            console.error('Failed to fetch users', error);
+        }
+    }
 
     // Initialize the mention plugin
     const mentionPlugin = useMemo(() => createMentionPlugin(), []);
@@ -40,52 +56,27 @@ const DraftEditor = ({ editorState, setEditorState }) => {
 
     const onOpenChange = useCallback((open) => {
         setOpen(open);
-    }, []);
+    }, [suggestions]);
 
     const onSearchChange = useCallback(({ value }) => {
-        setSuggestions(defaultSuggestionsFilter(value, mentions));
-    }, []);
+        setSuggestions(defaultSuggestionsFilter(value, suggestions));
+    }, [suggestions]);
 
     const MentionEntry = (props) => {
         const { isFocused, searchValue, selectMention, ...parentProps } = props;
 
+        console.log({props});
         return (
             <div {...parentProps} className="mentionEntry">
-                <img src={props.mention.avatar} alt={props.mention.name} />
+                <img src={`http://localhost:5000/uploads/${props.mention.avatar}`} alt={props.mention.name} />
                 <span>{props.mention.name}</span>
             </div>
         );
     };
 
-    // *** User handling from mentions
-    const extractMentions = (editorState) => {
-        const contentState = editorState.getCurrentContent();
-        const mentionedUsers = [];
-
-        contentState.getBlockMap().forEach((block) => {
-            block.findEntityRanges(
-                (character) => {
-                    const entityKey = character.getEntity();
-                    return (
-                        entityKey !== null &&
-                        contentState.getEntity(entityKey).getType() === 'mention'
-                    );
-                },
-                (start, end) => {
-                    const entityKey = block.getEntityAt(start);
-                    const mentionData = contentState.getEntity(entityKey).getData();
-                    mentionedUsers.push(mentionData.mention);
-                }
-            );
-        });
-
-        return mentionedUsers;
-    }
-
-    const handleSendComment = () => {
-        const mentionedUsers = extractMentions(editorState)
-        console.log("Mentioned users:", mentionedUsers);
-    }
+    useEffect(() => {
+        fetchUsers()
+    }, [])
 
     return (
         <div
