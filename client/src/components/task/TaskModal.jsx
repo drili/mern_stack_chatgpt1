@@ -113,8 +113,10 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
                     }
                 })
             }
-            fetchTasks()
             
+            if (fetchTasks) {
+                fetchTasks()
+            }
             if(updateFunc) {
                 updateFunc()
             }
