@@ -65,7 +65,6 @@ const DraftEditor = ({ editorState, setEditorState }) => {
     const MentionEntry = (props) => {
         const { isFocused, searchValue, selectMention, ...parentProps } = props;
 
-        console.log({props});
         return (
             <div {...parentProps} className="mentionEntry">
                 <img src={`http://localhost:5000/uploads/${props.mention.avatar}`} alt={props.mention.name} />
