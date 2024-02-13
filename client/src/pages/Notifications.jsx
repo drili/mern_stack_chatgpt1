@@ -16,16 +16,17 @@ const Notifications = () => {
             <NotificationsFilter />
 
             <div className='grid grid-cols-3 gap-10'>
-                <section id='NotificationsSections' className='border rounded-md flex flex-col gap-2 col-span-2'>
-                    <div className='flex gap-5 p-5 hover:cursor-pointer hover:bg-slate-50'>
-                        <span className='flex'>
+                <section id='NotificationsSections' className='border rounded-md flex flex-col col-span-2'>
+                    <div className='relative flex gap-5 p-5 hover:cursor-pointer bg-slate-200 hover:bg-slate-50'>
+                        <span className='block w-[10px] h-[10px] bg-blue-500 rounded-full absolute left-[15px] top-[40px]'></span>
+                        <span className='flex ml-5'>
                             <img
                                 src={`${userImageDefault}`}
                                 className="min-w-[50px] h-[50px] object-cover rounded-md"
                             />
                         </span>
 
-                        <span className='flex flex-col overflow-hidden'>
+                        <span className='flex flex-col overflow-hidden mr-5'>
                             <h3 className='font-bold'>Jakob Bøgh Rasmussen</h3>
                             <span className='flex justify-between'>
                                 <p className='text-sm text-slate-500 mb-2'>Mentioned you in task "taskName"</p>
@@ -34,15 +35,17 @@ const Notifications = () => {
                             <p className='trunateCustom'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto nemo dignissimos quas voluptatibus maxime veritatis esse soluta incidunt enim exercitationem laboriosam deserunt officia ut, ad neque sunt, earum quibusdam optio!</p>
                         </span>
                     </div>
-                    <div className='flex gap-5 p-5 hover:cursor-pointer hover:bg-slate-50'>
-                        <span className='flex'>
+
+                    <div className='relative flex gap-5 p-5 hover:cursor-pointer bg-slate-0 hover:bg-slate-50'>
+                        {/* <span className='block w-[10px] h-[10px] bg-blue-500 rounded-full absolute left-[15px] top-[40px]'></span> */}
+                        <span className='flex ml-5'>
                             <img
                                 src={`${userImageDefault}`}
                                 className="min-w-[50px] h-[50px] object-cover rounded-md"
                             />
                         </span>
 
-                        <span className='flex flex-col overflow-hidden'>
+                        <span className='flex flex-col overflow-hidden mr-5'>
                             <h3 className='font-bold'>Jakob Bøgh Rasmussen</h3>
                             <span className='flex justify-between'>
                                 <p className='text-sm text-slate-500 mb-2'>Mentioned you in task "taskName"</p>
@@ -51,15 +54,17 @@ const Notifications = () => {
                             <p className='trunateCustom'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto nemo dignissimos quas voluptatibus maxime veritatis esse soluta incidunt enim exercitationem laboriosam deserunt officia ut, ad neque sunt, earum quibusdam optio!</p>
                         </span>
                     </div>
-                    <div className='flex gap-5 p-5 hover:cursor-pointer hover:bg-slate-50'>
-                        <span className='flex'>
+
+                    <div className='relative flex gap-5 p-5 hover:cursor-pointer bg-slate-0 hover:bg-slate-50'>
+                        {/* <span className='block w-[10px] h-[10px] bg-blue-500 rounded-full absolute left-[15px] top-[40px]'></span> */}
+                        <span className='flex ml-5'>
                             <img
                                 src={`${userImageDefault}`}
                                 className="min-w-[50px] h-[50px] object-cover rounded-md"
                             />
                         </span>
 
-                        <span className='flex flex-col overflow-hidden'>
+                        <span className='flex flex-col overflow-hidden mr-5'>
                             <h3 className='font-bold'>Jakob Bøgh Rasmussen</h3>
                             <span className='flex justify-between'>
                                 <p className='text-sm text-slate-500 mb-2'>Mentioned you in task "taskName"</p>
@@ -68,6 +73,7 @@ const Notifications = () => {
                             <p className='trunateCustom'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto nemo dignissimos quas voluptatibus maxime veritatis esse soluta incidunt enim exercitationem laboriosam deserunt officia ut, ad neque sunt, earum quibusdam optio!</p>
                         </span>
                     </div>
+
                 </section>
 
                 <section id='NotificationsTasks' className='col-span-1'>
