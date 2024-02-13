@@ -14,7 +14,6 @@ router.route("/update-user-notification-read").put(async (req, res) => {
     try {
         const notification = await NotificationChatTask.findByIdAndUpdate(notificationId, { $set: { notificationIsRead: true } })
         
-        console.log({notification});
         res.json({ message: "Customer archived & updated successfully" })
     } catch (error) {
         console.error("There was an error updating notifcation", error)
