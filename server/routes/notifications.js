@@ -28,7 +28,7 @@ router.route("/fetch-user-notifications").post(async (req, res) => {
                 model: Task,
                 select: "taskName",
             })
-            .sort({ _id: 1 })
+            .sort({ _id: -1 })
 
             res.status(200).json(notifications)
     } catch (error) {

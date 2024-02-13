@@ -29,7 +29,7 @@ const Notifications = () => {
             const response = await axios.post("http://localhost:5000/notifications/fetch-user-notifications", {
                 userId: userId
             })
-            
+
             setNotificationsArray(response.data)
         } catch (error) {
             console.error("Error fetching notifications", error)
@@ -45,6 +45,14 @@ const Notifications = () => {
     const handleTaskModal = (taskId, notificationId) => {
         setShowModal(true)
         setSelectedTaskId(taskId)
+
+        setNotificationsArray(prevNotifications => 
+            prevNotifications.map(notification =>
+                notification._id === notificationId
+                ? { ...notification, notificationIsRead: true }
+                : notification
+            )
+        )
     }
 
     const onCloseModal = () => {
