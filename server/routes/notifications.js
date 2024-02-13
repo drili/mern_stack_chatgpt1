@@ -34,8 +34,6 @@ router.route("/create-notification").post(async (req, res) => {
         console.error("Error creating notifications", error)
         res.status(500).send("Error creating notifcations")
     }
-
-    console.log({ mentionedUsers, taskId, taskCustomer, mentionedBy, htmlContent });
 })
 
 module.exports = router
