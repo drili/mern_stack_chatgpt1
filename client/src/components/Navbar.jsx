@@ -24,10 +24,9 @@ const Navbar = () => {
     // TODO: 
     // 1. On login, read if user has any notifications (ONCE) and update state
     // 2. When user has read all notifications, set the state back to false
-    const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false)
     const socket = socketIoClient("http://localhost:5000")
 
-    const { user, setUser } = useContext(UserContext)
+    const { user, setUser, hasUnreadNotifications, setHasUnreadNotifications } = useContext(UserContext)
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen)

@@ -7,9 +7,21 @@ import { UserContext } from '../context/UserContext';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { setUser } = useContext(UserContext)
+    const { setUser, setHasUnreadNotifications  } = useContext(UserContext)
 
     const navigate = useNavigate();
+
+    const fetchNotifications = async (userId) => {
+        try {
+            const response = await axios.post("http://localhost:5000/notifications/fetch-user-notifications", {
+                userId: userId
+            })
+
+            return response
+        } catch (error) {
+            console.error("Error fetching notifications", error)
+        }
+    }
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -31,6 +43,11 @@ function Login() {
                 localStorage.setItem("user_title", res.data.user.user_title)
                 localStorage.setItem("user", JSON.stringify(res.data.user))
                 
+                fetchNotifications(res.data.user.id).then(response => {
+                    const hasUnread = response.data.some(notification => !notification.notificationIsRead);
+                    setHasUnreadNotifications(hasUnread);
+                })
+
                 setUser(res.data.user)
                 
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
