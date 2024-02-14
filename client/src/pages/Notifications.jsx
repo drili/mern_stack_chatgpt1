@@ -118,6 +118,7 @@ const Notifications = () => {
 
             <div className='grid grid-cols-3 gap-10'>
                 <section id='NotificationsSections' className='border rounded-md flex flex-col col-span-2'>
+                    {/* TODO: Add "Show more" button and loop notifications 10 at a time */}
                     {notificationsArray && (
                         <>
                             {notificationsArray.map((notification) => (
