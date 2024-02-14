@@ -21,7 +21,7 @@ const Notifications = () => {
     const [showModal, setShowModal] = useState(false)
     const [selectedTaskId, setSelectedTaskId] = useState(null)
 
-    const { user } = useContext(UserContext)
+    const { user, setHasUnreadNotifications } = useContext(UserContext)
 
     // *** Server requests
     const handleUpdateNotificationIsRead = async (notificationId) => {
@@ -29,6 +29,14 @@ const Notifications = () => {
             const response = await axios.put("http://localhost:5000/notifications/update-user-notification-read", {
                 notificationId
             })
+
+            if (response.status == 200) {
+                fetchUnreadNotifications(user.id).then(response => {
+                    const hasUnread = response.data.some(notification => !notification.notificationIsRead);
+                    console.log({hasUnread});
+                    setHasUnreadNotifications(hasUnread);
+                })
+            }
 
         } catch (error) {
             console.error("Error updating notifications", error)
@@ -43,6 +51,18 @@ const Notifications = () => {
             })
 
             setNotificationsArray(response.data)
+        } catch (error) {
+            console.error("Error fetching notifications", error)
+        }
+    }
+
+    const fetchUnreadNotifications = async (userId) => {
+        try {
+            const response = await axios.post("http://localhost:5000/notifications/fetch-unread-notifications", {
+                userId: userId
+            })
+
+            return response
         } catch (error) {
             console.error("Error fetching notifications", error)
         }

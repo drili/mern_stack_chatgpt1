@@ -48,10 +48,8 @@ app.use("/comments", commentsRouter)
 app.use("/notifications", notificationsRouter)
 
 io.on("connection", (socket) => {
-    console.log("A user connected");
-
+    // console.log("A user connected");
     socket.on("register", userId => {
-        console.log({userId})
         socket.join(userId);
     });
 

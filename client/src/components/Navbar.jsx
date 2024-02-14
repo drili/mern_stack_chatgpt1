@@ -21,8 +21,6 @@ const Navbar = () => {
     const [sprintYears, setSprintYears] = useState([])
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-    // TODO: 
-    // 2. When user has read all notifications, set the state back to false
     const socket = socketIoClient("http://localhost:5000")
 
     const { user, setUser, hasUnreadNotifications, setHasUnreadNotifications } = useContext(UserContext)
@@ -86,7 +84,7 @@ const Navbar = () => {
 
         socket.on('new-notification', (data) => {
             setHasUnreadNotifications(true);
-            console.log("NEW NOTIFICATION");
+            // console.log("NEW NOTIFICATION");
         });
 
         return () => {
