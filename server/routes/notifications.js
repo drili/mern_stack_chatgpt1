@@ -8,6 +8,35 @@ const Task = require("../models/Task")
 
 const notificationType = "user_tagging_task"
 
+router.route("/fetch-unread-notifications").post(async (req, res) => {
+    const { userId } = req.body
+
+    try {
+        const notifications = await NotificationChatTask.find({ userId: userId, notificationIsRead: false })
+            .populate({
+                path: "mentionedBy",
+                model: User,
+                select: "username email profileImage",
+            })
+            .populate({
+                path: "taskCustomer",
+                model: Customer,
+                select: "customerName customerColor"
+            })
+            .populate({
+                path: "taskId",
+                model: Task,
+                select: "taskName",
+            })
+            .sort({ _id: -1 })
+
+            res.status(200).json(notifications)
+    } catch (error) {
+        console.error("Error fetching user notifications", error);
+        res.status(500).send("Error fetching notifications")
+    }
+})
+
 router.route("/update-user-notification-read").put(async (req, res) => {
     const { notificationId } = req.body
 

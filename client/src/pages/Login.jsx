@@ -11,9 +11,9 @@ function Login() {
 
     const navigate = useNavigate();
 
-    const fetchNotifications = async (userId) => {
+    const fetchUnreadNotifications = async (userId) => {
         try {
-            const response = await axios.post("http://localhost:5000/notifications/fetch-user-notifications", {
+            const response = await axios.post("http://localhost:5000/notifications/fetch-unread-notifications", {
                 userId: userId
             })
 
@@ -43,8 +43,9 @@ function Login() {
                 localStorage.setItem("user_title", res.data.user.user_title)
                 localStorage.setItem("user", JSON.stringify(res.data.user))
                 
-                fetchNotifications(res.data.user.id).then(response => {
+                fetchUnreadNotifications(res.data.user.id).then(response => {
                     const hasUnread = response.data.some(notification => !notification.notificationIsRead);
+                    console.log({hasUnread});
                     setHasUnreadNotifications(hasUnread);
                 })
 
