@@ -163,7 +163,9 @@ const Navbar = () => {
             <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
                 <div className="w-full px-6 flex flex-wrap items-center justify-between mx-auto py-4">
                     <a href="#" className="flex items-left">
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Unify</span>
+                        <span className="self-center text-slate-900 text-xl font-bold whitespace-nowrap dark:text-white">
+                            TaskAlloc<span className='text-rose-500 ml-[1px] mr-[1px underline'>8</span>or
+                        </span>
                     </a>
 
                     <button
