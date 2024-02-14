@@ -7,7 +7,7 @@ import { UserContext } from '../context/UserContext';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { setUser, setHasUnreadNotifications  } = useContext(UserContext)
+    const { setUser, setHasUnreadNotifications } = useContext(UserContext)
 
     const navigate = useNavigate();
 

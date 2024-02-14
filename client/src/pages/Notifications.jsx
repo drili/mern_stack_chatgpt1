@@ -21,7 +21,7 @@ const Notifications = () => {
     const [showModal, setShowModal] = useState(false)
     const [selectedTaskId, setSelectedTaskId] = useState(null)
 
-    const { user, setHasUnreadNotifications } = useContext(UserContext)
+    const { user, setHasUnreadNotifications, hasUnreadNotifications } = useContext(UserContext)
 
     // *** Server requests
     const handleUpdateNotificationIsRead = async (notificationId) => {
@@ -33,14 +33,13 @@ const Notifications = () => {
             if (response.status == 200) {
                 fetchUnreadNotifications(user.id).then(response => {
                     const hasUnread = response.data.some(notification => !notification.notificationIsRead);
-                    console.log({hasUnread});
                     setHasUnreadNotifications(hasUnread);
                 })
             }
 
         } catch (error) {
             console.error("Error updating notifications", error)
-            
+
         }
     }
 
@@ -72,7 +71,7 @@ const Notifications = () => {
     function stripHtml(html) {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
-     }
+    }
 
     const handleTaskModal = (taskId, notificationId) => {
         setShowModal(true)
@@ -113,21 +112,25 @@ const Notifications = () => {
                 searchTerm={searchTerm}
             />
 
+            <div className='flex mb-5'>
+                <p>You have ({notificationsArray.filter(notification => !notification.notificationIsRead).length}) unread notifications</p>
+            </div>
+
             <div className='grid grid-cols-3 gap-10'>
                 <section id='NotificationsSections' className='border rounded-md flex flex-col col-span-2'>
                     {notificationsArray && (
                         <>
                             {notificationsArray.map((notification) => (
-                                <div 
+                                <div
                                     onClick={() => handleTaskModal(notification.taskId._id, notification._id)}
-                                    key={notification._id} 
+                                    key={notification._id}
                                     className={`relative w-full flex gap-5 p-5 hover:cursor-pointer hover:bg-slate-50 
                                         ${notification.notificationIsRead ? "bg-slate-0" : "bg-slate-200"}`}>
-                                    
+
                                     {!notification.notificationIsRead ? (
                                         <span className='block w-[10px] h-[10px] bg-blue-500 rounded-full absolute left-[15px] top-[40px]'></span>
                                     ) : null}
-                                    
+
                                     <span className='flex ml-5'>
                                         <img
                                             src={`http://localhost:5000/uploads/${notification.mentionedBy.profileImage}`}
@@ -159,9 +162,9 @@ const Notifications = () => {
                 taskID={selectedTaskId}
                 showModalState={showModal}
                 onCloseModal={onCloseModal}
-                // fetchTasks={fetchTasks}
-                // sprintOverviewFetch={sprintOverviewFetch}
-                // updateFunc={sprintOverviewFetch}
+            // fetchTasks={fetchTasks}
+            // sprintOverviewFetch={sprintOverviewFetch}
+            // updateFunc={sprintOverviewFetch}
             />
         </div>
     )
