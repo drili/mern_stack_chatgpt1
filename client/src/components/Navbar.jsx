@@ -93,6 +93,16 @@ const Navbar = () => {
         };
     }, [user, socket]);
 
+    useEffect(() => {
+        socket.on("new-notification", (data) => {
+            setHasUnreadNotifications(true)
+        })
+
+        return () => {
+            socket.off("new-notification")
+        }
+    }, [socket])
+
     const menuItems = (
         <>
             <span id="navbarButtons" className='flex gap-4 mt-10 flex-col w-full md:flex-row md:mr-4 md:items-center md:mt-0 md:w-auto'>
@@ -133,7 +143,9 @@ const Navbar = () => {
                     <div className='mr-5 ml-1 relative hover:cursor-pointer'>
                         <FaBell className='text-slate-900' size={18} />
 
-                        <span className='absolute top-[-3px] right-[-1px] bg-red-500 h-[10px] w-[10px] rounded-full'></span>
+                        {hasUnreadNotifications ? (
+                            <span className='absolute top-[-3px] right-[-1px] bg-red-500 h-[10px] w-[10px] rounded-full'></span>
+                        ) : null}
                     </div>
                 </Link>
             </span>

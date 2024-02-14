@@ -73,6 +73,11 @@ router.route("/create-notification").post(async (req, res) => {
             })
 
             await newNotification.save()
+
+            // *** Emit a WebSocket event to the user
+            req.app.get("io").to(user.id).emit("new-notification", {
+                message: "You have a new notification"
+            })
         })
 
         res.status(200).send("Notifications created successfully")
