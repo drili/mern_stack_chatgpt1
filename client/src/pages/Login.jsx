@@ -45,7 +45,6 @@ function Login() {
                 
                 fetchUnreadNotifications(res.data.user.id).then(response => {
                     const hasUnread = response.data.some(notification => !notification.notificationIsRead);
-                    console.log({hasUnread});
                     setHasUnreadNotifications(hasUnread);
                 })
 
