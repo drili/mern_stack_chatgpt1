@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
-import userImage from "../assets/profile-pics/default-image.jpg"
 import axios from 'axios';
 import { FaBell } from "react-icons/fa";
+import socketIoClient from 'socket.io-client';
+
+import { UserContext } from '../context/UserContext';
+import userImage from "../assets/profile-pics/default-image.jpg"
 
 const Navbar = () => {
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
@@ -18,6 +20,9 @@ const Navbar = () => {
     const [activeYear, setActiveYear] = useState("")
     const [sprintYears, setSprintYears] = useState([])
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+    const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false)
+    const socket = socketIoClient("http://localhost:5000")
 
     const { user, setUser } = useContext(UserContext)
 
@@ -73,17 +78,20 @@ const Navbar = () => {
             setActiveYear(user?.active_year)
             fetchSprintYears();
         }
-
-
-        // if (!user.profile_image) {
-        //     setProfileImage(userImage)
-        //     setImageSrc("")
-
-        // } else {
-        //     setProfileImage(user?.profile_image)
-        //     setImageSrc("http://localhost:5000/uploads/")
-        // }
     }, [user])
+
+    useEffect(() => {
+        socket.emit('register', user.id);
+
+        socket.on('new-notification', (data) => {
+            setHasUnreadNotifications(true);
+            console.log("NEW NOTIFICATION");
+        });
+
+        return () => {
+            socket.off('new-notification');
+        };
+    }, [user, socket]);
 
     const menuItems = (
         <>

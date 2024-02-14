@@ -16,6 +16,22 @@ const notificationsRouter = require("./routes/notifications")
 
 const app = express()
 
+const http = require("http")
+const socketIo = require("socket.io")
+const server = http.createServer(app)
+const io = socketIo(server, {
+    cors: {
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST"]
+    }
+});
+
+const corsOptions = {
+    origin: "http://localhost:5173",
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
 app.use('/uploads', express.static('uploads'));
 app.use(cors())
 app.use(express.json())
@@ -30,6 +46,16 @@ app.use("/verticals", verticalRouter)
 app.use("/comments", commentsRouter)
 app.use("/notifications", notificationsRouter)
 
+io.on("connection", (socket) => {
+    console.log("A user connected");
+
+    socket.on("register", userId => {
+        console.log({userId})
+        socket.join(userId);
+    });
+
+});
+
 const uri = 'mongodb+srv://dbkynetic:Kynetic123123@cluster0.f80a2n8.mongodb.net/'
 mongoose.connect(uri, { 
     useNewUrlParser: true,
@@ -41,6 +67,6 @@ connection.once('open', () => {
     console.log("::: MongoDB database connection established successfully")
 })
 
-app.listen(5000, () => {
-    console.log("::: Server is running on port 5000")
-})
+server.listen(5000, () => {
+    console.log("::: Server is running on port 5000");
+});

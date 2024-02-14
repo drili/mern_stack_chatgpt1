@@ -35,6 +35,7 @@
     "react-mentions": "^4.4.10",
     "react-router-dom": "^6.14.1",
     "react-select": "^5.7.4",
+    "socket.io-client": "^4.7.4",
     "tailwindcss": "^3.3.2"
   },
   "devDependencies": {

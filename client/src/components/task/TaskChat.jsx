@@ -98,7 +98,7 @@ const TaskChat = ({ taskID, taskCustomer }) => {
                 },
                 body: JSON.stringify({
                     taskId: taskID,
-                    htmlContent, htmlContent,
+                    htmlContent: htmlContent,
                     createdBy: user.id,
                 })
             })
