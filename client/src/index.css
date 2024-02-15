@@ -101,3 +101,7 @@ input[type=color] {
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
+
+#NotificationsSections .notificationWrapper:not(:last-child) {
+	border-bottom: 1px solid #f8fafc;
+}

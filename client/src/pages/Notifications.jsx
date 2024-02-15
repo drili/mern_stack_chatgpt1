@@ -136,7 +136,7 @@ const Notifications = () => {
                                 <div
                                     onClick={() => handleTaskModal(notification.taskId._id, notification._id)}
                                     key={notification._id}
-                                    className={`relative w-full flex gap-5 p-5 hover:cursor-pointer hover:bg-slate-50 
+                                    className={`notificationWrapper relative w-full flex gap-5 p-5 hover:cursor-pointer hover:bg-slate-50 
                                         ${notification.notificationIsRead ? "bg-slate-0" : "bg-slate-200"}`}>
 
                                     {!notification.notificationIsRead ? (
@@ -162,11 +162,11 @@ const Notifications = () => {
                                                 }}
                                             >{notification.taskCustomer.customerName}</Badge>
                                         </h3>
-                                        <span className='flex justify-between'>
-                                            <p className='text-sm text-slate-500 mb-2'>Mentioned you in task "{notification.taskId.taskName}"</p>
-                                            <p className='text-sm font-bold text-slate-900 mb-2'>{formatDate(notification.createdAt)}</p>
+                                        <span className='flex justify-between gap-2 items-center'>
+                                            <p className='text-sm text-slate-500 mb-2 max-w-[75%] whitespace-nowrap overflow-hidden text-ellipsis'>Mentioned you in task "{notification.taskId.taskName}"</p>
+                                            <p className='text-xs font-light text-slate-900 mb-2 text-right'>{formatDate(notification.createdAt)}</p>
                                         </span>
-                                        <p className='trunateCustom'>{stripHtml(notification.notificationMessage)}</p>
+                                        <p className='trunateCustom align'>{stripHtml(notification.notificationMessage)}</p>
                                     </span>
                                 </div>
                             ))}
