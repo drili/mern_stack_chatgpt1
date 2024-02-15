@@ -102,10 +102,13 @@ const Notifications = () => {
         fetchNotifications(user.id)
     }, [user])
 
-    const visibleNotifications = notificationsArray
-        .slice(0, visibleCount);
-
-    const showMoreButton = notificationsArray.length > visibleCount;
+    const filteredNotifications = notificationsArray.filter(notification => {
+        const notificationMessageMatch = notification.notificationMessage.toLowerCase().includes(searchTerm.toLowerCase())
+        const taskNameMatch = notification.taskId.taskName.toLowerCase().includes(searchTerm.toLowerCase())
+        const taskCustomerMatch = notification.taskCustomer.customerName.toLowerCase().includes(searchTerm.toLowerCase())
+        return notificationMessageMatch || taskNameMatch || taskCustomerMatch
+    })
+    const visibleNotifications = filteredNotifications.slice(0, visibleCount);
 
     return (
         <div id='NotificationsPage'>
@@ -168,7 +171,7 @@ const Notifications = () => {
                                 </div>
                             ))}
 
-                            {showMoreButton && (
+                            {filteredNotifications.length > visibleCount && (
                                 <button onClick={() => setVisibleCount(visibleCount + 10)} className="mt-4">
                                     Show More
                                 </button>
