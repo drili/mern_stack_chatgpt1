@@ -14,6 +14,11 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
         taskDescription.length > MAX_DESC_LENGTH
             ? taskDescription.slice(0, MAX_DESC_LENGTH) + "..."
             : taskDescription
+    
+    const truncatedTaskName =
+        taskName.length > MAX_DESC_LENGTH
+            ? taskName.slice(0, MAX_DESC_LENGTH) + "..."
+            : taskName
 
     return (
         <div
@@ -43,7 +48,7 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
                     )}
 
                 </section>
-                <h3 className='font-bold mt-5 leading-5'>{taskName}</h3>
+                <h3 className='font-bold mt-5 leading-5'>{truncatedTaskName}</h3>
             </span>
 
             <span>

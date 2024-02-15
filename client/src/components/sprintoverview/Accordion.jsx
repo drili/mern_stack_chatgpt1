@@ -1,16 +1,18 @@
 import { useContext, useEffect, useState } from 'react'
+import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast'
+import { BsFillLightningChargeFill } from "react-icons/bs";
 import { Accordion, Table } from 'flowbite-react'
+
 import { UserContext } from '../../context/UserContext'
 import getCurrentSprint from '../../functions/getCurrentSprint'
-import axios from 'axios'
 import TaskModal from '../task/TaskModal'
-import toast, { Toaster } from 'react-hot-toast'
 
 const DefaultAccordion = ({ userObject, selectedSprint }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [sprintData, setSprintData] = useState([])
     const { user } = useContext(UserContext)
-    const currentSprint  = getCurrentSprint()
+    const currentSprint = getCurrentSprint()
     const [accumulatedValues, setAccumulatedValues] = useState({})
     const [selectedTaskId, setSelectedTaskId] = useState(null)
     const [showModal, setShowModal] = useState(false)
@@ -65,7 +67,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                 const taskTimeLow = parseFloat((taskAlloc / 100) * data.taskTimeLow)
                 const taskTimeHigh = parseFloat((taskAlloc / 100) * data.taskTimeHigh)
 
-                if(!userAccumulatedValues[userId]) {
+                if (!userAccumulatedValues[userId]) {
                     userAccumulatedValues[userId] = {
                         low: 0,
                         high: 0
@@ -136,40 +138,40 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
 
                             <div className='relative right-0 md:absolute md:right-[100px]'>
                                 {accumulatedValues[userObject._id] ? (
-                                <div id="taskInfoLabels" className='flex gap-4'>
-                                    <span className='text-center'>
-                                        <label htmlFor="" className='text-sm'>Low</label>
-                                        {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
-                                                {(accumulatedValues[userObject._id].low).toFixed(2)}
-                                            </p>
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </span>
-
-                                    <span className='text-center'>
-                                        <label htmlFor="" className='text-sm'>High</label>
-                                        {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
-                                                {(accumulatedValues[userObject._id].high).toFixed(2)}
+                                    <div id="taskInfoLabels" className='flex gap-4'>
+                                        <span className='text-center'>
+                                            <label htmlFor="" className='text-sm'>Low</label>
+                                            {accumulatedValues[userObject._id] ? (
+                                                <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
+                                                    {(accumulatedValues[userObject._id].low).toFixed(2)}
                                                 </p>
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </span>
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </span>
 
-                                    <span className='text-center'>
-                                        <label htmlFor="" className='text-sm'>Median</label>
-                                        {accumulatedValues[userObject._id] ? (
-                                            <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
-                                                {((accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2).toFixed(2)}
-                                            </p>
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </span>
-                                </div>
+                                        <span className='text-center'>
+                                            <label htmlFor="" className='text-sm'>High</label>
+                                            {accumulatedValues[userObject._id] ? (
+                                                <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
+                                                    {(accumulatedValues[userObject._id].high).toFixed(2)}
+                                                </p>
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </span>
+
+                                        <span className='text-center'>
+                                            <label htmlFor="" className='text-sm'>Median</label>
+                                            {accumulatedValues[userObject._id] ? (
+                                                <p className='bg-rose-900 text-white rounded-md text-sm py-2 px-2 min-w-[50px]'>
+                                                    {((accumulatedValues[userObject._id].low + accumulatedValues[userObject._id].high) / 2).toFixed(2)}
+                                                </p>
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </span>
+                                    </div>
                                 ) : (
                                     <></>
                                 )}
@@ -207,50 +209,53 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                         </Table.HeadCell>
                                     </Table.Head>
                                     <Table.Body className="divide-y">
-                                    {sprintData.map((data) => (
-                                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data._id}>
-                                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                {data.taskName}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {data.taskCustomer.customerName}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {data.workflowStatus}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {data.taskTimeLow}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {data.taskTimeHigh}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {data.taskPersons
-                                                    .filter(person => person.user._id === user.id)
-                                                    .map(taskPerson => (
-                                                        <div key={taskPerson._id}>{taskPerson.percentage}</div>
-                                                    ))
-                                                }
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {data.timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}
-                                            </Table.Cell>
+                                        {sprintData.map((data) => (
+                                            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data._id}>
+                                                <Table.Cell className="flex items-center gap-2 whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                    <p className='w-[200px] whitespace-nowrap overflow-hidden text-ellipsis'>{data.taskName}</p>
+                                                    {data.taskType === "timedTask" ? (
+                                                        <BsFillLightningChargeFill className='text-amber-500' />
+                                                    ) : null}
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    {data.taskCustomer.customerName}
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    {data.workflowStatus}
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    {data.taskTimeLow}
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    {data.taskTimeHigh}
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    {data.taskPersons
+                                                        .filter(person => person.user._id === user.id)
+                                                        .map(taskPerson => (
+                                                            <div key={taskPerson._id}>{taskPerson.percentage.toFixed(2)}</div>
+                                                        ))
+                                                    }
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    {data.timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}
+                                                </Table.Cell>
 
-                                            <Table.Cell>
-                                                <p className='font-thin text-slate-500 text-xs'>TBU</p>
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                <a
-                                                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                                                    onClick={() => handleTaskModal(data._id)}
-                                                >
-                                                <p className='border border-gray-300 rounded-lg text-center px-2 py-1 font-bold text-xs'>
-                                                    Edit Task
-                                                </p>
-                                                </a>
-                                            </Table.Cell>
-                                        </Table.Row>
-                                    ))}
+                                                <Table.Cell>
+                                                    <p className='font-thin text-slate-500 text-xs'>TBU</p>
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    <a
+                                                        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                                                        onClick={() => handleTaskModal(data._id)}
+                                                    >
+                                                        <p className='border border-gray-300 rounded-lg text-center px-2 py-1 font-bold text-xs'>
+                                                            Edit Task
+                                                        </p>
+                                                    </a>
+                                                </Table.Cell>
+                                            </Table.Row>
+                                        ))}
                                     </Table.Body>
                                 </Table>
                             </div>

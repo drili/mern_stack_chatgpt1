@@ -2,6 +2,12 @@ import React from 'react'
 import { BsFillLightningChargeFill } from "react-icons/bs";
 
 const TaskCardSmall = ({ taskId, taskName, taskDeadline }) => {
+    const MAX_DESC_LENGTH = 80
+    const truncatedTaskName =
+    taskName.length > MAX_DESC_LENGTH
+        ? taskName.slice(0, MAX_DESC_LENGTH) + "..."
+        : taskName
+
     return (
         <div
             id={taskId}
@@ -9,7 +15,7 @@ const TaskCardSmall = ({ taskId, taskName, taskDeadline }) => {
         >
             <span className='relative'>
                 <section className='flex gap-2'>
-                    <h3 className='font-bold leading-5'>{taskName}</h3>
+                    <h3 className='font-bold leading-5'>{truncatedTaskName}</h3>
                 </section>
 
                 <section className='flex mt-2 justify-start'>
