@@ -218,27 +218,27 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                                     ) : null}
                                                 </Table.Cell>
                                                 <Table.Cell>
-                                                    {data.taskCustomer.customerName}
+                                                    <p className='text-xs'>{data.taskCustomer.customerName}</p>
                                                 </Table.Cell>
                                                 <Table.Cell>
-                                                    {data.workflowStatus}
+                                                    <p className='text-xs'>{data.workflowStatus}</p>
                                                 </Table.Cell>
                                                 <Table.Cell>
-                                                    {data.taskTimeLow}
+                                                    <p className='text-xs'>{data.taskTimeLow}</p>
                                                 </Table.Cell>
                                                 <Table.Cell>
-                                                    {data.taskTimeHigh}
+                                                    <p className='text-xs'>{data.taskTimeHigh}</p>
                                                 </Table.Cell>
                                                 <Table.Cell>
                                                     {data.taskPersons
                                                         .filter(person => person.user._id === user.id)
                                                         .map(taskPerson => (
-                                                            <div key={taskPerson._id}>{taskPerson.percentage.toFixed(2)}</div>
+                                                            <div className='text-xs' key={taskPerson._id}>{taskPerson.percentage.toFixed(2)}</div>
                                                         ))
                                                     }
                                                 </Table.Cell>
                                                 <Table.Cell>
-                                                    {data.timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}
+                                                    <p className='text-xs font-extrabold underline'>{data.timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}</p>
                                                 </Table.Cell>
 
                                                 {/* <Table.Cell>
@@ -246,7 +246,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                                 </Table.Cell> */}
                                                 <Table.Cell>
                                                     <a
-                                                        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                                                        className="font-medium cursor-pointer text-slate-500 hover:underline dark:text-cyan-500"
                                                         onClick={() => handleTaskModal(data._id)}
                                                     >
                                                         <p className='border border-gray-300 rounded-lg text-center px-2 py-1 font-bold text-xs'>
