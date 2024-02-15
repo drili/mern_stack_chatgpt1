@@ -204,15 +204,15 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                         <Table.HeadCell className='text-left'>
                                             Time Registered
                                         </Table.HeadCell>
-                                        <Table.HeadCell className='text-left'>
+                                        {/* <Table.HeadCell className='text-left'>
                                             Remaining Task Time
-                                        </Table.HeadCell>
+                                        </Table.HeadCell> */}
                                     </Table.Head>
                                     <Table.Body className="divide-y">
                                         {sprintData.map((data) => (
                                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data._id}>
                                                 <Table.Cell className="flex items-center gap-2 whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                    <p className='w-[200px] whitespace-nowrap overflow-hidden text-ellipsis'>{data.taskName}</p>
+                                                    <p className='w-[250px] text-xs whitespace-nowrap overflow-hidden text-ellipsis'>{data.taskName}</p>
                                                     {data.taskType === "timedTask" ? (
                                                         <BsFillLightningChargeFill className='text-amber-500' />
                                                     ) : null}
@@ -241,16 +241,16 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                                     {data.timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}
                                                 </Table.Cell>
 
-                                                <Table.Cell>
+                                                {/* <Table.Cell>
                                                     <p className='font-thin text-slate-500 text-xs'>TBU</p>
-                                                </Table.Cell>
+                                                </Table.Cell> */}
                                                 <Table.Cell>
                                                     <a
                                                         className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                                                         onClick={() => handleTaskModal(data._id)}
                                                     >
                                                         <p className='border border-gray-300 rounded-lg text-center px-2 py-1 font-bold text-xs'>
-                                                            Edit Task
+                                                            Open
                                                         </p>
                                                     </a>
                                                 </Table.Cell>
