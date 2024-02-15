@@ -95,7 +95,13 @@
 }
 
 .mention {
-    color: #f43f5e;;
+    color: #1e3a8a;
+    background-color: #eff6ff;
+    font-weight: bold;
+}
+
+.mentionedCurrentUser {
+    color: #881337;;
     background-color: #fff1f2;
     font-weight: bold;
 }

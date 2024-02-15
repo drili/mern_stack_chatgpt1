@@ -1,27 +1,29 @@
 import React, { useState, useEffect, useRef, useContext, useLayoutEffect } from 'react';
 import { EditorState } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html"
+import axios from 'axios';
 
 import { BsFillSendFill } from "react-icons/bs";
 import { BsFillTrashFill } from "react-icons/bs"
 
 import DraftEditor from '../drafteditor/DraftEditor';
 import { UserContext } from '../../context/UserContext'
-import axios from 'axios';
+import processHtmlContent from '../../functions/processHtmlContent';
 
 const options = {
     entityStyleFn: (entity) => {
         const entityType = entity.get('type').toLowerCase();
         if (entityType === 'mention') {
             const data = entity.getData();
+            console.log({ data });
             return {
                 element: 'span',
                 attributes: {
-                    className: 'mention',
+                    className: `mention mention-user-${data.mention.id}`,
                 },
                 style: {
                 },
-                text: `@${data.mention.username}`,
+                // text: `@${data.mention.name}`,
             };
         }
     },
@@ -209,17 +211,21 @@ const TaskChat = ({ taskID, taskCustomer }) => {
                 {comments.map((message, index) => (
                     <div key={index} className="mb-4 flex align-top group relative hover:bg-slate-50">
                         <div>
-                            <img 
-                                className='h-[40px] w-[40px] mt-1 rounded-md mr-4 object-cover' 
+                            <img
+                                className='h-[40px] w-[40px] mt-1 rounded-md mr-4 object-cover'
                                 src={`http://localhost:5000/uploads/${message.createdBy.profileImage}`}
                             />
                         </div>
 
                         <div className='w-full'>
-                            <div className="text-md text-slate-950 font-bold mb-1">{message.createdBy.username} 
+                            <div className="text-md text-slate-950 font-bold mb-1">{message.createdBy.username}
                                 <span className='ml-2 font-light text-xs'>{formatDate(message.createdAt)}</span>
                             </div>
-                            <div className="rounded-md" dangerouslySetInnerHTML={{ __html: message.htmlContent }}></div>
+                            <div 
+                                className="rounded-md" 
+                                dangerouslySetInnerHTML={{
+                                __html: processHtmlContent(message.htmlContent, user.id)
+                            }}></div>
                         </div>
 
                         {message.createdBy._id === user.id && (
