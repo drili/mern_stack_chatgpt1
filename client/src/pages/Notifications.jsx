@@ -1,12 +1,14 @@
 import React, { useContext, useState } from 'react'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { Badge } from 'flowbite-react';
 
 import PageHeading from '../components/PageHeading'
 import NotificationsFilter from '../components/notifications/NotificationsFilter'
 import userImageDefault from "../assets/profile-pics/default-image.jpg"
-import { useEffect } from 'react'
-import axios from 'axios'
-import { UserContext } from '../context/UserContext'
 import TaskModal from '../components/task/TaskModal'
+
+import { UserContext } from '../context/UserContext'
 
 const formatDate = (dateString) => {
     const options = { hour: '2-digit', minute: '2-digit', year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -20,6 +22,7 @@ const Notifications = () => {
     const [notificationsArray, setNotificationsArray] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [selectedTaskId, setSelectedTaskId] = useState(null)
+    const [visibleCount, setVisibleCount] = useState(10);
 
     const { user, setHasUnreadNotifications, hasUnreadNotifications } = useContext(UserContext)
 
@@ -99,6 +102,11 @@ const Notifications = () => {
         fetchNotifications(user.id)
     }, [user])
 
+    const visibleNotifications = notificationsArray
+        .slice(0, visibleCount);
+
+    const showMoreButton = notificationsArray.length > visibleCount;
+
     return (
         <div id='NotificationsPage'>
             <PageHeading
@@ -121,7 +129,7 @@ const Notifications = () => {
                     {/* TODO: Add "Show more" button and loop notifications 10 at a time */}
                     {notificationsArray && (
                         <>
-                            {notificationsArray.map((notification) => (
+                            {visibleNotifications.map((notification) => (
                                 <div
                                     onClick={() => handleTaskModal(notification.taskId._id, notification._id)}
                                     key={notification._id}
@@ -140,15 +148,31 @@ const Notifications = () => {
                                     </span>
 
                                     <span className='flex flex-1 flex-col overflow-hidden mr-5'>
-                                        <h3 className='font-bold'>{notification.mentionedBy.username}</h3>
+                                        <h3 className='font-bold flex gap-2 items-center'>
+                                            {notification.mentionedBy.username}
+                                            <Badge
+                                                className='py-[1px]'
+                                                style={{
+                                                    border: `1px solid ${notification.taskCustomer.customerColor}`,
+                                                    color: `${notification.taskCustomer.customerColor}`,
+                                                    fontSize: "10px"
+                                                }}
+                                            >{notification.taskCustomer.customerName}</Badge>
+                                        </h3>
                                         <span className='flex justify-between'>
-                                            <p className='text-sm text-slate-500 mb-2'>Mentioned you in task "{notification.taskId.taskName}" [{notification.taskCustomer.customerName}]</p>
+                                            <p className='text-sm text-slate-500 mb-2'>Mentioned you in task "{notification.taskId.taskName}"</p>
                                             <p className='text-sm font-bold text-slate-900 mb-2'>{formatDate(notification.createdAt)}</p>
                                         </span>
                                         <p className='trunateCustom'>{stripHtml(notification.notificationMessage)}</p>
                                     </span>
                                 </div>
                             ))}
+
+                            {showMoreButton && (
+                                <button onClick={() => setVisibleCount(visibleCount + 10)} className="mt-4">
+                                    Show More
+                                </button>
+                            )}
                         </>
                     )}
 

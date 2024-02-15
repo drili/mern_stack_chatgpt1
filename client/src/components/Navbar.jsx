@@ -6,6 +6,7 @@ import socketIoClient from 'socket.io-client';
 
 import { UserContext } from '../context/UserContext';
 import userImage from "../assets/profile-pics/default-image.jpg"
+import Logo from '../components/Logo';
 
 const Navbar = () => {
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
@@ -163,9 +164,7 @@ const Navbar = () => {
             <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
                 <div className="w-full px-6 flex flex-wrap items-center justify-between mx-auto py-4">
                     <a href="#" className="flex items-left">
-                        <span className="self-center text-slate-900 text-xl font-bold whitespace-nowrap dark:text-white">
-                            TaskAlloc<span className='text-rose-500 ml-[1px] mr-[1px underline'>8</span>or
-                        </span>
+                        <Logo />
                     </a>
 
                     <button

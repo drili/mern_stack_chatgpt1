@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+
 import backgroundImage from "../assets/pexels-feyza-yıldırım-15795337.jpg"
 import { UserContext } from '../context/UserContext';
+import Logo from '../components/Logo';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -42,14 +44,14 @@ function Login() {
                 localStorage.setItem("user_role", res.data.user.user_role)
                 localStorage.setItem("user_title", res.data.user.user_title)
                 localStorage.setItem("user", JSON.stringify(res.data.user))
-                
+
                 fetchUnreadNotifications(res.data.user.id).then(response => {
                     const hasUnread = response.data.some(notification => !notification.notificationIsRead);
                     setHasUnreadNotifications(hasUnread);
                 })
 
                 setUser(res.data.user)
-                
+
                 axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
                 navigate('/dashboard');
             })
@@ -62,7 +64,8 @@ function Login() {
     return (
         <div id="loginFormSection" className='grid grid-cols-2 min-h-[100vh]'>
             <section className="login-form p-40">
-                <div className='mb-10 text-center'>
+                <div className='flex flex-col justify-start mb-10 text-left gap-10'>
+                    <Logo />
                     <h1 className='font-bold'>Login</h1>
                 </div>
                 <form onSubmit={onSubmit}>
@@ -89,23 +92,23 @@ function Login() {
                         />
                     </div>
                     <div className='text-center'>
-                        <input 
+                        <input
                             className='button text-white mt-10 bg-rose-500 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-violet-800'
-                            type="submit" 
+                            type="submit"
                             value="Login" />
                     </div>
                 </form>
 
                 {/* <div className='flex gap-2 mt-10 text-center m-auto align-center justify-center'> */}
-                    {/* <h5>Don't have an account? </h5> */}
-                    {/* <Link to="/register">Register account</Link> */}
+                {/* <h5>Don't have an account? </h5> */}
+                {/* <Link to="/register">Register account</Link> */}
                 {/* </div> */}
             </section>
 
             <section className="login-image-field h-[100vh] overflow-hidden">
-                <img 
+                <img
                     className=''
-                    src={backgroundImage} 
+                    src={backgroundImage}
                     alt=""
                     loading="lazy" />
             </section>
