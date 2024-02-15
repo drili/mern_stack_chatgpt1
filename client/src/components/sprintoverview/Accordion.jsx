@@ -3,6 +3,8 @@ import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { Accordion, Table } from 'flowbite-react'
+import { IoIosCheckmarkCircle, IoMdCloseCircle } from "react-icons/io";
+
 
 import { UserContext } from '../../context/UserContext'
 import getCurrentSprint from '../../functions/getCurrentSprint'
@@ -190,9 +192,6 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                             Customer
                                         </Table.HeadCell>
                                         <Table.HeadCell className='text-left'>
-                                            Task Status
-                                        </Table.HeadCell>
-                                        <Table.HeadCell className='text-left'>
                                             Low
                                         </Table.HeadCell>
                                         <Table.HeadCell className='text-left'>
@@ -203,6 +202,9 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                         </Table.HeadCell>
                                         <Table.HeadCell className='text-left'>
                                             Time Registered
+                                        </Table.HeadCell>
+                                        <Table.HeadCell className='text-center'>
+                                            Done
                                         </Table.HeadCell>
                                         {/* <Table.HeadCell className='text-left'>
                                             Remaining Task Time
@@ -221,9 +223,6 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                                     <p className='text-xs'>{data.taskCustomer.customerName}</p>
                                                 </Table.Cell>
                                                 <Table.Cell>
-                                                    <p className='text-xs'>{data.workflowStatus}</p>
-                                                </Table.Cell>
-                                                <Table.Cell>
                                                     <p className='text-xs'>{data.taskTimeLow}</p>
                                                 </Table.Cell>
                                                 <Table.Cell>
@@ -239,6 +238,18 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                                                 </Table.Cell>
                                                 <Table.Cell>
                                                     <p className='text-xs font-extrabold underline'>{data.timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}</p>
+                                                </Table.Cell>
+
+                                                <Table.Cell>
+                                                    {data.workflowStatus === 3 ? (
+                                                        <p className='flex items-center justify-center text-lg text-green-500 font-bold'>
+                                                            <IoIosCheckmarkCircle />
+                                                        </p>
+                                                    ) : (
+                                                        <p className='flex items-center justify-center text-lg text-red-500 font-bold'>
+                                                            <IoMdCloseCircle />
+                                                        </p>
+                                                    )}
                                                 </Table.Cell>
 
                                                 {/* <Table.Cell>
