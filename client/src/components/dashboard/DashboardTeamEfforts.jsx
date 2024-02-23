@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Table } from 'flowbite-react'
 import { FaSpinner } from 'react-icons/fa'
+
 import DashboardTeamEffortsDoughnutChart from './DashboardTeamEffortsDoughnutChart'
+import { ConfigContext } from '../../context/ConfigContext'
 
 const DashboardTeamEfforts = ({ registrationData, activeSprint }) => {
     // console.log({ registrationData });
     const [isLoading, setIsLoading] = useState(true)
     const [imageSrc, setImageSrc] = useState(null)
 
+    const { baseURL } = useContext(ConfigContext);
+
     useEffect(() => {
         setIsLoading(false)
-        setImageSrc("http://localhost:5000/uploads/")
+        setImageSrc(baseURL + "/uploads/")
     }, [registrationData])
 
     return (

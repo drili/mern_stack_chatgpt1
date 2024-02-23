@@ -5,6 +5,7 @@ import { BiUser } from "react-icons/bi"
 import { FaUserGroup } from "react-icons/fa6";
 
 import { UserContext } from '../../context/UserContext'
+import { ConfigContext } from '../../context/ConfigContext';
 
 const WorkflowFilters = ({ 
     activeSprint, 
@@ -23,13 +24,14 @@ const WorkflowFilters = ({
     const [searchTerm, setSearchTerm] = useState("")
 
     const { user } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
 
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 
     const fetchSprints = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/sprints/fetch?activeYear=${user.active_year}`)
+            const response = await axios.get(`${baseURL}/sprints/fetch?activeYear=${user.active_year}`)
             setSprints(response.data)
         } catch (error) {
             console.error('Failed to fetch sprints', error);
@@ -38,7 +40,7 @@ const WorkflowFilters = ({
 
     const fetchCustomers = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/customers/fetch")
+            const response = await axios.get(baseURL + "/customers/fetch")
             setCustomers(response.data)
         } catch (error) {
             console.error('Failed to fetch customers', error);
@@ -47,7 +49,7 @@ const WorkflowFilters = ({
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/users/fetch-active-users")
+            const response = await axios.get(baseURL + "/users/fetch-active-users")
             setUsers(response.data)
         } catch (error) {
             console.error('Failed to fetch users', error);

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { FaHourglassEnd, FaSpinner } from 'react-icons/fa'
+import axios from 'axios';
+
 import PageHeading from '../components/PageHeading'
-import { Link, useNavigate } from 'react-router-dom';
 import getCurrentSprint from '../functions/getCurrentSprint';
 import CustomersFilters from '../components/customers/CustomersFilters';
 import monthWorkdays from '../functions/monthWorkdays';
-import axios from 'axios';
-import { FaHourglassEnd, FaSpinner } from 'react-icons/fa'
 import CustomerAccordion from '../components/customers/CustomerAccordion';
+
+import { ConfigContext } from '../context/ConfigContext';
 
 const Customers = () => {
     const [sprints, setSprints] = useState([])
@@ -18,6 +20,8 @@ const Customers = () => {
     const [customers, setCustomers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
+    const { baseURL } = useContext(ConfigContext);
+    
     const handleSprintChange = (selectedValue, selectedSprint) => {
         setSelectedSprint(selectedSprint)
         // setActiveUsers([])
@@ -28,7 +32,7 @@ const Customers = () => {
 
     const fetchCustomers = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/customers/fetch`)
+            const response = await axios.get(`${baseURL}/customers/fetch`)
             setTimeout(() => {
                 setCustomers(response.data)
                 setIsLoading(false)

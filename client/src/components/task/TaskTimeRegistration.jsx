@@ -1,10 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
+
 import { UserContext } from '../../context/UserContext'
+import { ConfigContext } from '../../context/ConfigContext'
 
 const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, customerId, verticalId }) => {
     const { user } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
+
     const [timeRegistrations, setTimeRegistrations] = useState([])
     const [formRegisterTime, setFormRegisterTime] = useState({
         userId: user.id,
@@ -19,7 +23,7 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, cu
 
     const fetchTimeRegistrations = async (taskId) => {
         try {
-            const response = await axios.get(`http://localhost:5000/time-registrations/time-registered/${taskId}`)
+            const response = await axios.get(`${baseURL}/time-registrations/time-registered/${taskId}`)
             setTimeRegistrations(response.data)
         } catch (error) {
             console.error('Failed to fetch registered time(s)', error)
@@ -38,7 +42,7 @@ const TaskTimeRegistration = ({ labelClasses, inputClasses, taskId, sprintId, cu
         
         if (formRegisterTime.timeRegistered > 0) {
             try {
-                const response = await axios.post(`http://localhost:5000/time-registrations/register-time`, formRegisterTime)
+                const response = await axios.post(`${baseURL}/time-registrations/register-time`, formRegisterTime)
                 if (response.status === 201) {
                     toast('Time registered successfully', {
                         duration: 4000,

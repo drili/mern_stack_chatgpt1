@@ -9,6 +9,7 @@ import { BsFillTrashFill } from "react-icons/bs"
 import DraftEditor from '../drafteditor/DraftEditor';
 import { UserContext } from '../../context/UserContext'
 import processHtmlContent from '../../functions/processHtmlContent';
+import { ConfigContext } from '../../context/ConfigContext';
 
 const options = {
     entityStyleFn: (entity) => {
@@ -46,11 +47,12 @@ const TaskChat = ({ taskID, taskCustomer }) => {
     const chatContainerRef = useRef(null)
 
     const { user } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
 
     // *** Server requests
     const handleDeleteComment = async (commentId) => {
         try {
-            const response = await fetch(`http://localhost:5000/comments/delete-comment-by-id/${commentId}`, {
+            const response = await fetch(`${baseURL}/comments/delete-comment-by-id/${commentId}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,7 +72,7 @@ const TaskChat = ({ taskID, taskCustomer }) => {
 
     const fetchComments = async (taskId) => {
         try {
-            const response = await fetch("http://localhost:5000/comments/fetch-comments-by-task", {
+            const response = await fetch(baseURL + "/comments/fetch-comments-by-task", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -93,7 +95,7 @@ const TaskChat = ({ taskID, taskCustomer }) => {
 
     const sendCommentToServer = async (htmlContent) => {
         try {
-            const response = await fetch("http://localhost:5000/comments/create-comment", {
+            const response = await fetch(baseURL + "/comments/create-comment", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -117,7 +119,7 @@ const TaskChat = ({ taskID, taskCustomer }) => {
 
     const sendNotification = async (mentionedUsers, taskId, taskCustomer, mentionedBy, htmlContent) => {
         try {
-            const response = await axios.post("http://localhost:5000/notifications/create-notification", {
+            const response = await axios.post(baseURL + "/notifications/create-notification", {
                 mentionedUsers,
                 taskId,
                 taskCustomer,
@@ -213,7 +215,7 @@ const TaskChat = ({ taskID, taskCustomer }) => {
                         <div>
                             <img
                                 className='h-[40px] w-[40px] mt-1 rounded-md mr-4 object-cover'
-                                src={`http://localhost:5000/uploads/${message.createdBy.profileImage}`}
+                                src={`${baseURL}/uploads/${message.createdBy.profileImage}`}
                             />
                         </div>
 

@@ -9,6 +9,7 @@ import userImageDefault from "../assets/profile-pics/default-image.jpg"
 import TaskModal from '../components/task/TaskModal'
 
 import { UserContext } from '../context/UserContext'
+import { ConfigContext } from '../context/ConfigContext';
 
 const formatDate = (dateString) => {
     const options = { hour: '2-digit', minute: '2-digit', year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -25,11 +26,12 @@ const Notifications = () => {
     const [visibleCount, setVisibleCount] = useState(10);
 
     const { user, setHasUnreadNotifications, hasUnreadNotifications } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
 
     // *** Server requests
     const handleUpdateNotificationIsRead = async (notificationId) => {
         try {
-            const response = await axios.put("http://localhost:5000/notifications/update-user-notification-read", {
+            const response = await axios.put(baseURL + "/notifications/update-user-notification-read", {
                 notificationId
             })
 
@@ -48,7 +50,7 @@ const Notifications = () => {
 
     const fetchNotifications = async (userId) => {
         try {
-            const response = await axios.post("http://localhost:5000/notifications/fetch-user-notifications", {
+            const response = await axios.post(baseURL + "/notifications/fetch-user-notifications", {
                 userId: userId
             })
 
@@ -60,7 +62,7 @@ const Notifications = () => {
 
     const fetchUnreadNotifications = async (userId) => {
         try {
-            const response = await axios.post("http://localhost:5000/notifications/fetch-unread-notifications", {
+            const response = await axios.post(baseURL + "/notifications/fetch-unread-notifications", {
                 userId: userId
             })
 
@@ -145,7 +147,7 @@ const Notifications = () => {
 
                                     <span className='flex ml-5'>
                                         <img
-                                            src={`http://localhost:5000/uploads/${notification.mentionedBy.profileImage}`}
+                                            src={`${baseURL}/uploads/${notification.mentionedBy.profileImage}`}
                                             className="min-w-[50px] h-[50px] object-cover rounded-md"
                                         />
                                     </span>

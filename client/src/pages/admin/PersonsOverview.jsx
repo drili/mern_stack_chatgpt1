@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import PageHeading from '../../components/PageHeading'
 import { Accordion, Table } from 'flowbite-react'
-import CustomCodeBlock from '../../components/CustomCodeBlock'
-import axios from 'axios'
 import { FaSpinner } from 'react-icons/fa'
+import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
+
+import PageHeading from '../../components/PageHeading'
+import CustomCodeBlock from '../../components/CustomCodeBlock'
 import PersonsOverviewFilter from '../../components/admin/PersonsOverviewFilter'
+import { ConfigContext } from '../../context/ConfigContext'
 
 const PersonsOverview = () => {
     const [usersData, setUsersData] = useState([])
@@ -15,12 +17,14 @@ const PersonsOverview = () => {
     const [editedUsers, setEditedUsers] = useState({});
     const [isChecked, setIsChecked] = useState({})
 
+    const { baseURL } = useContext(ConfigContext);
+
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/users/fetch-all-users`)
+            const response = await axios.get(`${baseURL}/users/fetch-all-users`)
             if (response.status === 200) {
                 setUsersData(response.data)
                 setTimeout(() => {
@@ -51,7 +55,7 @@ const PersonsOverview = () => {
         }
 
         try {
-            const response = await axios.put(`http://localhost:5000/users/update-users/${userId}`, editedData)
+            const response = await axios.put(`${baseURL}/users/update-users/${userId}`, editedData)
 
             if(response.status === 200) {
                 toast(`${response.data.username} updated successfully!`, {
@@ -79,7 +83,7 @@ const PersonsOverview = () => {
         }));
 
         try {
-            const response = await axios.put(`http://localhost:5000/users/update-user-activation/${userId}`, {
+            const response = await axios.put(`${baseURL}/users/update-user-activation/${userId}`, {
                 isActivated: checked,
             })
 
@@ -94,7 +98,7 @@ const PersonsOverview = () => {
     }
 
     useEffect(() => {
-        setImageSrc("http://localhost:5000/uploads/")
+        setImageSrc(baseURL + "/uploads/")
         fetchUsers()
     }, [])
 

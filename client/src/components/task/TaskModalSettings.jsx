@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
+
+import { ConfigContext } from '../../context/ConfigContext'
 
 const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, fetchTasks, task, closeModal, updateFunc, sprintOverviewFetch, fetchWorkflow, taskType, activeSprint, activeFilterUser, newSprintArray }) => {
     const [sprints, setSprints] = useState([])
@@ -9,15 +11,18 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     const [percentageValues, setPercentageValues] = useState({})
     const [totalPercentage, setTotalPercentage] = useState(0)
     const [errorPercentage, setErrorPercentage] = useState(false)
-    const imageSrc = "http://localhost:5000/uploads/"
+    
     const [formDataSprint, setFormDataSprint] = useState({
         taskSprintId: ""
     })
     const [sprintToUse, setSprintToUse] = useState([])
 
+    const { baseURL } = useContext(ConfigContext);
+    const imageSrc = `${baseURL}/uploads/`
+
     const fetchSprints = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/sprints/fetch")
+            const response = await axios.get(baseURL + "/sprints/fetch")
             setSprints(response.data)
         } catch (error) {
             console.error('Failed to fetch sprints', error);
@@ -26,7 +31,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
 
     const fetchUsersNotInTask = async (taskPersons) => {
         try {
-            const response = await axios.post("http://localhost:5000/users/users-not-in-task", { taskPersons })
+            const response = await axios.post(baseURL + "/users/users-not-in-task", { taskPersons })
             // console.log(response.data);
             setUsersNot(response.data)
         } catch (error) {
@@ -38,7 +43,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
         event.preventDefault()
 
         try {
-            const response = await axios.put(`http://localhost:5000/tasks/update-sprint/${taskID}`, formDataSprint)
+            const response = await axios.put(`${baseURL}/tasks/update-sprint/${taskID}`, formDataSprint)
             if (response.status === 200) {
                 toast('Task sprint updated successfully', {
                     duration: 4000,
@@ -76,7 +81,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
     const handleAddTaskUser = async (assignedUserId) => {
         if (assignedUserId) {
             try {
-                const response = await axios.put(`http://localhost:5000/tasks/assign-user/${taskID}`, { assignedUserId })
+                const response = await axios.put(`${baseURL}/tasks/assign-user/${taskID}`, { assignedUserId })
                 if (response.status === 200) {
                     fetchTaskData(taskID)
                     fetchTasks(sprintToUse, activeFilterUser)
@@ -100,7 +105,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
         }
 
         try {
-            const response = await axios.put(`http://localhost:5000/tasks/remove-user/${taskID}/${taskPersonId}`)
+            const response = await axios.put(`${baseURL}/tasks/remove-user/${taskID}/${taskPersonId}`)
             if (response.status === 200) {
                 fetchTaskData(taskID)
                 fetchTasks(sprintToUse, activeFilterUser)
@@ -130,7 +135,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
             }
 
             try {
-                const response = await axios.post(`http://localhost:5000/tasks/update-percentage`, updatedPercentageData)
+                const response = await axios.post(`${baseURL}/tasks/update-percentage`, updatedPercentageData)
 
                 if (response.status === 200) {
                     toast('Percentage updated successfully', {
@@ -172,7 +177,7 @@ const TaskModalSettings = ({ labelClasses, inputClasses, taskID, fetchTaskData, 
         const archiveTaskId = e.target.elements.archiveTaskId.value
 
         try {
-            const response = await axios.put(`http://localhost:5000/tasks/archive-task/${archiveTaskId}`)
+            const response = await axios.put(`${baseURL}/tasks/archive-task/${archiveTaskId}`)
             if (response.status === 200) {
                 toast('Task archived successfully', {
                     duration: 4000,

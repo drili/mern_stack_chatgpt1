@@ -12,6 +12,7 @@ import { UserContext } from '../context/UserContext'
 import TaskModal from '../components/task/TaskModal'
 import TaskCard from '../components/task/TaskCard'
 import getCurrentSprint from '../functions/getCurrentSprint'
+import { ConfigContext } from '../context/ConfigContext'
 
 const CreateTask = () => {
     const [taskData, setTaskData] = useState({
@@ -42,9 +43,11 @@ const CreateTask = () => {
 
     const activeSprint = getCurrentSprint()
 
+    const { baseURL } = useContext(ConfigContext);
+
     const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-    const imageSrc = "http://localhost:5000/uploads/"
+    const imageSrc = baseURL + "/uploads/"
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -81,7 +84,7 @@ const CreateTask = () => {
 
     const fetchTasks = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
+            const response = await axios.get(`${baseURL}/tasks/fetch-by-user/${user.id}`)
             setTasks(response.data)
 
         } catch (error) {
@@ -91,7 +94,7 @@ const CreateTask = () => {
 
     const fetchCustomers = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/customers/fetch")
+            const response = await axios.get(baseURL + "/customers/fetch")
             setCustomers(response.data)
         } catch (error) {
             console.error('Failed to fetch customers', error);
@@ -100,7 +103,7 @@ const CreateTask = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/users/fetch-active-users")
+            const response = await axios.get(baseURL + "/users/fetch-active-users")
             setActiveUsers(response.data)
         } catch (error) {
             console.error('Failed to fetch active users', error);
@@ -109,7 +112,7 @@ const CreateTask = () => {
 
     const fetchSprints = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/sprints/fetch")
+            const response = await axios.get(baseURL + "/sprints/fetch")
             setSprints(response.data)
         } catch (error) {
             console.error('Failed to fetch sprints', error);
@@ -118,7 +121,7 @@ const CreateTask = () => {
 
     const fetchLabels = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/labels/fetch-labels")
+            const response = await axios.get(baseURL + "/labels/fetch-labels")
             setLabels(response.data)
         } catch (error) {
             console.error('Failed to fetch labels', error);
@@ -127,7 +130,7 @@ const CreateTask = () => {
 
     const fetchVerticals = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/verticals/fetch-verticals")
+            const response = await axios.get(baseURL + "/verticals/fetch-verticals")
             setVerticals(response.data)
         } catch (error) {
             console.error('Failed to fetch verticals', error);
@@ -183,7 +186,7 @@ const CreateTask = () => {
         console.log({taskData});
 
         try {
-            const response = await axios.post("http://localhost:5000/tasks/create", taskData)
+            const response = await axios.post(baseURL + "/tasks/create", taskData)
             setTasks([])
 
             if (response.status === 200) {

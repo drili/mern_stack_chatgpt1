@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaWindowClose } from "react-icons/fa"
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { AiOutlineClockCircle } from "react-icons/ai"
@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import TaskModalSettings from './TaskModalSettings'
 import TaskTimeRegistration from './TaskTimeRegistration'
 import TaskChat from './TaskChat'
+import { ConfigContext } from '../../context/ConfigContext';
 
 const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFunc, sprintOverviewFetch, fetchDeadlineTasks, activeSprint, activeFilterUser, newSprintArray }) => {
     const [showModal, setShowModal] = useState(false)
@@ -26,6 +27,8 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
 
     const inputClasses = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+
+    const { baseURL } = useContext(ConfigContext);
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(taskID)
@@ -57,7 +60,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
 
     const fetchTaskData = async (taskID) => {
         if (taskID) {
-            const response = await axios.get(`http://localhost:5000/tasks/fetch-by-id/${taskID}`)
+            const response = await axios.get(`${baseURL}/tasks/fetch-by-id/${taskID}`)
 
             setTask(response.data)
             setFormData((formData) => ({
@@ -101,7 +104,7 @@ const TaskModal = ({ taskID, showModalState, onCloseModal, fetchTasks, updateFun
         event.preventDefault()
 
         try {
-            const response = await axios.put(`http://localhost:5000/tasks/update/${taskID}`, formData)
+            const response = await axios.put(`${baseURL}/tasks/update/${taskID}`, formData)
 
             if (response.status === 200) {
                 toast('Task updated successfully', {

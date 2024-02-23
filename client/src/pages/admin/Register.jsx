@@ -1,13 +1,16 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import axios from "axios"
 import backgroundImage from "../../assets/pexels-artūras-kokorevas-15986451.jpg"
 import { Link, useNavigate } from "react-router-dom"
+import { ConfigContext } from "../../context/ConfigContext"
 
 function Register() {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [email, setEmail] = useState()
     const navigate = useNavigate()
+
+    const { baseURL } = useContext(ConfigContext);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -21,7 +24,7 @@ function Register() {
             userRole:0
         }
 
-        axios.post("http://localhost:5000/users/register", newUser)
+        axios.post(baseURL + "/users/register", newUser)
             .then(res => (
                 navigate("/admin/persons-overview")
             ))

@@ -5,17 +5,20 @@ import { useNavigate, Link } from 'react-router-dom';
 import backgroundImage from "../assets/pexels-feyza-yıldırım-15795337.jpg"
 import { UserContext } from '../context/UserContext';
 import Logo from '../components/Logo';
+import { ConfigContext } from '../context/ConfigContext';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { setUser, setHasUnreadNotifications } = useContext(UserContext)
 
+    const { baseURL } = useContext(ConfigContext);
+
     const navigate = useNavigate();
 
     const fetchUnreadNotifications = async (userId) => {
         try {
-            const response = await axios.post("http://localhost:5000/notifications/fetch-unread-notifications", {
+            const response = await axios.post(baseURL + "/notifications/fetch-unread-notifications", {
                 userId: userId
             })
 
@@ -33,7 +36,7 @@ function Login() {
             password,
         }
 
-        axios.post('http://localhost:5000/users/login', user)
+        axios.post(baseURL + '/users/login', user)
             .then(res => {
                 console.log(res.data);
                 localStorage.setItem('token', res.data.token)

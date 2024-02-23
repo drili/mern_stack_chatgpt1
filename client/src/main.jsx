@@ -9,9 +9,12 @@ import App from './App.jsx'
 import Routes from './Routes.jsx'
 
 import { UserProvider } from './context/UserContext.jsx';
+import { ConfigProvider } from './context/ConfigContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-	<UserProvider>
-		<Routes />
-	</UserProvider>
+	<ConfigProvider>
+		<UserProvider>
+			<Routes />
+		</UserProvider>
+	</ConfigProvider>
 )
