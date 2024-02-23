@@ -1,16 +1,20 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { Accordion, Table } from 'flowbite-react'
+import axios from 'axios'
+import { FaSpinner } from 'react-icons/fa'
+
 import PageHeading from '../../components/PageHeading'
 import TimeRegVerticalsOverviewFilter from '../../components/admin/TimeRegVerticalsOverviewFilter'
 import getCurrentSprint from '../../functions/getCurrentSprint'
-import axios from 'axios'
-import { FaSpinner } from 'react-icons/fa'
-import { Accordion, Table } from 'flowbite-react'
+import { ConfigContext } from '../../context/ConfigContext'
 
 const TaskVerticalsOverview = () => {
     const [selectedSprint, setSelectedSprint] = useState("")
     const [isLoading, setIsLoading] = useState(true)
     const [timeRegistrations, setTimeRegistrations] = useState([])
     const activeSprint = getCurrentSprint()
+
+    const { baseURL } = useContext(ConfigContext);
 
     const handleSprintChange = (selectedValue, selectedSprint) => {
         setSelectedSprint(selectedSprint)
@@ -25,7 +29,7 @@ const TaskVerticalsOverview = () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:5000/time-registrations/time-registrations-verticals-aggregated/${sprintId}`)
+            const response = await axios.get(`${baseURL}/time-registrations/time-registrations-verticals-aggregated/${sprintId}`)
 
             if (response.status == 200) {
                 setTimeout(() => {

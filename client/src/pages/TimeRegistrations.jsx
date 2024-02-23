@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import PageHeading from '../components/PageHeading'
+import toast, { Toaster } from 'react-hot-toast'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from "moment"
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { Card } from 'flowbite-react'
+import axios from 'axios'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { AiFillInfoCircle } from "react-icons/ai"
+
+import PageHeading from '../components/PageHeading'
 import { UserContext } from '../context/UserContext'
 import "../assets/css/calendar/calendar.css"
-import axios from 'axios'
 import TimeRegistrationTable from '../components/time-registrations/TimeRegistrationTable'
-import toast, { Toaster } from 'react-hot-toast'
+import { ConfigContext } from '../context/ConfigContext'
 
 function formatDateToISO(ddmmyyyy) {
     const [day, month, year] = ddmmyyyy.split('-');
@@ -22,6 +24,8 @@ const TimeRegistrations = () => {
     const [events, setEvents] = useState()
     const [eventsByDate, setEventsByDate] = useState([])
 
+    const { baseURL } = useContext(ConfigContext);
+
     const CustomEvent = ({ event }) => {
         return (
             <div>
@@ -32,7 +36,7 @@ const TimeRegistrations = () => {
 
     const fetchUserRegistrations = async (userId) => {
         try {
-            const response = await axios.post(`http://localhost:5000/time-registrations/time-registered-by-user`, { userId })
+            const response = await axios.post(`${baseURL}/time-registrations/time-registered-by-user`, { userId })
 
             const formattedEvents = response.data.map(item => {
                 const itemDate = item.currentTime
@@ -53,7 +57,7 @@ const TimeRegistrations = () => {
 
     const fetchRegistrationsByDate = async (date) => {
         try {
-            const response = await axios.get(`http://localhost:5000/time-registrations/time-registrations-by-date/${date}/${user.id}`)
+            const response = await axios.get(`${baseURL}/time-registrations/time-registrations-by-date/${date}/${user.id}`)
             setEventsByDate(response.data)
 
             console.log(response.data)

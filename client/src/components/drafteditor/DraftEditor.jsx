@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useMemo, useCallback, useEffect, useContext } from 'react';
 import Editor from '@draft-js-plugins/editor';
 import createMentionPlugin, { defaultSuggestionsFilter } from '@draft-js-plugins/mention';
 import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
@@ -21,6 +21,7 @@ import '@draft-js-plugins/static-toolbar/lib/plugin.css';
 
 import mentions from './Mentions';
 import "../../assets/css/draft.css"
+import { ConfigContext } from '../../context/ConfigContext';
 
 const DraftEditor = ({ editorState, setEditorState }) => {
     const ref = useRef(null);
@@ -28,13 +29,15 @@ const DraftEditor = ({ editorState, setEditorState }) => {
     const [open, setOpen] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
 
+    const { baseURL } = useContext(ConfigContext);
+
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/users/fetch-active-users")
+            const response = await axios.get(baseURL + "/users/fetch-active-users")
             const transformedUsers = response.data.map((user) => ({
                 id: user._id,
                 name: user.username,
-                link: `http://localhost:5000/profile?${user._id}`,
+                link: `${baseURL}/profile?${user._id}`,
                 avatar: user.profileImage,
             }))
             setSuggestions(transformedUsers)
@@ -67,7 +70,7 @@ const DraftEditor = ({ editorState, setEditorState }) => {
 
         return (
             <div {...parentProps} className="mentionEntry">
-                <img src={`http://localhost:5000/uploads/${props.mention.avatar}`} alt={props.mention.name} />
+                <img src={`${baseURL}/uploads/${props.mention.avatar}`} alt={props.mention.name} />
                 <span>{props.mention.name}</span>
             </div>
         );

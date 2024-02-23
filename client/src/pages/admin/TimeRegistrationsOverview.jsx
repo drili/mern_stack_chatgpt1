@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Accordion, Table } from 'flowbite-react'
+import axios from 'axios'
+import { FaSpinner } from 'react-icons/fa'
+
 import PageHeading from '../../components/PageHeading'
 import TimeRegOverviewFilter from '../../components/admin/TimeRegOverviewFilter'
-import { Accordion, Table } from 'flowbite-react'
 import CustomCodeBlock from '../../components/CustomCodeBlock'
-import axios from 'axios'
 import getCurrentSprint from '../../functions/getCurrentSprint'
-import { FaSpinner } from 'react-icons/fa'
+import { ConfigContext } from '../../context/ConfigContext'
 
 const TimeRegistrationsOverview = () => {
     const [selectedSprint, setSelectedSprint] = useState("")
     const [isLoading, setIsLoading] = useState(true)
     const [timeRegistrations, setTimeRegistrations] = useState([])
     const activeSprint = getCurrentSprint()
+
+    const { baseURL } = useContext(ConfigContext);
 
     const handleSprintChange = (selectedValue, selectedSprint) => {
         setSelectedSprint(selectedSprint)
@@ -26,7 +30,7 @@ const TimeRegistrationsOverview = () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:5000/time-registrations/fetch-users-time-regs-by-sprint/${sprintId}`)
+            const response = await axios.get(`${baseURL}/time-registrations/fetch-users-time-regs-by-sprint/${sprintId}`)
 
             if (response.status == 200) {
                 setTimeout(() => {

@@ -5,6 +5,7 @@ import { BsHouseDoor, BsList, BsCalendar, BsClock, BsPeople, BsPerson, BsGear, B
 import { AiOutlineMenu } from "react-icons/ai"
 import SidebarLink from './navbar/SidebarLink'
 import { UserContext } from '../context/UserContext'
+import { ConfigContext } from '../context/ConfigContext'
 
 const Layout = ({ children }) => {
     const [showSidebar, setShowSidebar] = useState(true)
@@ -22,10 +23,12 @@ const Layout = ({ children }) => {
     const toggleSidebar = () => {
         setShowSidebar(!showSidebar)
     }
+    
+    const { baseURL } = useContext(ConfigContext);
 
     useEffect(() => {
         if (user) {
-            setImageSrc("http://localhost:5000/uploads/")
+            setImageSrc(baseURL + "/uploads/")
             setUsername(user.username)
             setEmail(user.email)
             setUserImg(user.profile_image)
@@ -134,8 +137,6 @@ const Layout = ({ children }) => {
 
                         <div id="sidebarUser" className='flex items-center justify-center p-4 space-x-2 mt-[40px]'>
                             <img
-                                // {${user.profile_image} ? src={`http://localhost:5000/uploads/${user.profile_image}` : `src=""`}
-                                // src={user.profile_image ? `http://localhost:5000/uploads/${user.profile_image}` : ''}
                                 src={`${imageSrc}${userImg}`}
                                 className='h-12 w-12 rounded-full object-cover'
                             />

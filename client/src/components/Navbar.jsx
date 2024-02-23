@@ -7,6 +7,7 @@ import socketIoClient from 'socket.io-client';
 import { UserContext } from '../context/UserContext';
 import userImage from "../assets/profile-pics/default-image.jpg"
 import Logo from '../components/Logo';
+import { ConfigContext } from '../context/ConfigContext';
 
 const Navbar = () => {
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
@@ -22,9 +23,10 @@ const Navbar = () => {
     const [sprintYears, setSprintYears] = useState([])
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-    const socket = socketIoClient("http://localhost:5000")
-
     const { user, setUser, hasUnreadNotifications, setHasUnreadNotifications } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
+
+    const socket = socketIoClient(baseURL)
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -34,7 +36,7 @@ const Navbar = () => {
         const newActiveYear = e
 
         try {
-            const response = await axios.put(`http://localhost:5000/users/update-sprint-year`, { activeYear: newActiveYear, userId: user.id })
+            const response = await axios.put(`${baseURL}/users/update-sprint-year`, { activeYear: newActiveYear, userId: user.id })
             setActiveYear(response.data.activeYear)
 
             if (user) {
@@ -51,7 +53,7 @@ const Navbar = () => {
 
     const fetchSprintYears = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/sprints/fetch-sprint-years`)
+            const response = await axios.get(`${baseURL}/sprints/fetch-sprint-years`)
             if (response.status === 200) {
                 setSprintYears(response.data)
             }
@@ -74,7 +76,7 @@ const Navbar = () => {
             setUsername(user?.username)
             setEmail(user?.email)
             setUserImg(user?.profile_image)
-            setImageSrc("http://localhost:5000/uploads/")
+            setImageSrc(baseURL + "/uploads/")
             setActiveYear(user?.active_year)
             fetchSprintYears();
         }

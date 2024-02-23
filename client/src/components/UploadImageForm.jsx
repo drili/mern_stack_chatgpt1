@@ -2,12 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import { UserContext } from '../context/UserContext';
 import userImage from "../assets/profile-pics/default-image.jpg"
+import { ConfigContext } from '../context/ConfigContext';
 
 const UploadImageForm = () => {
     const [selectedImage, setSelectedImage] = useState(null)
     const [profileImage, setProfileImage] = useState(null)
     const [imageSrc, setImageSrc] = useState(null)
+
     const { user, setUser } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
 
     useEffect(() => {
         if (!user.profile_image) {
@@ -16,7 +19,7 @@ const UploadImageForm = () => {
 
         } else {
             setProfileImage(user.profile_image)
-            setImageSrc("http://localhost:5000/uploads/")
+            setImageSrc(baseURL + "/uploads/")
         }
     }, [user.profile_image])
 
@@ -37,14 +40,13 @@ const UploadImageForm = () => {
         formData.append("userId", user.id)
 
         try {
-            const response = await axios.put("http://localhost:5000/users/profile/upload-image", formData, {
+            const response = await axios.put(baseURL + "/users/profile/upload-image", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             })
             localStorage.setItem("user", JSON.stringify(response.data.user))
             setUser(response.data.user)
-            console.log(user);
 
             console.log('Image uploaded successfully', response.data);
         } catch (error) {

@@ -5,10 +5,10 @@ import { BsFillLightningChargeFill } from "react-icons/bs";
 import { Accordion, Table } from 'flowbite-react'
 import { IoIosCheckmarkCircle, IoMdCloseCircle } from "react-icons/io";
 
-
 import { UserContext } from '../../context/UserContext'
 import getCurrentSprint from '../../functions/getCurrentSprint'
 import TaskModal from '../task/TaskModal'
+import { ConfigContext } from '../../context/ConfigContext';
 
 const DefaultAccordion = ({ userObject, selectedSprint }) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -18,6 +18,8 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
     const [accumulatedValues, setAccumulatedValues] = useState({})
     const [selectedTaskId, setSelectedTaskId] = useState(null)
     const [showModal, setShowModal] = useState(false)
+
+    const { baseURL } = useContext(ConfigContext);
 
     const handleTaskModal = (taskId) => {
         setShowModal(true)
@@ -54,7 +56,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
 
     const fetchSprintData = async (activeSprintArray) => {
         try {
-            const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${userObject._id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}&time_reg=1`)
+            const response = await axios.get(`${baseURL}/tasks/fetch-by-user-sprint/${userObject._id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}&time_reg=1`)
 
             setSprintData(response.data)
 
@@ -127,7 +129,7 @@ const DefaultAccordion = ({ userObject, selectedSprint }) => {
                             <div className='flex gap-5 items-center'>
                                 <img
                                     className='w-[60px] h-[60px] rounded-full object-cover'
-                                    src={`http://localhost:5000/uploads/${userObject.profileImage}`}
+                                    src={`${baseURL}/uploads/${userObject.profileImage}`}
                                 />
                                 <span>
                                     <span className='flex gap-3'>

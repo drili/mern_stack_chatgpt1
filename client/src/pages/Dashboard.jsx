@@ -12,6 +12,7 @@ import { Card } from "flowbite-react"
 import DashboardWeeklyChart from "../components/dashboard/DashboardWeeklyChart"
 import DashboardTeamEfforts from "../components/dashboard/DashboardTeamEfforts"
 import DashboardActivityCard from "../components/dashboard/DashboardActivityCard"
+import { ConfigContext } from "../context/ConfigContext"
 
 const Dashboard = () => {
     const { user } = useContext(UserContext)
@@ -28,10 +29,12 @@ const Dashboard = () => {
     const [finishedTasks, setFinishedTasks] = useState([])
     const [timeRegisteredAll, setTimeRegisteredAll] = useState([])
 
+    const { baseURL } = useContext(ConfigContext);
+
     const fetchTimeRegistrationsBySprint = async (sprintId) => {
         try {
             if(sprintId) {
-                const response = await axios.get(`http://localhost:5000/time-registrations/fetch-users-time-regs-by-sprint/${sprintId}/`)
+                const response = await axios.get(`${baseURL}/time-registrations/fetch-users-time-regs-by-sprint/${sprintId}/`)
 
                 if (response.status === 200) {
                     setTimeRegisteredAll(response.data)
@@ -45,7 +48,7 @@ const Dashboard = () => {
     const fetchTimeRegistrations = async (sprintId) => {
         try {
             if (sprintId) {
-                const response = await axios.get(`http://localhost:5000/time-registrations/time-registered-user/${sprintId}/${user.id}`)
+                const response = await axios.get(`${baseURL}/time-registrations/time-registered-user/${sprintId}/${user.id}`)
                 
                 if (response.status == 200) {
                     setTimeRegistered(response.data)
@@ -70,7 +73,7 @@ const Dashboard = () => {
     const fetchTasksByUserAndSprint = async (activeSprintArray) => {
         try {
             if (activeSprintArray && activeSprintArray.sprintMonth) {
-                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}`)
+                const response = await axios.get(`${baseURL}/tasks/fetch-by-user-sprint/${user.id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}`)
 
                 const totalAllocatedTimeLow = response.data.reduce((accumulator, time) => {
                     const userTaskPerson = time.taskPersons.find(

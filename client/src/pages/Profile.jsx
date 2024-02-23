@@ -6,9 +6,11 @@ import { UserContext } from '../context/UserContext';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import UploadImageForm from '../components/UploadImageForm';
+import { ConfigContext } from '../context/ConfigContext';
 
 const Profile = () => {
     const { user, setUser } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
     // console.log(user);
 
     const handleEditProfileForm = (data) => {
@@ -20,7 +22,7 @@ const Profile = () => {
             userId: user.id
         }
 
-        axios.put("http://localhost:5000/users/profile/update", updatedUser)
+        axios.put(baseURL + "/users/profile/update", updatedUser)
             .then((res) => {
                 console.log('User information updated successfully:', res.data)
                 localStorage.setItem("user", JSON.stringify(res.data.user))
@@ -70,7 +72,7 @@ const Profile = () => {
             userId: user.id
         }
 
-        axios.put("http://localhost:5000/users/profile/update-password", updatedPassword)
+        axios.put(baseURL + "/users/profile/update-password", updatedPassword)
             .then((res) => {
                 console.log('User password updated successfully:', res.data)
 

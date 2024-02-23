@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PageHeading from '../components/PageHeading'
 import GenericForm from '../components/GenericForm'
 import axios from "axios"
 import toast, { Toaster } from 'react-hot-toast';
 import { BsFillTrashFill } from "react-icons/bs"
 import { AiOutlineUndo } from "react-icons/ai"
+import { ConfigContext } from '../context/ConfigContext';
 
 const CreateCustomer = () => {
     const [customers, setCustomers] = useState([])
     const [searchQuery, setSearchQuery] = useState("")
     const [showArchived, setShowArchived] = useState(false)
 
+    const { baseURL } = useContext(ConfigContext);
+
     const fetchCustomers = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/customers/fetch")
+            const response = await axios.get(baseURL + "/customers/fetch")
             setCustomers(response.data)
         } catch (error) {
             console.error('Failed to fetch customers', error);
@@ -41,7 +44,7 @@ const CreateCustomer = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:5000/customers/create", customerData)
+            const response = await axios.post(baseURL + "/customers/create", customerData)
             fetchCustomers()
 
             if (response.status === 200) {
@@ -69,7 +72,7 @@ const CreateCustomer = () => {
 
     const handleArchiveCustomer = async (customerId) => {
         try {
-            await axios.put(`http://localhost:5000/customers/archive/${customerId}`)
+            await axios.put(`${baseURL}/customers/archive/${customerId}`)
             fetchCustomers()
             console.log("Customer archived successfully");
         } catch (error) {
@@ -79,7 +82,7 @@ const CreateCustomer = () => {
 
     const handleUnArchiveCustomer = async (customerId) => {
         try {
-            await axios.put(`http://localhost:5000/customers/unarchive/${customerId}`)
+            await axios.put(`${baseURL}/customers/unarchive/${customerId}`)
             fetchCustomers()
             console.log("Customer un-archived successfully");
         } catch (error) {

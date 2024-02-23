@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { FaSpinner } from 'react-icons/fa'
+import axios from 'axios'
+
 import PageHeading from '../components/PageHeading'
 import SprintOverviewFilters from '../components/sprintoverview/SprintOverviewFilters'
 import DefaultAccordion from '../components/sprintoverview/Accordion'
-import { FaSpinner } from 'react-icons/fa'
-import axios from 'axios'
+import { ConfigContext } from '../context/ConfigContext'
 
 const SprintOverview = () => {
     const [selectedSprint, setSelectedSprint] = useState("")
     const [activeUsers, setActiveUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+
+    const { baseURL } = useContext(ConfigContext);
 
     const handleSprintChange = (selectedValue, selectedSprint) => {
         setSelectedSprint(selectedSprint)
@@ -20,7 +24,7 @@ const SprintOverview = () => {
     
     const fetchActiveUsers = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/users/fetch-active-users`)
+            const response = await axios.get(`${baseURL}/users/fetch-active-users`)
             if (response.status == 200) {
                 setTimeout(() => {
                     setActiveUsers(response.data)

@@ -4,10 +4,13 @@ import { AiOutlineClockCircle } from "react-icons/ai"
 import { FaCalendar, FaClock } from "react-icons/fa";
 
 import TaskModal from './TaskModal'
+import { ConfigContext } from '../../context/ConfigContext';
 
 const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName, customerColor, taskLow, taskHigh, taskSprintId, taskSprintName, taskType, estimatedTime, taskDeadline }) => {
     const [selectedTaskId, setSelectedTaskId] = useState(null)
     const [showModal, setShowModal] = useState(false)
+
+    const { baseURL } = useContext(ConfigContext);
 
     const MAX_DESC_LENGTH = 80
     const truncatedTaskDescription =
@@ -85,7 +88,7 @@ const TaskCard = ({ taskId, taskName, taskDescription, taskPersons, customerName
                                     <img
                                         id={index}
                                         className='absolute w-[25px] h-[25px] object-cover object-center rounded-full'
-                                        src={`http://localhost:5000/uploads/${person.user.profileImage}`}
+                                        src={`${baseURL}/uploads/${person.user.profileImage}`}
                                         style={{
                                             left: `${index * 15}px`
                                         }}

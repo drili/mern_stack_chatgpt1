@@ -8,6 +8,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import TaskModal from '../task/TaskModal'
 import { UserContext } from '../../context/UserContext'
 import getCurrentSprint from '../../functions/getCurrentSprint'
+import { ConfigContext } from '../../context/ConfigContext';
 
 const CustomerAccordion = ({ customerObject, selectedSprint }) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -18,6 +19,7 @@ const CustomerAccordion = ({ customerObject, selectedSprint }) => {
     const [showModal, setShowModal] = useState(false)
 
     const { user } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
 
     const fetchTasks = () => {
         return
@@ -35,7 +37,7 @@ const CustomerAccordion = ({ customerObject, selectedSprint }) => {
 
     const fetchSprintData = async (activeSprintArray) => {
         try {
-            const response = await axios.get(`http://localhost:5000/tasks/fetch-by-customer-sprint/${customerObject._id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}&time_reg=1`)
+            const response = await axios.get(`${baseURL}/tasks/fetch-by-customer-sprint/${customerObject._id}?month=${activeSprintArray.sprintMonth}&year=${activeSprintArray.sprintYear}&time_reg=1`)
             
             setSprintData(response.data)
 

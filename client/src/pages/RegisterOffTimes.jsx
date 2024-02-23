@@ -4,6 +4,7 @@ import { Card } from "flowbite-react"
 import axios from 'axios'
 import { UserContext } from '../context/UserContext'
 import toast, { Toaster } from 'react-hot-toast'
+import { ConfigContext } from '../context/ConfigContext'
 
 const RegisterOffTimes = () => {
     const { user } = useContext(UserContext)
@@ -17,6 +18,7 @@ const RegisterOffTimes = () => {
 
     })
     const [sprintId, setSprintId] = useState("")
+    const { baseURL } = useContext(ConfigContext);
 
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -40,7 +42,7 @@ const RegisterOffTimes = () => {
         const formattedTimeMonth = newDate.toLocaleDateString('en-US', optionsMonth);
 
         try {
-            const response = await axios.get(`http://localhost:5000/sprints/fetch-sprint-by-month-year/${formattedTimeMonth}/${formattedTimeYear}`)
+            const response = await axios.get(`${baseURL}/sprints/fetch-sprint-by-month-year/${formattedTimeMonth}/${formattedTimeYear}`)
             
             const updatedFormValues = {
                 ...formValues,
@@ -58,7 +60,7 @@ const RegisterOffTimes = () => {
     const registerTime = async (formValues) => {
         if (formValues && formValues.sprintId) {
             try {
-                const responseTime = await axios.post(`http://localhost:5000/time-registrations/register-time`, formValues)
+                const responseTime = await axios.post(`${baseURL}/time-registrations/register-time`, formValues)
                 if (responseTime.status === 201) {
                     toast('Time registration was successful', {
                         duration: 4000,

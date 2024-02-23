@@ -12,6 +12,7 @@ import useTaskModal from '../functions/useTaskModal'
 import getCurrentSprint from '../functions/getCurrentSprint'
 import WorkflowFilters from '../components/workflow/WorkflowFilters'
 import TaskCardSmall from '../components/task/TaskCardSmall';
+import { ConfigContext } from '../context/ConfigContext';
 
 const workflowColumnsData = {
     col0: [
@@ -43,10 +44,12 @@ const Workflow = () => {
     const [deadlineTasks, setDeadlineTasks] = useState([]);
     const [activeFilterUser, setActiveFilterUser] = useState("");
 
+    const { baseURL } = useContext(ConfigContext);
+
     const fetchDeadlineTasks = async (userId) => {
         const activeUserId = userId ? userId : user.id
         try {
-            const response = await axios.get("http://localhost:5000/tasks/fetch-deadlines", {
+            const response = await axios.get(baseURL + "/tasks/fetch-deadlines", {
                 params: {
                     userId: activeUserId,
                     // sprintId: activeSprint,
@@ -61,12 +64,11 @@ const Workflow = () => {
 
     const fetchTasksByUserAndSprint = async (activeSprintArray, userId) => {
         try {
-            // const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user/${user.id}`)
             const activeSprintCheck = activeSprintArray ? activeSprintArray : newSprintArray
             const activeUserId = userId ? userId : user.id
 
             if (activeSprintCheck && activeSprintCheck.sprintMonth && activeSprintCheck.sprintYear) {
-                const response = await axios.get(`http://localhost:5000/tasks/fetch-by-user-sprint/${activeUserId}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
+                const response = await axios.get(`${baseURL}/tasks/fetch-by-user-sprint/${activeUserId}?month=${activeSprintCheck.sprintMonth}&year=${activeSprintCheck.sprintYear}`)
 
                 if (response.data.length == 0) {
                     setTasks([])
@@ -84,7 +86,7 @@ const Workflow = () => {
 
     const updateTaskWorkflow = async (taskId, workflowStatus) => {
         try {
-            const response = await axios.put(`http://localhost:5000/tasks/update-taskworkflow/${taskId}`, { workflowStatus })
+            const response = await axios.put(`${baseURL}/tasks/update-taskworkflow/${taskId}`, { workflowStatus })
             // console.log(response)
 
             if (response.status === 200) {

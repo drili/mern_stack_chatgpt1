@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { UserContext } from '../context/UserContext'
+import { ConfigContext } from '../context/ConfigContext'
 
 const getCurrentSprint = () => {
     const [activeSprint, setActiveSprint] = useState({ month: '', year: '' })
 
     const { user } = useContext(UserContext)
+    const { baseURL } = useContext(ConfigContext);
 
     const currentDate = new Date()
     const currentMonth = currentDate.toLocaleString('en-US', { month: 'long' })
@@ -14,7 +16,7 @@ const getCurrentSprint = () => {
 
     const fetchSprintData = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/sprints/fetch-sprint-by-month-year/${currentMonth}/${currentYear}`)
+            const response = await axios.get(`${baseURL}/sprints/fetch-sprint-by-month-year/${currentMonth}/${currentYear}`)
 
             setActiveSprint({
                 sprintMonth: currentMonth,

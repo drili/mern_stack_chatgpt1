@@ -2,6 +2,8 @@ const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
 
+require('dotenv').config()
+
 // Routes
 const userRouter = require("./routes/users")
 const customerRouter = require("./routes/customers")
@@ -21,13 +23,13 @@ const socketIo = require("socket.io")
 const server = http.createServer(app)
 const io = socketIo(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: process.env.SOCKET_IO_BASE_URL,
         methods: ["GET", "POST"]
     }
 });
 
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: process.env.SOCKET_IO_BASE_URL,
     optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
@@ -55,7 +57,7 @@ io.on("connection", (socket) => {
 
 });
 
-const uri = 'mongodb+srv://dbkynetic:Kynetic123123@cluster0.f80a2n8.mongodb.net/'
+const uri = process.env.MONGO_DB_URI
 mongoose.connect(uri, { 
     useNewUrlParser: true,
     useUnifiedTopology: true 
@@ -66,6 +68,6 @@ connection.once('open', () => {
     console.log("::: MongoDB database connection established successfully")
 })
 
-server.listen(5000, () => {
+server.listen(process.env.PORT, () => {
     console.log("::: Server is running on port 5000");
 });

@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Table } from 'flowbite-react'
 import axios from 'axios'
+import { ConfigContext } from '../../context/ConfigContext'
 
 const TimeRegistrationTable = ({ eventObj, toast, fetchUserRegistrations, userId }) => {
     const [editedTimes, setEditedTimes] = useState({})
     const [eventObjState, setEventObjState] = useState(eventObj)
+
+    const { baseURL } = useContext(ConfigContext);
 
     const inputClasses = "bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-violet-500"
     const labelClasses = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -23,7 +26,7 @@ const TimeRegistrationTable = ({ eventObj, toast, fetchUserRegistrations, userId
         if (eventId && editedTime && editedTime > 0) {
             console.log({eventId, editedTime});
             try {
-                const response = await axios.post(`http://localhost:5000/time-registrations/time-registration-update`, { eventId, editedTime })
+                const response = await axios.post(`${baseURL}/time-registrations/time-registration-update`, { eventId, editedTime })
 
                 if (response.status === 200) {
                     toast('Time registration updated successfully', {
@@ -46,7 +49,7 @@ const TimeRegistrationTable = ({ eventObj, toast, fetchUserRegistrations, userId
     const handleDeleteTime = async (eventId) => {
         if (eventId) {
             try {
-                const response = await axios.delete(`http://localhost:5000/time-registrations/time-registration-delete/${eventId}`)
+                const response = await axios.delete(`${baseURL}/time-registrations/time-registration-delete/${eventId}`)
 
                 if (response.status === 200) {
                     toast('Time registration has been deleted', {
