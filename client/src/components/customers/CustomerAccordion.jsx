@@ -1,9 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
+import { BsFillLightningChargeFill } from "react-icons/bs";
+import { IoIosCheckmarkCircle, IoMdCloseCircle } from "react-icons/io";
 import { Accordion, Table } from 'flowbite-react'
-import getCurrentSprint from '../../functions/getCurrentSprint'
 import axios from 'axios'
-import TaskModal from '../task/TaskModal'
 import toast, { Toaster } from 'react-hot-toast'
+
+import TaskModal from '../task/TaskModal'
+import { UserContext } from '../../context/UserContext'
+import getCurrentSprint from '../../functions/getCurrentSprint'
 
 const CustomerAccordion = ({ customerObject, selectedSprint }) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -12,6 +16,8 @@ const CustomerAccordion = ({ customerObject, selectedSprint }) => {
     const [accumulatedValues, setAccumulatedValues] = useState({})
     const [selectedTaskId, setSelectedTaskId] = useState(null)
     const [showModal, setShowModal] = useState(false)
+
+    const { user } = useContext(UserContext)
 
     const fetchTasks = () => {
         return
@@ -160,53 +166,73 @@ const CustomerAccordion = ({ customerObject, selectedSprint }) => {
                                                 Customer
                                             </Table.HeadCell>
                                             <Table.HeadCell className='text-left'>
-                                                Task Status
-                                            </Table.HeadCell>
-                                            <Table.HeadCell className='text-left'>
                                                 Low
                                             </Table.HeadCell>
                                             <Table.HeadCell className='text-left'>
                                                 High
                                             </Table.HeadCell>
                                             <Table.HeadCell className='text-left'>
-                                                Time Registered
+                                                Percent Allocation
                                             </Table.HeadCell>
                                             <Table.HeadCell className='text-left'>
-                                                Remaining Task Time
+                                                Time Registered
+                                            </Table.HeadCell>
+                                            <Table.HeadCell className='text-center'>
+                                                Done
                                             </Table.HeadCell>
                                         </Table.Head>
                                         <Table.Body className="divide-y">
                                             {sprintData.map((data) => (
                                                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data._id}>
-                                                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                        {data.taskName}
+                                                    <Table.Cell className="flex items-center gap-2 whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        <p className='w-[250px] text-xs whitespace-nowrap overflow-hidden text-ellipsis'>{data.taskName}</p>
+                                                        {data.taskType === "timedTask" ? (
+                                                            <BsFillLightningChargeFill className='text-amber-500' />
+                                                        ) : null}
                                                     </Table.Cell>
                                                     <Table.Cell>
-                                                        {data.taskCustomer.customerName}
+                                                        <p className='text-xs'>{data.taskCustomer.customerName}</p>
                                                     </Table.Cell>
                                                     <Table.Cell>
-                                                        {data.workflowStatus}
+                                                        <p className='text-xs'>{data.taskTimeLow}</p>
                                                     </Table.Cell>
                                                     <Table.Cell>
-                                                        {data.taskTimeLow}
+                                                        <p className='text-xs'>{data.taskTimeHigh}</p>
                                                     </Table.Cell>
                                                     <Table.Cell>
-                                                        {data.taskTimeHigh}
+                                                        {data.taskPersons
+                                                            .filter(person => person.user._id === user.id)
+                                                            .map(taskPerson => (
+                                                                <div className='text-xs' key={taskPerson._id}>{taskPerson.percentage.toFixed(2)}</div>
+                                                            ))
+                                                        }
                                                     </Table.Cell>
                                                     <Table.Cell>
-                                                        {data.timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}
+                                                        <p className='text-xs font-extrabold underline'>{data.timeRegistrations.reduce((totalTime, registration) => totalTime + registration.timeRegistered, 0)}</p>
                                                     </Table.Cell>
 
                                                     <Table.Cell>
-                                                        <p className='font-thin text-slate-500 text-xs'>TBU</p>
+                                                        {data.workflowStatus === 3 ? (
+                                                            <p className='flex items-center justify-center text-lg text-green-500 font-bold'>
+                                                                <IoIosCheckmarkCircle />
+                                                            </p>
+                                                        ) : (
+                                                            <p className='flex items-center justify-center text-lg text-red-500 font-bold'>
+                                                                <IoMdCloseCircle />
+                                                            </p>
+                                                        )}
                                                     </Table.Cell>
+
+                                                    {/* <Table.Cell>
+                                                        <p className='font-thin text-slate-500 text-xs'>TBU</p>
+                                                    </Table.Cell> */}
                                                     <Table.Cell>
                                                         <a
-                                                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                                                            className="font-medium cursor-pointer text-slate-500 hover:underline dark:text-cyan-500"
                                                             onClick={() => handleTaskModal(data._id)}
                                                         >
                                                             <p className='border border-gray-300 rounded-lg text-center px-2 py-1 font-bold text-xs'>
-                                                                Edit Task
+                                                                Open
                                                             </p>
                                                         </a>
                                                     </Table.Cell>
