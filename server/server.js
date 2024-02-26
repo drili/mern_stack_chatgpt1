@@ -36,7 +36,6 @@ app.use(cors(corsOptions));
 app.set('io', io);
 
 app.use('/uploads', express.static('uploads'));
-app.use(cors())
 app.use(express.json())
 app.use("/users", userRouter)
 app.use("/customers", customerRouter)
