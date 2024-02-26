@@ -30,7 +30,9 @@ const io = socketIo(server, {
 
 const corsOptions = {
     origin: process.env.SOCKET_IO_BASE_URL,
-    optionsSuccessStatus: 200
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
 app.set('io', io);
