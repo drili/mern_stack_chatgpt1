@@ -2,7 +2,7 @@ import React from 'react'
 
 const baseURL = process.env.NODE_ENV === "development"
     ? "http://localhost:5000"
-    : "https://your-production-url.com"
+    : "https://taskalloc8or-backend.vercel.app/"
     
 export const ConfigContext = React.createContext({ baseURL })
 
